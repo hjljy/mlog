@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 海加尔金鹰 www.hjljy.cn
@@ -22,12 +24,18 @@ public class IndexController {
     IMlogConfigService configService;
 
     @GetMapping
-    public String index(Model model){
+    public String index(Model model) {
+        Map<String, Object> indexVo = new HashMap<>();
         //获取博客系统的皮肤信息
         QueryWrapper<MlogConfigEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(MlogConfigEntity::getConfigName,"defaultSkin").eq(MlogConfigEntity::getConfigType,"skin");
+        queryWrapper.lambda().eq(MlogConfigEntity::getConfigName, "defaultSkin").eq(MlogConfigEntity::getConfigType, "skin");
         MlogConfigEntity skinConfig = configService.getOne(queryWrapper);
-
-        return "index";
+        indexVo.put("themePath", skinConfig != null ? skinConfig.getConfigValue() : "/themes/layuiSimpleBlog/html");
+        QueryWrapper<MlogConfigEntity> queryTitle = new QueryWrapper<>();
+        queryTitle.lambda().eq(MlogConfigEntity::getConfigName, "blogTitle").eq(MlogConfigEntity::getConfigType, "base");
+        MlogConfigEntity titleConfig = configService.getOne(queryTitle);
+        indexVo.put("blogTitle", titleConfig != null ? titleConfig.getConfigValue() : "/themes/layuiSimpleBlog/html");
+        model.addAllAttributes(indexVo);
+        return "/themes/layuiSimpleBlog/html/index";
     }
 }
