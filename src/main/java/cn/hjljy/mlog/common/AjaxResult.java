@@ -26,4 +26,10 @@ public class AjaxResult {
         setCode(code);
         setMsg(msg);
     }
+    public static AjaxResult Fail(String msg){
+        return new AjaxResult(ResultCode.FAIL,msg);
+    }
+    public static AjaxResult Fail(ResultCode code,String msg){
+        return new AjaxResult(code,msg);
+    }
 }
