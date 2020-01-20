@@ -8,5 +8,5 @@
    
 # 2020年1月19日
 
-   在模板之家找到了一个登陆注册模板，[asda](https://www.hjljy.cn/favicon.png)
+   在模板之家找到了一个登陆注册模板，![asda](https://www.hjljy.cn/favicon.png)
    完成登陆功能。后端编程5分钟，前端编程5小时！！！ 
