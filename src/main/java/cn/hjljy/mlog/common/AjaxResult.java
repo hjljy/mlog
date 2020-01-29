@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.common;
 
 import cn.hjljy.mlog.common.constants.Constant;
-import cn.hjljy.mlog.common.constants.ResultCode;
+import cn.hjljy.mlog.entity.MlogUserEntity;
 import lombok.Data;
 
 /**
@@ -14,22 +14,28 @@ import lombok.Data;
 
 @Data
 public class AjaxResult {
-    private ResultCode code;
+    private int code;
     private String msg;
     private Object data;
 
     public AjaxResult (){
-        setCode(ResultCode.OK);
+        setCode(Constant.SUCCESS_CODE);
         setMsg(Constant.OP_SUCCEED);
     }
-    public AjaxResult (ResultCode code,String msg){
+    public AjaxResult (int code,String msg){
         setCode(code);
         setMsg(msg);
     }
     public static AjaxResult Fail(String msg){
-        return new AjaxResult(ResultCode.FAIL,msg);
+        return new AjaxResult(Constant.SUCCESS_CODE,msg);
     }
-    public static AjaxResult Fail(ResultCode code,String msg){
+    public static AjaxResult Fail(int code,String msg){
         return new AjaxResult(code,msg);
+    }
+
+    public static AjaxResult SUCCESS(Object data) {
+        AjaxResult result = new AjaxResult();
+        result.setData(data);
+        return result;
     }
 }

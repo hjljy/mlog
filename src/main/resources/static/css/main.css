@@ -10,7 +10,7 @@ body {
 
 @font-face {
     font-family: 'neo';
-    src: url("font/NEOTERICc.ttf");
+    src: url("/fonts/NEOTERICc.ttf");
 }
 input:focus{
 	outline: none;

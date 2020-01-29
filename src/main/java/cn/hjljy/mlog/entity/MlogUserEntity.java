@@ -62,5 +62,4 @@ public class MlogUserEntity implements Serializable {
      */
     private String avatarUrl;
 
-
 }

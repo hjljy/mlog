@@ -20,7 +20,7 @@
 
         @font-face {
             font-family: 'neo';
-            src: url("font/NEOTERICc.ttf");
+            src: url("/fonts/NEOTERICc.ttf");
         }
 
         input:focus {
@@ -326,12 +326,10 @@
         }
     </style>
 </head>
-
-
 <body>
 <div id="bg">
     <div id="hint"><!-- 提示框 -->
-        <p>登录失败</p>
+        <p>登录失败,请检查账号密码</p>
     </div>
     <div id="login_wrap">
         <div id="login"><!-- 登录注册切换动画 -->
@@ -392,15 +390,15 @@
     name_c.innerHTML = ""
     for (i = 0; i < name.length; i++)
         if (name[i] != ",")
-            name_c.innerHTML += "<i>" + name[i] + "</i>"
+            name_c.innerHTML += "<i>" + name[i] + "</i>";
 
     //引用hint()在最上方弹出提示
     function hint() {
         var hit = document.getElementById("hint");
-        hit.style.display = "block"
-        setTimeout("document.getElementById(\"hint\").style.opacity = 1", 0)
-        setTimeout("document.getElementById(\"hint\").style.opacity = 0", 2000)
-        setTimeout('hit.style.display = "none"', 3000)
+        hit.style.display = "block";
+        setTimeout("document.getElementById(\"hint\").style.opacity = 1", 0);
+        setTimeout("document.getElementById(\"hint\").style.opacity = 0", 2000);
+        setTimeout("document.getElementById(\"hint\").style.display = none", 3000);
     }
 
     //回调函数
@@ -410,7 +408,7 @@
         let url = ""
         request.open("post", url, true)
         let data = new FormData()
-        data.append("username", user.value)
+        data.append("email", user.value)
         data.append("password", passwd.value)
         request.onreadystatechange = function() {
             if (this.readyState == 4) {
@@ -459,11 +457,17 @@
             let url = "/login"
             request.open("post", url, true)
             let data = new FormData();
-            data.append("username", user.value);
+            data.append("email", user.value);
             data.append("password", passwd.value)
             request.onreadystatechange = function() {
                 if (this.readyState == 4) {
-                   hint();
+                   let result= JSON.parse(this.responseText);
+                   if(result.code==0){
+                       window.location.href=result.data;
+                   }else{
+                       hint();
+                   }
+
                 }
             }
             request.send(data)
@@ -475,7 +479,5 @@
             onoff = !onoff
         }
     }
-
 </script>
-更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a>
 </html>

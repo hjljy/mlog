@@ -7,3 +7,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/mlog?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+logging:
+  level:
+   cn.hjljy.mlog: debug

@@ -9,6 +9,9 @@ package cn.hjljy.mlog.common.constants;
  **/
 public class Constant {
 
+    public static final int SUCCESS_CODE=0;
+    public static final int DEFAULT_CODE=-1;
+
     /**
      * 数据获取失败
      */
