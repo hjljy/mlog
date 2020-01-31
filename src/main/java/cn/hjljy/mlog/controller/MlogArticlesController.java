@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-16
  */
 @RestController
-@RequestMapping("/mlog-articles-entity")
+@RequestMapping("/article")
 public class MlogArticlesController {
 
 }

@@ -49,7 +49,7 @@ public class LoginController {
         Cookie cookie1 = new Cookie("email", userEntity.getEmail());
         cookie1.setMaxAge( 60 * 60 * 24 * 30);
         response.addCookie(cookie1);
-        result.setData("/admin/index");
+        result.setData("/mlog/index");
         return result;
     }
 

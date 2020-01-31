@@ -14,22 +14,31 @@ import javax.servlet.http.HttpServletRequest;
  * @author 海加尔金鹰 www.hjljy.cn
  * @version V1.0
  * @email hjljy@outlook.com
- * @description: 后台界面
+ * @description: 后台界面的跳转
  * @since 2020/1/22 11:35
  **/
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/mlog")
 public class AdminController {
 
     @GetMapping("/index")
     public String index() {
-        return "admin/index";
+        return "mlog/index";
     }
 
-    @GetMapping("/getUserInfo")
-    @ResponseBody
-    public AjaxResult getUserInfo(HttpServletRequest request){
-        MlogUserEntity user =(MlogUserEntity) request.getSession().getAttribute("user");
-        return AjaxResult.SUCCESS(user);
+    @GetMapping("/article")
+    public String article() {
+        return "mlog/article";
     }
+
+    @GetMapping("/comment")
+    public String comment() {
+        return "mlog/comment";
+    }
+
+    @GetMapping("/publish")
+    public String articlePublish() {
+        return "mlog/publish";
+    }
+
 }

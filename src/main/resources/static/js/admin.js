@@ -1,9 +1,18 @@
 $(function () {
     getuserinfo();
 
+    initMenuActive();
+
+    function initMenuActive() {
+        var pathname = window.location.pathname;
+        var paths = pathname.split("/");
+        var path = paths.pop();
+        $("#" + path).addClass("active");
+    }
+
     function getuserinfo() {
         $.ajax({
-            url: "/admin/getUserInfo"
+            url: "/user/getUserInfo"
             , async: false
             , type: "get"
             , dataType: "json"

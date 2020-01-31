@@ -1,9 +1,15 @@
 package cn.hjljy.mlog.controller;
 
 
+import cn.hjljy.mlog.common.AjaxResult;
+import cn.hjljy.mlog.entity.MlogUserEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -14,8 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-01-15
  */
 @RestController
-@RequestMapping("/mlog-user-entity")
+@RequestMapping("/user")
 public class MlogUserController {
 
+    @GetMapping("/getUserInfo")
+    public AjaxResult getUserInfo(HttpServletRequest request){
+        MlogUserEntity user =(MlogUserEntity) request.getSession().getAttribute("user");
+        return AjaxResult.SUCCESS(user);
+    }
 }
 

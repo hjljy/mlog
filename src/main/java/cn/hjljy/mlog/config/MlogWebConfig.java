@@ -22,6 +22,6 @@ public class MlogWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getMlogAuthConfigInterseptor()).addPathPatterns("/admin/**");
+        registry.addInterceptor(getMlogAuthConfigInterseptor()).addPathPatterns("/mlog/**");
     }
 }
