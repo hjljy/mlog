@@ -1,6 +1,54 @@
 
 let currentPage = 1;
 let pageSize = 12;
+
+/**
+ * 弹出文件选择框
+ */
+function importMd(){
+    $("#article_md").click();
+}
+
+/**
+ * 文件选择之后上传到后台
+ */
+function uploadFile() {
+    var files = $("#article_md")[0].files;
+
+    for (let file of files) {
+        if(!file.name.endsWith("md")){
+
+        layer.msg("文章类型错误")
+            $("#article_md").val("")
+            return;
+        }
+    }
+    var formData = new FormData();
+    formData.append("files",files);
+    $.ajax({
+        url:  '/article/import',
+        type: 'post',
+        async: false,
+        data: formData,
+        processData: false,// 告诉jQuery不要去处理发送的数据
+        contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+        beforeSend: function () {//过程...
+            console.log('正在进行，请稍候')
+        },
+        success: function (res) {
+            if (res.code == 0) {
+                console.log('导入成功')
+            } else {
+                console.log('导入失败')
+            }
+        },
+        error:function(){
+            console.log('导入失败')
+        }
+    })
+}
+
+
 function render() {
     $.ajax({
         url: "/user/getUserInfo",

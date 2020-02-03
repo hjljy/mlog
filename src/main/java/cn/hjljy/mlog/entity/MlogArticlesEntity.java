@@ -45,6 +45,10 @@ public class MlogArticlesEntity implements Serializable {
      * 文章标签
      */
     private String tags;
+    /**
+     * 文章类型
+     */
+    private String type;
 
     /**
      * 文章作者

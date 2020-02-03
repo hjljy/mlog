@@ -2,6 +2,7 @@ package cn.hjljy.mlog.controller;
 
 
 import cn.hjljy.mlog.common.AjaxResult;
+import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import cn.hjljy.mlog.entity.MlogUserEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,7 @@ public class MlogUserController {
 
     @GetMapping("/getUserInfo")
     public AjaxResult getUserInfo(HttpServletRequest request){
-        MlogUserEntity user =(MlogUserEntity) request.getSession().getAttribute("user");
-        return AjaxResult.SUCCESS(user);
+        return AjaxResult.SUCCESS(HttpServletRequestUtils.getUserInfoByHttpRequest(request));
     }
 }
 

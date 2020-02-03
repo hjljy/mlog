@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Home</title>
+</head>
 <head th:include="common :: head">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +30,7 @@
                             <div class="flex-grow-1 d-flex align-items-center">
                                 <div class="dot mr-3 bg-blue"></div>
                                 <div class="text">
-                                    <a href="/mlog/publish" >
+                                    <a href="/mlog/publish" target="_blank">
                                         <h5 class="mb-0">发布 文章</h5></a>
                                 </div>
                             </div>
@@ -98,7 +101,7 @@
             </section>
             <section>
                 <div class="row mb-4">
-                    <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="col-lg-7 mb-4 mb-lg-0 pl-lg-0">
                         <div class="card">
                             <div class="card-header">
                                 <h2 class="h6 text-uppercase mb-0">博文浏览数TOP10</h2>
@@ -160,5 +163,6 @@
 <div th:include="common :: footer"></div>
 
 <script src="/js/charts-home.js"></script>
+
 </body>
 </html>

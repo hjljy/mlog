@@ -18,12 +18,13 @@ $(function () {
             , dataType: "json"
             , success: function (data) {
                 var results = data.data;
-                console.log(results)
-                var img = $("#userInfo").children()[0];
-                img.src = results.avatarUrl;
-                img.alt = results.username;
-                $("#username").text(results.username);
-                $("#rolename").text(results.roleName);
+                var img = $("#userInfo:first-child img");
+                if(img){
+                    img.attr("src", results.avatarUrl);
+                    img.attr("alt",results.username) ;
+                    $("#username").text(results.username);
+                    $("#rolename").text(results.roleName);
+                }
             }
         });
     }

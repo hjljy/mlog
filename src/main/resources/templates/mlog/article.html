@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head th:include="common :: head">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
     <title>文章管理</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="all,follow">
+    <link type="text/css" rel="stylesheet" href="/layuiSimpleBlog/res/layui/css/layui.css">
 </head>
+<head th:include="common :: head">
+</head>
+
 <body>
 <!-- navbar-->
 <header class="header" th:include="common :: header"></header>
@@ -15,7 +14,7 @@
     <div id="sidebar" class="sidebar py-3" th:include="common :: sidebar">
     </div>
     <div class="page-holder w-100 d-flex flex-wrap">
-        <div class="container-fluid px-xl-5">
+        <div class="container-fluid px-xl-4">
             <section class="py-4">
                 <div class="row">
                     <div class="col-lg-9">
@@ -43,7 +42,8 @@
                                             <td><span class="label label-warning">待定</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-warning" style="width: 45%;"></div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         style="width: 45%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -53,19 +53,22 @@
                                             <td>2019</td>
                                             <td>2019</td>
                                             <td>01/03/2019</td>
-                                        </tr>      <tr>
+                                        </tr>
+                                        <tr>
                                             <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
                                             <td>qwer,sfas,sdgsdg,新设计</td>
                                             <td>2019</td>
                                             <td>2019</td>
                                             <td>01/03/2019</td>
-                                        </tr>      <tr>
+                                        </tr>
+                                        <tr>
                                             <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
                                             <td>qwer,sfas,sdgsdg,新设计</td>
                                             <td>2019</td>
                                             <td>2019</td>
                                             <td>01/03/2019</td>
-                                        </tr>      <tr>
+                                        </tr>
+                                        <tr>
                                             <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
                                             <td>qwer,sfas,sdgsdg,新设计</td>
                                             <td>2019</td>
@@ -93,7 +96,8 @@
                                             <td><span class="label label-warning">待定</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-warning" style="width: 25%;"></div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         style="width: 25%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -104,7 +108,8 @@
                                             <td><span class="label label-success">进行中</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-success" style="width: 55%;"></div>
+                                                    <div class="progress-bar progress-bar-success"
+                                                         style="width: 55%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -115,7 +120,8 @@
                                             <td><span class="label label-danger">未开始</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 0%;"></div>
+                                                    <div class="progress-bar progress-bar-danger"
+                                                         style="width: 0%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -126,7 +132,8 @@
                                             <td><span class="label label-success">进行中</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-success" style="width: 75%;"></div>
+                                                    <div class="progress-bar progress-bar-success"
+                                                         style="width: 75%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -137,13 +144,14 @@
                                             <td><span class="label label-danger">暂停</span></td>
                                             <td>
                                                 <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 15%;"></div>
+                                                    <div class="progress-bar progress-bar-danger"
+                                                         style="width: 15%;"></div>
                                                 </div>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    <nav aria-label="Page navigation example" >
+                                    <nav aria-label="Page navigation example">
                                         <ul id="pagination" class="pagination pagination-circle"></ul>
                                     </nav>
                                 </div>
@@ -152,54 +160,62 @@
                     </div>
                     <div class="col-lg-3">
                         <div class="bg-white shadow roundy px-4 py-3 d-flex align-items-center justify-content-between mb-4">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="dot mr-3 bg-violet"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">发布新博文</h6><span class="text-gray">publish new blog</span>
+                            <a href="/mlog/publish" target="_blank">
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="dot mr-3 bg-violet"></div>
+                                    <div class="text">
+                                        <h6 class="mb-0">发布新博文</h6><span class="text-gray">publish new blog</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="icon bg-violet text-white"><i class="fas fa-clipboard-check"></i></div>
+                            </a>
+                            <div class="icon bg-violet text-white"><i class="fas fa-file-word"></i></div>
+
                         </div>
                         <div class="bg-white shadow roundy px-4 py-3 d-flex align-items-center justify-content-between mb-4">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="dot mr-3 bg-green"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">导入markdown文章</h6><span class="text-gray">214 new quotes</span>
+                            <a href="#" onclick="importMd()" >
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="dot mr-3 bg-green"></div>
+                                    <div class="text">
+                                        <h6 class="mb-0">导入markdown文章</h6><span class="text-gray">import new markdown</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="icon bg-green text-white"><i class="fas fa-dollar-sign"></i></div>
+                            </a>
+                            <input type="file" name="md" id="article_md" multiple="multiple" onchange="uploadFile()" hidden>
+                            <div class="icon bg-green text-white"><i class="fas fa-upload"></i></div>
                         </div>
                         <div class="bg-white shadow roundy px-4 py-3 d-flex align-items-center justify-content-between mb-4">
-                            <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="dot mr-3 bg-blue"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">导出markdown文章</h6><span class="text-gray">25 new clients</span>
+                            <a>
+                                <div class="flex-grow-1 d-flex align-items-center">
+                                    <div class="dot mr-3 bg-blue"></div>
+                                    <div class="text">
+                                        <h6 class="mb-0">导出markdown文章</h6><span class="text-gray">25 new clients</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                             <div class="icon bg-blue text-white"><i class="fas fa-user-friends"></i></div>
                         </div>
                         <div class="card ">
                             <div class="card-header">
-                                <h5 class="h5 text-uppercase mb-0">公开文章列表</h5>
+                                <h5 class="h5 text-uppercase mb-0">未公开文章</h5>
                             </div>
-                        <div class="card-body" >
-                            <table class="table-sm table-hover table-borderless">
+                            <div class="card-body">
+                                <table class="table-sm table-hover table-borderless">
 
-                                <tbody style="font-weight: 400 !important;">
-                                <tr>
-                                    <td width="100%">导出markdown文章1</td>
+                                    <tbody style="font-weight: 400 !important;">
+                                    <tr>
+                                        <td width="100%">导出markdown文章1</td>
 
-                                </tr>
-                                <tr>
-                                    <td>导出markdown文章2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>导出markdown文章2</td>
 
-                                </tr>
-                                <tr>
-                                    <td>导出markdown文章3</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tr>
+                                    <tr>
+                                        <td>导出markdown文章3</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
 
                         </div>
                     </div>
@@ -213,5 +229,6 @@
 </div>
 <script src="/js/bootstrap-paginator.min.js"></script>
 <script src="/js/article.js"></script>
+<script src="/layuiSimpleBlog/res/layui/layui.all.js"></script>
 </body>
 </html>

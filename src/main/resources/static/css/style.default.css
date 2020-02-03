@@ -1253,7 +1253,7 @@ button {
 *
 */
 .sidebar {
-  width: 16rem;
+  width: 15rem;
   background: #fff;
   -webkit-box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
   box-shadow: 0 0.125rem 0.8rem rgba(0, 0, 0, 0.1);
