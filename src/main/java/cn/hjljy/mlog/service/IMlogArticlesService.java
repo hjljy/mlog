@@ -1,6 +1,8 @@
 package cn.hjljy.mlog.service;
 
+import cn.hjljy.mlog.common.AjaxResult;
 import cn.hjljy.mlog.entity.MlogArticlesEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMlogArticlesService extends IService<MlogArticlesEntity> {
 
+    void saveArticle(MlogArticlesEntity articlesEntity);
+
+    Page<MlogArticlesEntity> pageList(int pageSize, int pageNumber, String keywords);
 }

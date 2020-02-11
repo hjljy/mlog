@@ -12,7 +12,7 @@ $(function () {
 
     function getuserinfo() {
         $.ajax({
-            url: "/user/getUserInfo"
+            url: "/mlog/user/getUserInfo"
             , async: false
             , type: "get"
             , dataType: "json"

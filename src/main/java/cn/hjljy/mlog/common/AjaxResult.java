@@ -26,8 +26,11 @@ public class AjaxResult {
         setCode(code);
         setMsg(msg);
     }
+    public static AjaxResult Fail(){
+        return new AjaxResult(Constant.FAIL_CODE,Constant.OP_FAIL);
+    }
     public static AjaxResult Fail(String msg){
-        return new AjaxResult(Constant.SUCCESS_CODE,msg);
+        return new AjaxResult(Constant.FAIL_CODE,msg);
     }
     public static AjaxResult Fail(int code,String msg){
         return new AjaxResult(code,msg);
@@ -37,5 +40,8 @@ public class AjaxResult {
         AjaxResult result = new AjaxResult();
         result.setData(data);
         return result;
+    }
+    public static AjaxResult SUCCESS(){
+        return new AjaxResult();
     }
 }

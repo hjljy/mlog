@@ -1,11 +1,10 @@
-package cn.hjljy.mlog.config;
+package cn.hjljy.mlog.config.intersepter;
 
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import cn.hjljy.mlog.entity.MlogUserEntity;
 import cn.hjljy.mlog.service.IMlogUserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +25,7 @@ public class MlogAuthConfigInterseptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        if (httpServletRequest.getSession().getAttribute("user") != null) {
+        if (HttpServletRequestUtils.getUserInfoByHttpRequest(httpServletRequest) != null) {
             return;
         }
         String username = HttpServletRequestUtils.getCookieByName(httpServletRequest, "username");

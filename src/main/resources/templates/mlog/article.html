@@ -20,136 +20,25 @@
                     <div class="col-lg-9">
                         <div class="card mb-5 mb-lg-0">
                             <div class="card-header">
-                                <h5 class="h5 text-uppercase mb-0">公开文章列表</h5>
+
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <h4 class="h4 text-uppercase mb-0">公开文章列表</h4>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group position-relative mb-0">
+                                            <input type="search" placeholder="文章标题内容搜索" id="keywords"
+                                                   class="form-control form-control-sm border-0 no-shadow pl-4">
+                                            <button type="button" style="top: -3px; left: 0;" onclick="render()"
+                                                    class="position-absolute bg-white border-0 p-0"><i
+                                                    class="o-search-magnify-1 text-gray text-lg"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table-sm table-hover table-borderless mb-3">
-                                        <thead>
-                                        <tr>
-                                            <th>文章标题</th>
-                                            <th>文章标签</th>
-                                            <th>浏览次数</th>
-                                            <th>评论</th>
-                                            <th>发布日期</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>设计新主题</td>
-                                            <td>10/02/2019</td>
-                                            <td>12/05/2019</td>
-                                            <td><span class="label label-warning">待定</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-warning"
-                                                         style="width: 45%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>网站重新设计网站重新设计网站重新设计网站重新设计网站重新设计</td>
-                                            <td>qwer,sfas,sdgsdg,新设计</td>
-                                            <td>2019</td>
-                                            <td>2019</td>
-                                            <td>01/03/2019</td>
-                                        </tr>
-                                        <tr>
-                                            <td>模型设计</td>
-                                            <td>10/10/2019</td>
-                                            <td>12/11/2019</td>
-                                            <td><span class="label label-warning">待定</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-warning"
-                                                         style="width: 25%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>后台管理系统模板设计</td>
-                                            <td>25/01/2019</td>
-                                            <td>09/05/2019</td>
-                                            <td><span class="label label-success">进行中</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-success"
-                                                         style="width: 55%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>前端设计</td>
-                                            <td>10/10/2019</td>
-                                            <td>12/12/2019</td>
-                                            <td><span class="label label-danger">未开始</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-danger"
-                                                         style="width: 0%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>桌面软件测试</td>
-                                            <td>10/01/2019</td>
-                                            <td>29/03/2019</td>
-                                            <td><span class="label label-success">进行中</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-success"
-                                                         style="width: 75%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>APP改版开发</td>
-                                            <td>25/02/2019</td>
-                                            <td>12/05/2019</td>
-                                            <td><span class="label label-danger">暂停</span></td>
-                                            <td>
-                                                <div class="progress progress-striped progress-sm">
-                                                    <div class="progress-bar progress-bar-danger"
-                                                         style="width: 15%;"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        </tbody>
+                                    <table id="article_table" class="table-sm table-hover table-borderless mb-3">
                                     </table>
                                     <nav aria-label="Page navigation example">
                                         <ul id="pagination" class="pagination pagination-circle"></ul>
@@ -172,27 +61,30 @@
 
                         </div>
                         <div class="bg-white shadow roundy px-4 py-3 d-flex align-items-center justify-content-between mb-4">
-                            <a href="#" onclick="importMd()" >
+                            <a href="#" onclick="importMd()">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="dot mr-3 bg-green"></div>
                                     <div class="text">
-                                        <h6 class="mb-0">导入markdown文章</h6><span class="text-gray">import new markdown</span>
+                                        <h6 class="mb-0">导入markdown文章</h6><span
+                                            class="text-gray">import new markdown</span>
                                     </div>
                                 </div>
                             </a>
-                            <input type="file" name="md" id="article_md" multiple="multiple" onchange="uploadFile()" hidden>
+                            <input type="file" name="md" id="article_md" multiple="multiple" onchange="uploadFile()"
+                                   hidden>
                             <div class="icon bg-green text-white"><i class="fas fa-upload"></i></div>
                         </div>
                         <div class="bg-white shadow roundy px-4 py-3 d-flex align-items-center justify-content-between mb-4">
-                            <a>
+                            <a href="#" onclick="exportMd()">
                                 <div class="flex-grow-1 d-flex align-items-center">
                                     <div class="dot mr-3 bg-blue"></div>
                                     <div class="text">
-                                        <h6 class="mb-0">导出markdown文章</h6><span class="text-gray">25 new clients</span>
+                                        <h6 class="mb-0">导出markdown文章</h6><span
+                                            class="text-gray">download markdowns</span>
                                     </div>
                                 </div>
                             </a>
-                            <div class="icon bg-blue text-white"><i class="fas fa-user-friends"></i></div>
+                            <div class="icon bg-blue text-white"><i class="fas fa-download"></i></div>
                         </div>
                         <div class="card ">
                             <div class="card-header">
@@ -227,8 +119,10 @@
 <!-- JavaScript files-->
 <div th:include="common :: footer">
 </div>
-<script src="/js/bootstrap-paginator.min.js"></script>
-<script src="/js/article.js"></script>
-<script src="/layuiSimpleBlog/res/layui/layui.all.js"></script>
+
+
 </body>
+<script src="/js/article.js"></script>
+<script src="/js/bootstrap-paginator.min.js"></script>
+<script src="/layuiSimpleBlog/res/layui/layui.all.js"></script>
 </html>

@@ -9,6 +9,7 @@ package cn.hjljy.mlog.common.constants;
  **/
 public class Constant {
 
+    public static final int FAIL_CODE=1000;
     public static final int SUCCESS_CODE=0;
     public static final int DEFAULT_CODE=-1;
 

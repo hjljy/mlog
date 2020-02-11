@@ -1,5 +1,7 @@
 package cn.hjljy.mlog.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -8,9 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
  * @since 2020-01-16
@@ -23,11 +22,13 @@ public class MlogArticlesEntity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    private Integer id;
+    @TableId(value = "id")
+    private Long id;
 
     /**
      * 文章标题
      */
+    @TableField("title")
     private String title;
 
     /**
@@ -39,6 +40,7 @@ public class MlogArticlesEntity implements Serializable {
     /**
      * 文章内容
      */
+    @TableField("content")
     private String content;
 
     /**
@@ -48,12 +50,13 @@ public class MlogArticlesEntity implements Serializable {
     /**
      * 文章类型
      */
-    private String type;
+    private Integer type;
 
     /**
      * 文章作者
      */
-    private String author;
+    @TableField("authorId")
+    private Integer authorId;
 
     /**
      * 文章浏览数
@@ -82,29 +85,28 @@ public class MlogArticlesEntity implements Serializable {
     /**
      * 是否置顶
      */
-    private String ontop;
+    private Integer ontop;
 
     /**
      * 是否开启评论
      */
-    private String commentable;
+    private Integer commentable;
 
     /**
      * 是否发布
      */
-    private String status;
+    private Integer status;
 
     /**
      * 创建时间
      */
     @TableField("createTime")
-    private Integer createTime;
+    private Long createTime;
 
     /**
      * 更新时间
      */
     @TableField("updateTime")
-    private Integer updateTime;
-
+    private Long updateTime;
 
 }

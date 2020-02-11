@@ -3,6 +3,7 @@ package cn.hjljy.mlog.controller;
 
 import cn.hjljy.mlog.common.AjaxResult;
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
+import cn.hjljy.mlog.config.exception.MlogException;
 import cn.hjljy.mlog.entity.MlogUserEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,11 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2020-01-15
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/mlog/user")
 public class MlogUserController {
 
     @GetMapping("/getUserInfo")
-    public AjaxResult getUserInfo(HttpServletRequest request){
+    public AjaxResult getUserInfo(HttpServletRequest request) throws MlogException {
         return AjaxResult.SUCCESS(HttpServletRequestUtils.getUserInfoByHttpRequest(request));
     }
 }
