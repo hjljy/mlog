@@ -24,9 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/mlog/user")
 public class MlogUserController {
-
     @GetMapping("/getUserInfo")
-    public AjaxResult getUserInfo(HttpServletRequest request) throws MlogException {
+    public AjaxResult getUserInfo(HttpServletRequest request) {
         return AjaxResult.SUCCESS(HttpServletRequestUtils.getUserInfoByHttpRequest(request));
     }
 }

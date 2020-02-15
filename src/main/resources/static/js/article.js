@@ -1,33 +1,33 @@
 let currentPage = 1;
-let pageSize = 12;
+let pageSize = 16;
 var simpletable = document.getElementById("article_table");
 var config = {
     colums: [{
         title: "文章标题",
         name: "title",
-        width: "70%",
+        width: "75%",
         formater: function (d) {
-            return '<a href='+d.articleUrl+'>'+d[this.name]+'</a>'
+            return '<a href='+d.articleUrl+'>'+'<strong>'+d[this.name]+'</strong>'+'&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: yellowgreen">'+d.tags+'</small>'+'</a>'
         }
     }, {
-        title: "文章标签",
-        name: "tags",
-        width: '10%'
+        title: "置顶",
+        name: "ontop",
+        width: '6%'
     }, {
         title: "浏览",
         name: "viewCount",
-        width: "5%"
+        width: '5%'
     }, {
         title: "评论",
         name: "commentCount",
-        width: "5%"
+        width: '5%'
     }, {
         title: "日期",
         name: "createTime",
-        width: "10%",
+        width: "12%",
         formater: function (d) {
             let time = new Date(d[this.name]);
-            let year = time.getFullYear();       //年
+            let year = time.getUTCFullYear();       //年
             let month = time.getMonth() + 1;     //月
             let day = time.getDate();
             return year + "-" + month + "-" + day;
@@ -137,14 +137,35 @@ function initTable(table, config) {
 
 function loadTable(table, config, data) {
     table.removeChild(document.getElementsByTagName("tbody")[0]);
-    var tbody = document.createElement("tbody");
+    let tbody = document.createElement("tbody");
     table.appendChild(tbody);
-    var colums = config.colums;
-    for (var i = 0; i < data.length; i++) {
-        var tr = document.createElement("tr");
+    let colums = config.colums;
+    for (let i = 0; i < data.length; i++) {
+        let d = data[i];
+        let tr = document.createElement("tr");
+        tr.id=i;
+        tr.classList.add("tr-show");
+        let div= document.createElement("div");
+        div.id="option"+i;
+        div.hidden=true;
+        div.classList.add("tr-hide");
+        let update = document.createElement("button");
+        update.classList.add("btn" ,"btn-sm" ,"btn-info")
+        update.innerText="更新";
+        let del = document.createElement("button");
+        del.classList.add("btn" ,"btn-sm" ,"btn-info")
+        del.innerText="删除";
+        let top = document.createElement("button");
+        top.classList.add("btn" ,"btn-sm" ,"btn-info")
+        top.innerText="关闭评论";
+        div.appendChild(update);
+        div.appendChild(del);
+        div.appendChild(top);
+
         table.lastChild.appendChild(tr);
+        table.lastChild.appendChild(div);
         for (var j = 0; j < colums.length; j++) {
-            let d = data[i];
+
             let td = document.createElement("td");
             tr.appendChild(td);
             td.style.width = colums[j].width;
@@ -155,11 +176,11 @@ function loadTable(table, config, data) {
             }
         }
     }
-    $("table tr").mouseover(function(){
-
-        console.log(123)
-
-    })
+    $(".tr-show").mouseover(function(){
+        $(".tr-hide").attr("hidden","true")
+       let ss= document.getElementById("option"+this.id);
+        ss.removeAttribute("hidden");
+    });
 }
 
 /**
