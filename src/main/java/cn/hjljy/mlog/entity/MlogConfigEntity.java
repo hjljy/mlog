@@ -43,4 +43,7 @@ public class MlogConfigEntity implements Serializable {
     private String configType;
 
 
+    public MlogConfigEntity(String local) {
+        this.configValue=local;
+    }
 }

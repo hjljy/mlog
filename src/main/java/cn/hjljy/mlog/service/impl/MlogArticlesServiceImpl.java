@@ -18,10 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -41,30 +42,27 @@ public class MlogArticlesServiceImpl extends ServiceImpl<MlogArticlesMapper, Mlo
     public void saveArticle(MlogArticlesEntity articlesEntity) {
         save(articlesEntity);
         String tags = articlesEntity.getTags();
-        List<String> tagList = Arrays.asList(tags.split(","));
-        for (String tag : tagList) {
-            QueryWrapper<MlogTagsEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.lambda().eq(MlogTagsEntity::getName,tag);
-            MlogTagsEntity tagsEntity = mlogTagsService.getOne(queryWrapper);
-            if(tagsEntity==null){
-                tagsEntity =new MlogTagsEntity();
-                tagsEntity.setName(tag);
-                mlogTagsService.save(tagsEntity);
-            }
-            MlogArticleTagsEntity mlogArticleTagsEntity = new MlogArticleTagsEntity();
-            mlogArticleTagsEntity.setTagsId(tagsEntity.getId());
-            mlogArticleTagsEntity.setArticleId(articlesEntity.getId());
-            mlogArticleTagsService.save(mlogArticleTagsEntity);
-        }
+        mlogTagsService.saveArticleTags(articlesEntity.getId(), tags);
     }
 
     @Override
     public Page<MlogArticlesEntity> pageList(int pageSize, int pageNumber, String keywords) {
-        Page<MlogArticlesEntity> page = new Page<>(pageNumber,pageSize);
+        Page<MlogArticlesEntity> page = new Page<>(pageNumber, pageSize);
         QueryWrapper<MlogArticlesEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().like(MlogArticlesEntity::getTitle,keywords)
-                .or().like(MlogArticlesEntity::getContent,keywords)
+        queryWrapper.lambda().like(MlogArticlesEntity::getTitle, keywords)
+                .or().like(MlogArticlesEntity::getContent, keywords)
                 .orderByDesc(MlogArticlesEntity::getCreateTime);
-        return baseMapper.selectPage(page,queryWrapper);
+        return baseMapper.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    @Transactional
+    public void updateArticle(MlogArticlesEntity entity) {
+        //解除之前的标签关联关系，重新关联
+        QueryWrapper<MlogArticleTagsEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(MlogArticleTagsEntity::getArticleId, entity.getId());
+        mlogArticleTagsService.remove(queryWrapper);
+        updateById(entity);
+        mlogTagsService.saveArticleTags(entity.getId(),entity.getTags());
     }
 }

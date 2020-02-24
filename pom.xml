@@ -45,7 +45,11 @@
             <version>2.1</version>
         </dependency>
         <!-- 完毕 -->
-
+        <dependency>
+            <groupId>com.upyun</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>4.0.1</version>
+        </dependency>
         <!-- 工具包-->
         <dependency>
             <groupId>cn.hutool</groupId>

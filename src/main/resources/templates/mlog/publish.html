@@ -19,80 +19,47 @@
         <div class="container-fluid px-xl-3 py-3">
             <div class="container"></div>
             <div class="row ">
-                <div class="col-lg-10 mb-3">
+                <div class="col-lg-6 mb-3">
                     <input class="form-control "
                            type="text" placeholder="请输入文章题目">
                 </div>
-                <div class="input-group mb-3 col-lg-2">
+                <div class="mb-3 col-lg-2">
 
                     <select class="form-control ">
-                        <option selected>请选择文章类型</option>
-                        <option>生活类</option>
-                        <option>技术类</option>
-                        <option>杂记类</option>
+                        <option selected value="1">生活</option>
+                        <option value="2">技术</option>
+                        <option value="3">杂记</option>
                     </select>
 
                 </div>
-
+                <div class="mb-3 col-lg-4">
+                    <button class="btn btn-primary" type="button">保存草稿(ctrl+s)</button>
+                    <button type="button " class="btn btn-green">发布</button>
+                    <button type="button " class="btn btn-green">设置</button>
+                </div>
             </div>
 
-
-            <div class="form-group mb-3" id="editor">
+            <div class="row">
+                <div class="input-group mb-3 col-xl-6">
+                    <input class="form-control js-tags-input" type="text" id="tags" name="tags"
+                           placeholder="请输入标签"
+                           value="MLog">
+                </div>
+            </div>
+            <div class="form-group" id="editor">
                             <textarea class="col-xl-12" style="display:none;">### 关于 Editor.md
 
 **Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
     </textarea>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 mb-3">
-                    <input class="form-control " type="text"
-                           placeholder="请用一句话描述文章摘要">
-                </div>
-            </div>
-            <div class="row">
-
-                <div class="input-group mb-3 col-xl-12">
-                    <input class="form-control js-tags-input" type="text" id="tags" name="tags"
-                           placeholder="请输入标签"
-                           value="MLog">
-                </div>
-            </div>
-            <div class="row">
-                <div class=" col-lg-6">
-                </div>
-                <div class=" col-lg-3">
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Radio button for following text input" checked onclick="this.value=(this.value==0)?1:0" type="checkbox" value="0">
-                            </div>
-                        </div>
-                        <input class="form-control" disabled placeholder="开启评论"
-                               aria-label="Text input with radio button" type="text">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input aria-label="Radio button for following text input"onclick="this.value=(this.value==0)?1:0" type="checkbox" value="1">
-                            </div>
-                        </div>
-                        <input class="form-control" disabled placeholder="是否置顶"
-                               aria-label="Text input with radio button" type="text">
-                    </div>
-
-
-                </div>
-                <div class=" col-lg-3">
-                    <button class="btn btn-primary" type="button">保存(ctrl+s)</button>
-                    <button type="button " class="btn btn-green">一键发布</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
 <div th:include="common :: footer"></div>
 <script src="/js/jquery.tagsinput.min.js"></script>
 <script src="/js/publish.js"></script>
+<script src="/js/uploadImage.js"></script>
 <script src="/editor.md-v1.5/editormd.js"></script>
 </body>
 </html>

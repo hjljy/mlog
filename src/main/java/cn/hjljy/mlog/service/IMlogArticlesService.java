@@ -18,4 +18,6 @@ public interface IMlogArticlesService extends IService<MlogArticlesEntity> {
     void saveArticle(MlogArticlesEntity articlesEntity);
 
     Page<MlogArticlesEntity> pageList(int pageSize, int pageNumber, String keywords);
+
+    void updateArticle(MlogArticlesEntity entity);
 }

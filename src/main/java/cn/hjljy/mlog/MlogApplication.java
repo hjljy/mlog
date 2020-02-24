@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("cn.hjljy.mlog.mapper")
 public class MlogApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(MlogApplication.class, args);
     }

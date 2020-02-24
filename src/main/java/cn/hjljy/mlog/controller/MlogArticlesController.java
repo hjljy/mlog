@@ -46,11 +46,34 @@ public class MlogArticlesController extends BaseController {
     @Autowired
     IMlogArticlesService mlogArticlesService;
 
-
+    /**
+     * 分页列表
+     *
+     * @param pageSize
+     * @param pageNumber
+     * @param keywords
+     * @return
+     */
     @GetMapping("/list")
-    public AjaxResult list(int pageSize,int pageNumber,String keywords){
-       Page<MlogArticlesEntity> page= mlogArticlesService.pageList(pageSize,pageNumber,keywords);
+    public AjaxResult list(int pageSize, int pageNumber, String keywords) {
+        Page<MlogArticlesEntity> page = mlogArticlesService.pageList(pageSize, pageNumber, keywords);
         return AjaxResult.SUCCESS(page);
+    }
+
+    /**
+     * 保存，更新文章
+     *
+     * @param entity
+     * @return
+     */
+    @PostMapping("/save")
+    public AjaxResult save(@RequestBody MlogArticlesEntity entity) {
+        if(entity.getId()!=null){
+            mlogArticlesService.updateArticle(entity);
+        }else {
+            mlogArticlesService.saveArticle(entity);
+        }
+        return AjaxResult.SUCCESS(entity);
     }
 
     /**
@@ -85,7 +108,8 @@ public class MlogArticlesController extends BaseController {
     }
 
     /**
-     *  导出所有文章为MD
+     * 导出所有文章为MD
+     *
      * @param response 响应
      */
     @GetMapping("/export")
@@ -104,13 +128,13 @@ public class MlogArticlesController extends BaseController {
             ZipOutputStream out = new ZipOutputStream(new FileOutputStream(strZipPath));
             for (int i = 0; i < list.size(); i++) {
                 MlogArticlesEntity entity = list.get(i);
-                out.putNextEntry(new ZipEntry(entity.getTitle()+".md"));
+                out.putNextEntry(new ZipEntry(entity.getTitle() + ".md"));
                 int len;
                 StringBuffer header = new StringBuffer();
-                header.append("title: "+entity.getTitle()+"\n");
-                header.append("date: "+DateUtil.format(new Date(entity.getCreateTime()),"yyyy-MM-dd hh:mm:ss")+"\n");
-                header.append("updated: "+DateUtil.format(new Date(entity.getCreateTime()),"yyyy-MM-dd hh:mm:ss")+"\n");
-                header.append("tags: "+ Arrays.asList(entity.getTags().split(",")).toString()+"\n");
+                header.append("title: " + entity.getTitle() + "\n");
+                header.append("date: " + DateUtil.format(new Date(entity.getCreateTime()), "yyyy-MM-dd hh:mm:ss") + "\n");
+                header.append("updated: " + DateUtil.format(new Date(entity.getCreateTime()), "yyyy-MM-dd hh:mm:ss") + "\n");
+                header.append("tags: " + Arrays.asList(entity.getTags().split(",")).toString() + "\n");
                 header.append("---\n");
                 // 读入需要下载的文件的内容，打包到zip文件
                 out.write(entity.getContent().getBytes());
@@ -183,15 +207,16 @@ public class MlogArticlesController extends BaseController {
     }
 
     /**
-     *  删除文件或者文件夹下所有文件
+     * 删除文件或者文件夹下所有文件
+     *
      * @param dir
      */
-    private  void removeDir(File dir) {
-        File[] files=dir.listFiles();
-        for(File file:files){
-            if(file.isDirectory()){
+    private void removeDir(File dir) {
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
                 removeDir(file);
-            }else{
+            } else {
                 file.delete();
             }
         }
