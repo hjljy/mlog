@@ -1,27 +1,16 @@
 package cn.hjljy.mlog.controller;
 
-import cn.hjljy.mlog.common.AjaxResult;
 import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.utils.UploadUtils;
 import cn.hjljy.mlog.entity.MlogAccountEntity;
 import cn.hjljy.mlog.entity.MlogConfigEntity;
-import cn.hjljy.mlog.service.IMlogAccountService;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONObject;
-import com.UpYun;
-import com.upyun.UpException;
-import com.upyun.UpYunUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @author 海加尔金鹰 www.hjljy.cn
@@ -45,7 +34,7 @@ public class MlogUploadController extends BaseController {
         String imageUrl = Constant.MLOG_CONFIG.stream()
                 .filter(config -> config.getConfigType().equals("image"))
                 .findFirst()
-                .orElse(new MlogConfigEntity("http://hjljy.cn"))
+                .orElse(new MlogConfigEntity("https://hjljy.cn"))
                 .getConfigValue();
         if (configEntity.getConfigValue().equals("upyun")) {
             //调用又拍云存储

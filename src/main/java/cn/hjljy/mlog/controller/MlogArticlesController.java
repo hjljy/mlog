@@ -71,6 +71,9 @@ public class MlogArticlesController extends BaseController {
         if(entity.getId()!=null){
             mlogArticlesService.updateArticle(entity);
         }else {
+            entity.setCreateTime(System.currentTimeMillis());
+            String format = DateUtil.format(new Date(), "yyyy/MM/dd");
+            entity.setArticleUrl("/articles/"+format +"/"+DateUtil.thisMillsecond()+".html");
             mlogArticlesService.saveArticle(entity);
         }
         return AjaxResult.SUCCESS(entity);
@@ -159,6 +162,7 @@ public class MlogArticlesController extends BaseController {
         //解析MD文件头部内容
         InputStream inputStream = file.getInputStream();
         String fileContent = IOUtils.toString(inputStream, null);
+        inputStream.close();
         String setting = StringUtils.substringBefore(fileContent, "---");
         if (StringUtils.isBlank(setting)) {
             fileContent = StringUtils.substringAfter(fileContent, "---");
@@ -196,9 +200,14 @@ public class MlogArticlesController extends BaseController {
         }
         if (map.get("permalink") != null) {
             articlesEntity.setArticleUrl(map.get("permalink").toString());
+        }else {
+            String format = DateUtil.format(new Date(), "yyyy/MM/dd");
+            articlesEntity.setArticleUrl("/articles/"+format +"/"+DateUtil.thisMillsecond()+".html");
         }
         if (map.get("date") != null) {
             articlesEntity.setCreateTime(DateUtil.parseDateTime(map.get("date").toString()).getTime());
+        }else {
+            articlesEntity.setCreateTime(System.currentTimeMillis());
         }
         if (map.get("updated") != null) {
             articlesEntity.setUpdateTime(DateUtil.parseDateTime(map.get("updated").toString()).getTime());

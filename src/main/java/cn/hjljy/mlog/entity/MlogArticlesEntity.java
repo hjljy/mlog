@@ -1,13 +1,13 @@
 package cn.hjljy.mlog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  *
@@ -34,8 +34,8 @@ public class MlogArticlesEntity implements Serializable {
     /**
      * 文章摘要内容
      */
-    @TableField("AbstractText")
-    private String AbstractText;
+    @TableField("abstractText")
+    private String abstractText;
 
     /**
      * 文章内容
