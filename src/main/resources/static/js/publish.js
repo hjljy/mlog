@@ -58,7 +58,7 @@ jQuery(function () {
             removeWithBackspace: true,
             delimiter: [',']
         });
-        $('#tags_tag').attr("onkeyup", "getLinkData();");
+        $('#tags_tag').attr("onkeyup", "getLinkData()");
     }
 });
 var id = 0;
@@ -69,6 +69,8 @@ var data = {
     type : null ,
     tags : null ,
     content : null ,
+    articleUrl: "",
+    articlePwd:"",
     ontop : 1 ,
     commentable : 1 ,
     status : 1
@@ -78,7 +80,7 @@ function getLinkData() {
 }
 //保存文章
 function saveArticle() {
-
+    console.log(1)
     let title = $("input[name=title]").val();
     let abstractText = $("input[name=abstractText]").val();
     let type = $("select[name=type]").val();
@@ -104,10 +106,7 @@ function saveArticle() {
     }
     data.type=type;
     data.tags=tags;
-    console.log(title)
-    console.log(type)
-    console.log(tags)
-    console.log(content)
+    console.log(JSON.stringify(data))
     $.ajax({
         url: "/mlog/article/save",
         type: "post",
@@ -119,7 +118,8 @@ function saveArticle() {
             if(result.code==0){
                 // 将数据渲染到页面
                 let data = result.data;
-                id = data.id;
+                console.log(data)
+                id = data.id.toLocaleString();
                 layer.msg("保存成功")
             }else{
                 layer.msg("保存失败")
@@ -130,11 +130,78 @@ function saveArticle() {
 }
 
 function publishArticle() {
-    console.log(1);
+    let title = $("input[name=title]").val();
+    let abstractText = $("input[name=abstractText]").val();
+    let type = $("select[name=type]").val();
+    let content = $("textarea[name=editor-markdown-doc]").val();
+    let tags = $('#tags').val();
+
+
+    if (id != 0) {
+        data.id=id;
+    }
+    data.title=title;
+    if(!title){
+        layer.msg("请输入标题")
+        return;
+    }
+    data.content=content;
+    if(!content){
+        layer.msg("文章内容不能为空")
+        return;
+    }
+    if(abstractText){
+        data.abstractText=abstractText;
+    }
+    data.type=type;
+    data.tags=tags;
+    let ontop = $("input[name=ontop]").val();
+    let commentable = $("input[name=commentable]").val();
+    let articlePwd = $("input[name=articlePwd]").val();
+    let articleUrl = $("input[name=articleUrl]").val();
+    data.ontop =ontop;
+    data.commentable=commentable;
+    data.articlePwd=articlePwd;
+    data.articleUrl=articleUrl;
+    data.status=0;
+    $.ajax({
+        url: "/mlog/article/save",
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify(data),
+        contentType : "application/json",
+        cache: false,
+        success: function (result) {
+            if(result.code==0){
+                // 将数据渲染到页面
+                let data = result.data;
+                console.log(data)
+                id = data.id;
+                layer.msg("保存成功")
+            }else{
+                layer.msg("保存失败")
+            }
+        }
+    })
 }
 
 function setting() {
-
+    document.getElementById("setting").style.display="inline";
+    layer.open({
+        type: 1,
+        title: false,
+        closeBtn: 0, //不显示关闭按钮
+        shade: [0.1],
+        shadeClose:true,
+        area: ['320px'],
+        scrollbar: false,
+        offset: 'r',
+        anim: 5,
+        content: $('#setting'), //iframe的url，no代表不显示滚动条
+        end:function () {
+            document.getElementById("setting").style.display="none";
+        }
+    })
 }
 
 

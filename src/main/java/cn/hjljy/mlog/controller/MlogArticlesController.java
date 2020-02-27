@@ -72,8 +72,10 @@ public class MlogArticlesController extends BaseController {
             mlogArticlesService.updateArticle(entity);
         }else {
             entity.setCreateTime(System.currentTimeMillis());
-            String format = DateUtil.format(new Date(), "yyyy/MM/dd");
-            entity.setArticleUrl("/articles/"+format +"/"+DateUtil.thisMillsecond()+".html");
+            if(StringUtils.isEmpty(entity.getArticleUrl())){
+                String format = DateUtil.format(new Date(), "yyyy/MM/dd");
+                entity.setArticleUrl("/articles/"+format +"/"+System.currentTimeMillis()+".html");
+            }
             mlogArticlesService.saveArticle(entity);
         }
         return AjaxResult.SUCCESS(entity);
@@ -202,7 +204,7 @@ public class MlogArticlesController extends BaseController {
             articlesEntity.setArticleUrl(map.get("permalink").toString());
         }else {
             String format = DateUtil.format(new Date(), "yyyy/MM/dd");
-            articlesEntity.setArticleUrl("/articles/"+format +"/"+DateUtil.thisMillsecond()+".html");
+            articlesEntity.setArticleUrl("/articles/"+format +"/"+System.currentTimeMillis()+".html");
         }
         if (map.get("date") != null) {
             articlesEntity.setCreateTime(DateUtil.parseDateTime(map.get("date").toString()).getTime());

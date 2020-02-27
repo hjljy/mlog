@@ -13,8 +13,8 @@
 
 <div class="d-flex align-items-stretch">
     <div id="sidebar" class="sidebar py-3 shrink show" th:include="common :: sidebar">
-
     </div>
+
     <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-3 py-3">
             <div class="container"></div>
@@ -31,9 +31,48 @@
                     </select>
                 </div>
                 <div class="mb-3 col-lg-3">
-                    <button class="btn btn-primary" type="button" id="save" onclick="saveArticle()">保存(ctrl+s)</button>
+                    <button class="btn btn-primary" type="button" id="save" onclick="saveArticle()">保存</button>
                     <button type="button " class="btn btn-green" onclick="publishArticle()">发布</button>
-                    <button type="button " class="btn btn-green" onclick="setting()">设置</button>
+                    <button type="button " class="btn btn-green " onclick="setting()">设置</button>
+                    <div aria-labelledby="userInfo" id="setting" style="display: none">
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <span>是否置顶</span>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="lyear-switch switch-solid switch-yellow">
+                                        <input name="ontop" type="checkbox" value="0">
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <div class="row">
+                                <div class="col-xl-8">
+                                    <span style="">开启评论</span>
+                                </div>
+                                <div class="col-xl-4">
+                                    <label class="lyear-switch switch-solid switch-yellow">
+                                        <input name="commentable" type="checkbox" value="0" checked>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item">
+                            访问密码：
+                            <input name="articlePwd" class="form-control" placeholder="访问密码">
+                        </div>
+                        <div class="dropdown-item">
+                            访问路径：
+                            <input name="articleUrl" class="form-control" placeholder="访问路径">
+                        </div>
+                        <div class="dropdown-divider"></div>
+                    </div>
                 </div>
             </div>
 
@@ -55,7 +94,7 @@
 **Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
     </textarea>
             </div>
-<form></form>
+            <form></form>
         </div>
     </div>
 </div>
