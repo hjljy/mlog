@@ -31,7 +31,7 @@
                     </select>
                 </div>
                 <div class="mb-3 col-lg-3">
-                    <button class="btn btn-primary" type="button" id="save" onclick="saveArticle()">保存</button>
+                    <button class="btn btn-primary" type="button" id="save" onclick="saveArticle()">保存(crtl+s)</button>
                     <button type="button " class="btn btn-green" onclick="publishArticle()">发布</button>
                     <button type="button " class="btn btn-green " onclick="setting()">设置</button>
                     <div aria-labelledby="userInfo" id="setting" style="display: none">
@@ -86,7 +86,7 @@
                            placeholder="请输入标签"
                            value="MLog">
                 </div>
-
+                <div id="links"></div>
             </div>
             <div class="form-group" id="editor">
                             <textarea class="col-xl-12" style="display:none;">### 关于 Editor.md

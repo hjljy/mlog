@@ -1,13 +1,29 @@
-function keyDown(e){
-    var currKey=0, e=e||event||window.event;
-    currKey = e.keyCode||e.which||e.charCode;
-    if(currKey == 83 && (e.ctrlKey||e.metaKey)){
+//监听保存快捷键
+function keyDown(e) {
+    var currKey = 0, e = e || event || window.event;
+    currKey = e.keyCode || e.which || e.charCode;
+    if (currKey == 83 && (e.ctrlKey || e.metaKey)) {
         $('#save').click();
         return false;
     }
 }
-document.onkeydown = keyDown;
 
+document.onkeydown = keyDown;
+var id = 0;
+var data = {
+    id: null,
+    title: null,
+    abstractText: "",
+    type: null,
+    tags: null,
+    content: null,
+    articleUrl: "",
+    articlePwd: "",
+    ontop: 1,
+    commentable: 1,
+    status: 1
+};
+var linkData = [];
 jQuery(function () {
 
     var editor = editormd("editor", {
@@ -58,26 +74,15 @@ jQuery(function () {
             removeWithBackspace: true,
             delimiter: [',']
         });
-        $('#tags_tag').attr("onkeyup", "getLinkData()");
+
     }
 });
-var id = 0;
-var data = {
-    id : null  ,
-    title : null ,
-    abstractText : "" ,
-    type : null ,
-    tags : null ,
-    content : null ,
-    articleUrl: "",
-    articlePwd:"",
-    ontop : 1 ,
-    commentable : 1 ,
-    status : 1
-}
-function getLinkData() {
-    console.log(1);
-}
+
+//标签联想功能   放弃
+
+
+
+
 //保存文章
 function saveArticle() {
     console.log(1)
@@ -89,39 +94,39 @@ function saveArticle() {
 
 
     if (id != 0) {
-        data.id=id;
+        data.id = id;
     }
-    data.title=title;
-    if(!title){
+    data.title = title;
+    if (!title) {
         layer.msg("请输入标题")
         return;
     }
-    data.content=content;
-    if(!content){
+    data.content = content;
+    if (!content) {
         layer.msg("文章内容不能为空")
         return;
     }
-    if(abstractText){
-        data.abstractText=abstractText;
+    if (abstractText) {
+        data.abstractText = abstractText;
     }
-    data.type=type;
-    data.tags=tags;
+    data.type = type;
+    data.tags = tags;
     console.log(JSON.stringify(data))
     $.ajax({
         url: "/mlog/article/save",
         type: "post",
         dataType: "json",
         data: JSON.stringify(data),
-        contentType : "application/json",
+        contentType: "application/json",
         cache: false,
         success: function (result) {
-            if(result.code==0){
+            if (result.code == 0) {
                 // 将数据渲染到页面
                 let data = result.data;
                 console.log(data)
                 id = data.id.toLocaleString();
                 layer.msg("保存成功")
-            }else{
+            } else {
                 layer.msg("保存失败")
             }
 
@@ -135,50 +140,45 @@ function publishArticle() {
     let type = $("select[name=type]").val();
     let content = $("textarea[name=editor-markdown-doc]").val();
     let tags = $('#tags').val();
-
-
     if (id != 0) {
-        data.id=id;
+        data.id = id;
     }
-    data.title=title;
-    if(!title){
+    data.title = title;
+    if (!title) {
         layer.msg("请输入标题")
         return;
     }
-    data.content=content;
-    if(!content){
+    data.content = content;
+    if (!content) {
         layer.msg("文章内容不能为空")
         return;
     }
-    if(abstractText){
-        data.abstractText=abstractText;
+    if (abstractText) {
+        data.abstractText = abstractText;
     }
-    data.type=type;
-    data.tags=tags;
+    data.type = type;
+    data.tags = tags;
     let ontop = $("input[name=ontop]").val();
     let commentable = $("input[name=commentable]").val();
     let articlePwd = $("input[name=articlePwd]").val();
     let articleUrl = $("input[name=articleUrl]").val();
-    data.ontop =ontop;
-    data.commentable=commentable;
-    data.articlePwd=articlePwd;
-    data.articleUrl=articleUrl;
-    data.status=0;
+    data.ontop = ontop;
+    data.commentable = commentable;
+    data.articlePwd = articlePwd;
+    data.articleUrl = articleUrl;
+    data.status = 0;
     $.ajax({
         url: "/mlog/article/save",
         type: "post",
         dataType: "json",
         data: JSON.stringify(data),
-        contentType : "application/json",
+        contentType: "application/json",
         cache: false,
         success: function (result) {
-            if(result.code==0){
-                // 将数据渲染到页面
-                let data = result.data;
-                console.log(data)
-                id = data.id;
-                layer.msg("保存成功")
-            }else{
+            if (result.code == 0) {
+                layer.msg("发布成功")
+                window.location.href="/mlog/article"
+            } else {
                 layer.msg("保存失败")
             }
         }
@@ -186,20 +186,20 @@ function publishArticle() {
 }
 
 function setting() {
-    document.getElementById("setting").style.display="inline";
+    document.getElementById("setting").style.display = "inline";
     layer.open({
         type: 1,
         title: false,
         closeBtn: 0, //不显示关闭按钮
         shade: [0.1],
-        shadeClose:true,
-        area: ['320px'],
+        shadeClose: true,
+        area: ['320px', '100%'],
         scrollbar: false,
         offset: 'r',
         anim: 5,
         content: $('#setting'), //iframe的url，no代表不显示滚动条
-        end:function () {
-            document.getElementById("setting").style.display="none";
+        end: function () {
+            document.getElementById("setting").style.display = "none";
         }
     })
 }
