@@ -10,8 +10,18 @@
 <body>
 <!-- navbar-->
 <header class="header" th:include="common :: header"></header>
+
+<script type="text/html" id="switchTpl">
+    <input type="checkbox" name="ontop" value="{{d.ontop}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{
+           d.ontop== 0 ? 'checked' : '' }}>
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <div class="d-flex align-items-stretch">
-    <div id="sidebar" class="sidebar py-3" th:include="common :: sidebar">
+    <div id="sidebar" class="sidebar py-3 shrink show" th:include="common :: sidebar">
     </div>
     <div class="page-holder w-100 d-flex flex-wrap">
         <div class="container-fluid px-xl-4">
@@ -19,32 +29,10 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card mb-5 mb-lg-0">
-                            <div class="card-header">
 
-                                <div class="row">
-                                    <div class="col-lg-9">
-                                        <h4 class="h4 text-uppercase mb-0">公开文章列表</h4>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group position-relative mb-0">
-                                            <input type="search" placeholder="文章标题内容搜索" id="keywords"
-                                                   class="form-control form-control-sm border-0 no-shadow pl-4">
-                                            <button type="button" style="top: -3px; left: 0;" onclick="render()"
-                                                    class="position-absolute bg-white border-0 p-0"><i
-                                                    class="o-search-magnify-1 text-gray text-lg"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="article_table" class="table-sm mb-3">
-                                    </table>
-                                    <nav aria-label="Page navigation example">
-                                        <ul id="pagination" class="pagination pagination-circle"></ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <input class="form-control" placeholder="文章搜索">
+                            <table id="article_table" class="table-sm mb-3" lay-skin="nob"></table>
+
                         </div>
                     </div>
                     <div class="col-lg-3">

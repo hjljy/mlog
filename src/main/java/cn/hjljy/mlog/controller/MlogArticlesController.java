@@ -55,9 +55,9 @@ public class MlogArticlesController extends BaseController {
      * @return
      */
     @GetMapping("/list")
-    public AjaxResult list(int pageSize, int pageNumber, String keywords) {
-        Page<MlogArticlesEntity> page = mlogArticlesService.pageList(pageSize, pageNumber, keywords);
-        return AjaxResult.SUCCESS(page);
+    public AjaxResult list(int limit, int page, String keywords) {
+        Page<MlogArticlesEntity> pages = mlogArticlesService.pageList(limit, page, keywords);
+        return AjaxResult.SUCCESS(pages);
     }
 
     /**

@@ -9,6 +9,7 @@ import cn.hjljy.mlog.service.IMlogTagsService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +43,8 @@ public class MlogArticlesServiceImpl extends ServiceImpl<MlogArticlesMapper, Mlo
     public Page<MlogArticlesEntity> pageList(int pageSize, int pageNumber, String keywords) {
         Page<MlogArticlesEntity> page = new Page<>(pageNumber, pageSize);
         QueryWrapper<MlogArticlesEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().like(MlogArticlesEntity::getTitle, keywords)
-                .or().like(MlogArticlesEntity::getContent, keywords)
+        queryWrapper.lambda().like(StringUtils.isNotEmpty(keywords),MlogArticlesEntity::getTitle, keywords)
+                .or().like(StringUtils.isNotEmpty(keywords),MlogArticlesEntity::getContent, keywords)
                 .orderByDesc(MlogArticlesEntity::getCreateTime);
         return baseMapper.selectPage(page, queryWrapper);
     }

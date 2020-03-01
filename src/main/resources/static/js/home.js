@@ -131,11 +131,11 @@ $(function () {
                 borderWidth: [0, 0],
                 backgroundColor: [
                     green,
-                    violet
+                    "#eee",
                 ],
                 hoverBackgroundColor: [
                     green,
-                    violet,
+                    "#eee",
                 ]
             }]
         }
@@ -161,11 +161,11 @@ $(function () {
                 borderWidth: [0, 0],
                 backgroundColor: [
                     blue,
-                    violet
+                    "#eee",
                 ],
                 hoverBackgroundColor: [
                     blue,
-                    violet
+                    "#eee",
                 ]
             }]
         }

@@ -18,7 +18,7 @@
 
 </header>
 <div class="d-flex align-items-stretch">
-    <div id="sidebar" class="sidebar py-3" th:include="common :: sidebar">
+    <div id="sidebar" class="sidebar py-3 shrink show" th:include="common :: sidebar">
 
     </div>
     <div class="page-holder w-100 d-flex flex-wrap">
@@ -43,9 +43,9 @@
                             <div class="flex-grow-1 d-flex align-items-center">
                                 <div class="dot mr-3 bg-warning"></div>
                                 <div class="text">
-
-                                    <h6 class="mb-0">文章 总数</h6><span class="text-gray article">145,14 </span>
-
+                                    <a href="/mlog/article" target="_self">
+                                        <h6 class="mb-0">文章 总数</h6><span class="text-gray article">145,14 </span>
+                                    </a>
                                 </div>
                             </div>
                             <div class="icon text-white bg-warning"><i class="fas fa-server"></i></div>
@@ -54,14 +54,14 @@
                     <div class="col-xl-2 col-lg-6 mb-4 mb-xl-0">
                         <div class="bg-white shadow roundy p-4 h-100 d-flex align-items-center justify-content-between">
                             <div class="flex-grow-1 d-flex align-items-center">
-                                <div class="dot mr-3 bg-primary"></div>
+                                <div class="dot mr-3 bg-success"></div>
                                 <div class="text">
 
                                     <h6 class="mb-0">评论 总数</h6><span class="text-gray comment">145,14 </span>
 
                                 </div>
                             </div>
-                            <div class="icon text-white bg-primary"><i class="fas fa-comments"></i></div>
+                            <div class="icon text-white bg-success"><i class="fas fa-comments"></i></div>
                         </div>
                     </div>
                     <div class="col-xl-2 col-lg-6 mb-4 mb-xl-0">
@@ -151,7 +151,9 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <p class="text-gray" style="text-align: right;">生活不止眼前的苟且，还有读不懂的诗和到不了的远方。</p>
+                                <p class="text-gray" style="text-align: right;">
+                                    年轻时总是对自己的认识不够，有时候觉得自己能力卓越，有时候觉得自己聪明伶俐，长大后，经历的事情多了，才发现自己是一无是处，平凡无能。</p>
+                                <hr>
                             </div>
                         </div>
                     </div>
