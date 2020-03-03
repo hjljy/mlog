@@ -12,12 +12,13 @@
 <header class="header" th:include="common :: header"></header>
 
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="ontop" value="{{d.ontop}}" lay-skin="switch" lay-text="是|否" lay-filter="sexDemo" {{
+    <input type="checkbox" name="ontop" value="{{d.id}}"  lay-skin="switch" lay-text="是|否" lay-filter="top" {{
            d.ontop== 0 ? 'checked' : '' }}>
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="push">推送</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <div class="d-flex align-items-stretch">
@@ -29,10 +30,8 @@
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="card mb-5 mb-lg-0">
-
                             <input class="form-control" placeholder="文章搜索">
-                            <table id="article_table" class="table-sm mb-3" lay-skin="nob"></table>
-
+                            <table id="article_table" class="table-sm mb-3" lay-filter="demo"lay-skin="nob"></table>
                         </div>
                     </div>
                     <div class="col-lg-3">

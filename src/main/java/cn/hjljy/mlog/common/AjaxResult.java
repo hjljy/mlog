@@ -1,7 +1,6 @@
 package cn.hjljy.mlog.common;
 
 import cn.hjljy.mlog.common.constants.Constant;
-import cn.hjljy.mlog.entity.MlogUserEntity;
 import lombok.Data;
 
 /**
@@ -13,10 +12,10 @@ import lombok.Data;
  **/
 
 @Data
-public class AjaxResult {
+public class AjaxResult<T> {
     private int code;
     private String msg;
-    private Object data;
+    private T data;
 
     public AjaxResult (){
         setCode(Constant.SUCCESS_CODE);

@@ -23,12 +23,15 @@ var data = {
     commentable: 1,
     status: 1
 };
-var linkData = [];
-jQuery(function () {
 
+jQuery(function () {
+    let articleId = getQueryVariable("articleId");
+    console.log(articleId);
+    init(articleId);
     var editor = editormd("editor", {
         width: "100%",
         height: 595,
+        markdown: data.content,
         path: "/editor.md-v1.5/lib/",
         toolbarIcons: function () {
             // Or return editormd.toolbarModes[name]; // full, simple, mini
@@ -78,10 +81,30 @@ jQuery(function () {
     }
 });
 
-//标签联想功能   放弃
-
-
-
+function init(articleId) {
+    if (articleId) {
+        console.log(articleId);
+        $.ajax({
+            url: '/mlog/article/' + articleId,
+            type: 'get',
+            async: false,
+            processData: false,// 告诉jQuery不要去处理发送的数据
+            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
+            success: function (res) {
+                if (res.code == 0) {
+                    console.log(res.data)
+                    data = res.data;
+                    $("input[name=title]").val(data.title);
+                    $("input[name=abstractText]").val(data.abstractText);
+                    $("select[name=type]").val(data.type);
+                    $('#tags').val(data.tags);
+                } else {
+                    console.log(res.msg)
+                }
+            }
+        })
+    }
+}
 
 //保存文章
 function saveArticle() {
@@ -177,7 +200,7 @@ function publishArticle() {
         success: function (result) {
             if (result.code == 0) {
                 layer.msg("发布成功")
-                window.location.href="/mlog/article"
+                window.location.href = "/mlog/article"
             } else {
                 layer.msg("保存失败")
             }

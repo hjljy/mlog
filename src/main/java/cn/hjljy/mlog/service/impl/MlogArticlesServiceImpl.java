@@ -45,7 +45,7 @@ public class MlogArticlesServiceImpl extends ServiceImpl<MlogArticlesMapper, Mlo
         QueryWrapper<MlogArticlesEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().like(StringUtils.isNotEmpty(keywords),MlogArticlesEntity::getTitle, keywords)
                 .or().like(StringUtils.isNotEmpty(keywords),MlogArticlesEntity::getContent, keywords)
-                .orderByDesc(MlogArticlesEntity::getCreateTime);
+                .orderByDesc(MlogArticlesEntity::getCreateTime,MlogArticlesEntity::getOntop);
         return baseMapper.selectPage(page, queryWrapper);
     }
 

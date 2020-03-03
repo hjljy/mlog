@@ -55,10 +55,43 @@ public class MlogArticlesController extends BaseController {
      * @return
      */
     @GetMapping("/list")
-    public AjaxResult list(int limit, int page, String keywords) {
+    public AjaxResult<Page<MlogArticlesEntity>> list(int limit, int page, String keywords) {
         Page<MlogArticlesEntity> pages = mlogArticlesService.pageList(limit, page, keywords);
         return AjaxResult.SUCCESS(pages);
     }
+
+    /**
+     *  根据ID获取
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}")
+    public AjaxResult<MlogArticlesEntity> getById(@PathVariable Long id) {
+        return AjaxResult.SUCCESS(mlogArticlesService.getById(id));
+    }
+
+    /**
+     *  根据ID删除
+     * @param id
+     * @return
+     */
+    @PostMapping("{id}")
+    public AjaxResult<Boolean> delById(@PathVariable Long id) {
+        return AjaxResult.SUCCESS(mlogArticlesService.removeById(id));
+    }
+    /**
+     *  根据ID删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/top")
+    public AjaxResult<Boolean> ontop(Long id,int top) {
+        MlogArticlesEntity mlogArticlesEntity =new MlogArticlesEntity();
+        mlogArticlesEntity.setId(id);
+        mlogArticlesEntity.setOntop(top);
+        return AjaxResult.SUCCESS(mlogArticlesService.updateById(mlogArticlesEntity));
+    }
+
 
     /**
      * 保存，更新文章
@@ -67,14 +100,14 @@ public class MlogArticlesController extends BaseController {
      * @return
      */
     @PostMapping("/save")
-    public AjaxResult save(@RequestBody MlogArticlesEntity entity) {
-        if(entity.getId()!=null){
+    public AjaxResult<MlogArticlesEntity> save(@RequestBody MlogArticlesEntity entity) {
+        if (entity.getId() != null) {
             mlogArticlesService.updateArticle(entity);
-        }else {
+        } else {
             entity.setCreateTime(System.currentTimeMillis());
-            if(StringUtils.isEmpty(entity.getArticleUrl())){
+            if (StringUtils.isEmpty(entity.getArticleUrl())) {
                 String format = DateUtil.format(new Date(), "yyyy/MM/dd");
-                entity.setArticleUrl("/articles/"+format +"/"+System.currentTimeMillis()+".html");
+                entity.setArticleUrl("/articles/" + format + "/" + System.currentTimeMillis() + ".html");
             }
             mlogArticlesService.saveArticle(entity);
         }
@@ -202,13 +235,13 @@ public class MlogArticlesController extends BaseController {
         }
         if (map.get("permalink") != null) {
             articlesEntity.setArticleUrl(map.get("permalink").toString());
-        }else {
+        } else {
             String format = DateUtil.format(new Date(), "yyyy/MM/dd");
-            articlesEntity.setArticleUrl("/articles/"+format +"/"+System.currentTimeMillis()+".html");
+            articlesEntity.setArticleUrl("/articles/" + format + "/" + System.currentTimeMillis() + ".html");
         }
         if (map.get("date") != null) {
             articlesEntity.setCreateTime(DateUtil.parseDateTime(map.get("date").toString()).getTime());
-        }else {
+        } else {
             articlesEntity.setCreateTime(System.currentTimeMillis());
         }
         if (map.get("updated") != null) {
