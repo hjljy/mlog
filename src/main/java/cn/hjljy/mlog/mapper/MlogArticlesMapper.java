@@ -2,10 +2,11 @@ package cn.hjljy.mlog.mapper;
 
 import cn.hjljy.mlog.entity.MlogArticlesEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +18,9 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MlogArticlesMapper extends BaseMapper<MlogArticlesEntity> {
 
+    @Update("update mlog_articles set commentCount =commentCount+1 WHERE id = #{id}")
+    void updateCommentCountById(@Param("id") Long articleId);
+
+    @Select("select articleUrl from mlog_articles where status =0")
+    List<String> getAllUrl();
 }

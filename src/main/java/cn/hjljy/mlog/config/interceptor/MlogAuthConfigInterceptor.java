@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.config.intersepter;
+package cn.hjljy.mlog.config.interceptor;
 
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import cn.hjljy.mlog.entity.MlogUserEntity;
@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author 海加尔金鹰 www.hjljy.cn
  * @version V1.0
  * @email hjljy@outlook.com
- * @description: Mlog项目后台权限
+ * @description: Mlog项目后台权限拦截器
  * @since 2020/1/23 20:42
  **/
-public class MlogAuthConfigInterseptor implements HandlerInterceptor {
+public class MlogAuthConfigInterceptor implements HandlerInterceptor {
 
     @Autowired
     IMlogUserService mlogUserService;

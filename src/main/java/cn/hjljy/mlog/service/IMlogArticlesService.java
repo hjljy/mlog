@@ -1,9 +1,10 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.common.AjaxResult;
 import cn.hjljy.mlog.entity.MlogArticlesEntity;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +21,8 @@ public interface IMlogArticlesService extends IService<MlogArticlesEntity> {
     Page<MlogArticlesEntity> pageList(int pageSize, int pageNumber, String keywords);
 
     void updateArticle(MlogArticlesEntity entity);
+
+    void updateCommentCountById(Long articleId);
+
+    List<String> getAllUrl();
 }

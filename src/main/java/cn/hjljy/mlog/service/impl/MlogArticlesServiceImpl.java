@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -58,5 +60,15 @@ public class MlogArticlesServiceImpl extends ServiceImpl<MlogArticlesMapper, Mlo
         mlogArticleTagsService.remove(queryWrapper);
         updateById(entity);
         mlogTagsService.saveArticleTags(entity.getId(),entity.getTags());
+    }
+
+    @Override
+    public void updateCommentCountById(Long articleId) {
+        this.baseMapper.updateCommentCountById( articleId);
+    }
+
+    @Override
+    public List<String> getAllUrl() {
+        return this.baseMapper.getAllUrl() ;
     }
 }

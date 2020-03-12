@@ -26,6 +26,8 @@ $(function () {
                 $(".life").text(data.lifeCount);
                 $(".skill").text(data.skillCount);
                 $(".article").text(data.articleCount);
+                $(".view").text(data.viewCount);
+                $(".comment").text(data.commentCount);
             }
         })
     }

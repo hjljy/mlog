@@ -1,58 +1,5 @@
-/**
- * 弹出导入文件选择框
- */
-function importMd() {
-    $("#article_md").click();
-}
-
-/**
- * 文件选择之后上传到后台
- */
-function uploadFile() {
-    var files = $("#article_md")[0].files;
-    var formData = new FormData();
-    for (let file of files) {
-        if (!file.name.endsWith("md")) {
-            layer.msg("文章类型错误")
-            $("#article_md").val("")
-            return;
-        }
-        formData.append("files", file, file.name);
-    }
-    $.ajax({
-        url: '/mlog/article/import',
-        type: 'post',
-        async: false,
-        data: formData,
-        processData: false,// 告诉jQuery不要去处理发送的数据
-        contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-        beforeSend: function () {//过程...
-            console.log('正在进行，请稍候')
-        },
-        success: function (res) {
-            if (res.code == 0) {
-                console.log('导入成功')
-            } else {
-                console.log('导入失败')
-            }
-        },
-        error: function () {
-            console.log('导入失败')
-        }
-    })
-}
-
-/**
- * 导出MD文章
- */
-function exportMd() {
-    window.location.href = "/mlog/article/export"
-}
-function changeTop(val){
-    console.log(val)
-}
 $(document).ready(function () {
-   var ta= layui.table.render({
+    var ta= layui.table.render({
         elem: '#article_table'
         , url: '/mlog/article/list' //数据接口
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -138,4 +85,3 @@ $(document).ready(function () {
         });
     })
 });
-
