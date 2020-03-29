@@ -17,4 +17,10 @@ public interface IMlogCommentService extends IService<MlogCommentEntity> {
      * @param entity
      */
     void add(MlogCommentEntity entity);
+
+    /**
+     *  未读评论数量
+     * @return
+     */
+    int notRead();
 }

@@ -1,10 +1,11 @@
 package cn.hjljy.mlog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -49,6 +50,15 @@ public class MlogCommentEntity implements Serializable {
      * 回复的评论ID
      */
     private Long repId;
+
+    /**
+     * 状态
+     */
+    private int status;
+    /**
+     * 是否阅读
+     */
+    private int readStatus;
 
 
 }

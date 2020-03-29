@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head th:include="common :: head">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
     <title>评论管理</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="all,follow">
+    <link type="text/css" rel="stylesheet" href="/layuiSimpleBlog/res/layui/css/layui.css">
 </head>
+<head th:include="common :: head">
+</head>
+
 <body>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">回复</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <!-- navbar-->
 <header class="header" th:include="common :: header">
 </header>
@@ -16,20 +20,16 @@
     <div id="sidebar" class="sidebar py-3 shrink show" th:include="common :: sidebar">
     </div>
     <div class="page-holder w-100 d-flex flex-wrap">
-        <div class="container-fluid px-xl-5">
-            <section class="py-5">
+        <div class="container-fluid px-xl-4">
+            <section class="py-4">
                 <div class="row mb-4">
                     <div class="col-lg-12 mb-4 mb-lg-0">
                         <div class="card">
                             <div class="card-header">
-                                <h2 class="h6 text-uppercase mb-0">Line chart Example</h2>
+                                <h2 class="h6 text-uppercase mb-0">评论与留言</h2>
                             </div>
-                            <div class="card-body">
-                                <p class="mb-5 text-gray">Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                                <div class="chart-holder mt-5 mb-5">
-                                    <canvas id="lineChartExample"></canvas>
-                                </div>
-                            </div>
+                            <table id="article_table" class="table-sm mb-3" lay-filter="demo"
+                                   lay-skin="nob"></table>
                         </div>
                     </div>
                 </div>
@@ -39,6 +39,8 @@
 </div>
 <div th:include="common :: footer">
 </div>
+<script src="/js/comment.js"></script>
 <script src="/js/bootstrap-paginator.min.js"></script>
+<script src="/layuiSimpleBlog/res/layui/layui.all.js"></script>
 </body>
 </html>

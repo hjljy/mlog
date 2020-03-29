@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var ta= layui.table.render({
+    var ta = layui.table.render({
         elem: '#article_table'
-        , url: '/mlog/article/list' //数据接口
+        , url: '/mlog/comment/list' //数据接口
         , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
             //,curr: 5 //设定初始在第 5 页
@@ -21,14 +21,15 @@ $(document).ready(function () {
         }
         , cols: [[
             {
-                field: 'title', title: '文章标题', width: '50%',
+                field: 'content', title: '评论内容', width: '64%',event: 'setSign',
                 templet: function (d) {
-                    return '<a style="color: #666!important" href=' + d.articleUrl + '>' + d.title + '</a>' + '&nbsp;&nbsp;&nbsp;&nbsp;' + '<small style="color:DeepPink;">' + d.tags + '</small>'
+                    if(d.readStatus==0){
+                        return  d.content
+                    }
+                    return  d.content +  '&nbsp;&nbsp;&nbsp;&nbsp;' + '<small style="color:DeepPink;">new</small>'
                 }
             }
-            , {field: 'ontop', title: '置顶', templet: '#switchTpl'}
-            , {field: 'viewCount', title: '浏览',}
-            , {field: 'commentCount', title: '评论',}
+            , {field: 'userName', title: '评论人',}
             , {
                 field: 'createTime', title: '日期', width: "10%", templet: function (d) {
                     let time = new Date(d.createTime);
@@ -38,18 +39,16 @@ $(document).ready(function () {
                     return year + "-" + month + "-" + day;
                 }
             }
-            , {title: '操作', toolbar: '#barDemo', width: "17%"}
+            , {title: '操作', toolbar: '#barDemo', width: "12%"}
         ]]
     });
 
     layui.table.on('tool(demo)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'push') {
-            layer.msg('ID：' + data.id + ' 的推送操作');
-        } else if (obj.event === 'del') {
+        if (obj.event === 'del') {
             layer.confirm('真的删除行么', function (index) {
                 $.ajax({
-                    url: '/mlog/article/'+data.id,
+                    url: '/mlog/comment/' + data.id,
                     type: 'post',
                     async: false,
                     processData: false,// 告诉jQuery不要去处理发送的数据
@@ -62,26 +61,28 @@ $(document).ready(function () {
                 layer.close(index);
             });
         } else if (obj.event === 'edit') {
-            window.location.href = "/mlog/publish?articleId=" + data.id
+            layer.prompt({title: '请输入回复内容', formType: 2}, function (pass, index) {
+                layer.close(index);
+                layer.msg('演示完毕！您的口令：' + pass);
+            });
+        }
+        else if(obj.event === 'setSign'){
+            layer.alert(data.content, {
+                skin: 'layui-layer-molv' //样式类名
+                ,closeBtn: 0
+            }, function(){
+                if(data.readStatus==1){
+                    $.ajax({
+                        url: '/mlog/comment/read',
+                        type: 'post',
+                        data:{id : data.id,readStatus : 0},
+                        success: function (res) {
+                            ta.reload()
+                        },
+                    });
+                }
+                layer.closeAll()
+            });
         }
     });
-
-    layui.form.on('switch(top)',function (obj) {
-        var top = this.checked;
-        if (this.checked == false) {
-            top = 1;
-        } else {
-            top = 1;
-        }
-        console.log(this.value)
-
-        $.ajax({
-            url: '/mlog/article/top',
-            type: 'post',
-            data:{id : this.value,top : top},
-            success: function (res) {
-                layer.msg(res.msg)
-            },
-        });
-    })
 });

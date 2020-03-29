@@ -80,7 +80,7 @@ public class MlogArticlesController extends BaseController {
         return AjaxResult.SUCCESS(mlogArticlesService.removeById(id));
     }
     /**
-     *  根据ID删除
+     *  根据ID置顶
      * @param id
      * @return
      */

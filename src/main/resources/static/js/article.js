@@ -122,7 +122,7 @@ $(document).ready(function () {
     layui.form.on('switch(top)',function (obj) {
         var top = this.checked;
         if (this.checked == false) {
-            top = 1;
+            top = 0;
         } else {
             top = 1;
         }
