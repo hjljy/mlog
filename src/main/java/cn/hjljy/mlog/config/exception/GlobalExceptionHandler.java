@@ -24,17 +24,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MlogException.class)
     public Object doAuthorizationException(MlogException  e , HttpServletRequest request){
         logger.error(e.getMessage(),e);
-        if(HttpServletRequestUtils.isAjax(request)){
-            return  AjaxResult.Fail("没有操作权限");
-        }
+//        if(HttpServletRequestUtils.isAjax(request)){
+//            return  AjaxResult.Fail("没有操作权限");
+//        }
         return  "redirect:/403.html";
     }
     @ExceptionHandler
     public Object doExceptionHandler(Exception e, HttpServletRequest request){
         logger.error(e.getMessage(),e);
-        if(HttpServletRequestUtils.isAjax(request)){
-            return  AjaxResult.Fail("服务器内部错误！！！");
-        }
+//        if(HttpServletRequestUtils.isAjax(request)){
+//            return  AjaxResult.Fail("服务器内部错误！！！");
+//        }
         return  new ModelAndView("/error");
     }
 }

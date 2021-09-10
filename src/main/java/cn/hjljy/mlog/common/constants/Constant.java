@@ -1,8 +1,5 @@
 package cn.hjljy.mlog.common.constants;
 
-import cn.hjljy.mlog.entity.MlogAccountEntity;
-import cn.hjljy.mlog.entity.MlogConfigEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +26,4 @@ public class Constant {
      */
     public static final String OP_SUCCEED = "操作成功";
 
-    /**
-     * 系统配置信息
-     */
-    public static List<MlogConfigEntity> MLOG_CONFIG =  new ArrayList<>();
-
-    /**
-     * 系统配置账号信息
-     */
-    public static List<MlogAccountEntity> MLOG_ACCOUNT =  new ArrayList<>();
 }

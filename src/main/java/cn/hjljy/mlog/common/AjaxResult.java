@@ -35,7 +35,7 @@ public class AjaxResult<T> {
         return new AjaxResult(code,msg);
     }
 
-    public static AjaxResult SUCCESS(Object data) {
+    public static AjaxResult Success(Object data) {
         AjaxResult result = new AjaxResult();
         result.setData(data);
         return result;

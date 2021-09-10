@@ -31,9 +31,9 @@ public class MainsiteErrorHandler  implements ErrorController {
             return "redirect:/500.html";
         }
     }
-
-    @Override
-    public String getErrorPath() {
-        return ERROR_PATH;
-    }
+//
+//    @Override
+//    public String getErrorPath() {
+//        return ERROR_PATH;
+//    }
 }
