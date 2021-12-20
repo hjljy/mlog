@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "mlog.cache",
+      "type": "java.lang.String",
+      "description": "Description for mlog.cache."
+  }
+] }

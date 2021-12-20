@@ -1,0 +1,133 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.header {
+    left: 0;
+    right: 0;
+    background-color: #ffffec;
+    max-height: 70px;
+    position: fixed;
+    z-index: 1026;
+}
+
+.header ul {
+    margin-bottom: 0;
+    display: inline-flex;
+}
+
+.header .header-wrapper {
+    max-height: 70px;
+    padding: 0;
+    display: flex;
+}
+
+.header .header-left {
+    display: inline-flex;
+    align-items: center;
+}
+
+.header .title {
+    color: aliceblue;
+    font-size: larger;
+    margin: 10px 0;
+}
+
+.header .header-right {
+    margin-left: auto !important
+}
+
+.header .nav-item {
+    align-items: center;
+    position: relative;
+    display: flex;
+    min-height: 70px;
+}
+
+.header .nav-link {
+    color: #ced4dc;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.60rem 0.9rem;
+    margin: 0 5px;
+    border-radius: 4px;
+    position: relative;
+    font-weight: 500;
+    height: 50px;
+}
+
+.header .nav-link:hover, .header .nav-link:focus, .header .nav-link:active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+
+.header .user-name, .header .user-desc {
+    display: block;
+    line-height: 1;
+}
+
+.header .logo {
+    border-radius: 100%;
+    max-height: 50px;
+}
+
+.header .user-avatar {
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.top-menu {
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    z-index: 1025;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+}
+
+.top-menu ul {
+    margin-bottom: 0;
+}
+
+.top-menu .menu-item {
+    display: inline;
+}
+.dots {
+    position: absolute;
+    top: 9px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 9px;
+}
+
+.user-name {
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.user-desc {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.font-normal {
+    font-size: 24px;
+}
+.content{
+    top: 150px;
+    position: relative;
+}

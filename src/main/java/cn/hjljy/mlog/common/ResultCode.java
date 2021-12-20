@@ -10,6 +10,7 @@ public enum ResultCode {
     SUCCESS(0, "操作成功"),
     DEFAULT(1, "操作失败"),
     ERROR(2, "服务器异常,请联系管理员"),
+    NOT_FOUND(404, "接口地址不正确"),
 
 
     //业务逻辑异常
@@ -26,9 +27,9 @@ public enum ResultCode {
     OAUTH2_INVALID(21000,"权限或登录异常，请联系管理员"),
     PERMISSION_DENIED(21001,"权限不足，请联系管理员"),
 
-    TOKEN_EXPIRED(22001,"会话已过期, 请重新登录"),
-    TOKEN_NOT_FOUND(22002,"未携带合法TOKEN,非法请求！"),
-    TOKEN_INVALID(22003,"无效token,请重新登录"),
+    TOKEN_EXPIRED(22001,"TOKEN已过期"),
+    TOKEN_NOT_FOUND(22002,"未携带TOKEN,非法请求!"),
+    TOKEN_INVALID(22003,"无效TOKEN"),
 
 
     INVALID_CLIENT(22011,"无效客户端, 请检查客户端参数"),

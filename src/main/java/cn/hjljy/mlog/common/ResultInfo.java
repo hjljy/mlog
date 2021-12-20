@@ -17,7 +17,10 @@ public class ResultInfo<T> {
         this.msg = ResultCode.SUCCESS.getMsg();
         this.data = data;
     }
-
+    public ResultInfo() {
+        this.code = ResultCode.SUCCESS.getCode();
+        this.msg = ResultCode.SUCCESS.getMsg();
+    }
     public ResultInfo(int code, String msg) {
         this.code = code;
         this.msg = msg;
@@ -68,5 +71,13 @@ public class ResultInfo<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "{code:" + code +
+                ", msg:'" + msg  +
+                ", data:" + data +
+                "}";
     }
 }

@@ -1,0 +1,12 @@
+[#ftl]
+[#-- @implicitly included --]
+[#-- @ftlvariable name="blogTitle" type="String" --]
+
+[#--管理员名称--]
+[#-- @ftlvariable name="adminUser.username" type="java.lang.String" --]
+[#--管理员邮箱--]
+[#-- @ftlvariable name="adminUser.email" type="java.lang.String" --]
+[#--管理员头像地址--]
+[#-- @ftlvariable name="adminUser.userAvatar" type="java.lang.String" --]
+[#--管理员网站首页--]
+[#-- @ftlvariable name="adminUser.userUrl" type="java.lang.String" --]

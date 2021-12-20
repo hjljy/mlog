@@ -1,6 +1,10 @@
+server:
+  port: 8090
 spring:
-  thymeleaf:
+  freemarker:
     cache: false
+    charset: UTF-8
+    suffix: .ftl
   servlet:
     multipart:
       max-file-size: 10MB
@@ -10,8 +14,40 @@ spring:
     username: root
     password: root
     url: jdbc:mysql://127.0.0.1:3306/mlog?serverTimezone=GMT&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
+  redis:
+    database: 6
+    host: 127.0.0.1
+    port: 6379
+    password: hjljy2021
+    timeout: 3000
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml  #xml所在位置  不设置默认是在mapper类同级
+  configuration:
+    # mybatis-plus支持原生配置
+    use-column-label: true
+    cache-enabled: true
+    multiple-result-sets-enabled: true
+    lazy-loading-enabled: false
+    use-generated-keys: false
+    auto-mapping-behavior: partial
+    safe-row-bounds-enabled: false
+    lazy-load-trigger-methods: equals,clone,hashCode,toString
+    aggressive-lazy-loading: true
+    local-cache-scope: session
+    jdbcTypeForNull: other
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 打印sql语句和入参数据
+    auto-mapping-unknown-column-behavior: none  # 映射未知字段处理方式  不进行任何处理
+    map-underscore-to-camel-case: true # 开启驼峰匹配  默认为true
+  global-config:
+    db-config:
+      logic-delete-value: 1 #逻辑删除  配合@TableLogic注解
+      logic-not-delete-value: 0 #逻辑不删除
+      logic-delete-field: status #逻辑删除默认字段
+      update-strategy: not_null # 更新时字段如果为null，就不进行更新该字段。
+      insert-strategy: not_null # 插入时如果字段为null,就不插入数据，建议数据库表字段设置默认值
 logging:
   level:
    cn.hjljy.mlog: debug
+mlog:
+  cache: redis
+

@@ -1,36 +1,29 @@
 package cn.hjljy.mlog.config;
 
-import cn.hjljy.mlog.config.interceptor.MlogAuthConfigInterceptor;
-import cn.hjljy.mlog.config.interceptor.MlogPathInterceptor;
+import cn.hjljy.mlog.config.interceptor.AuthConfigInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * mlog web相关配置信息
+ *
  * @author 海加尔金鹰 www.hjljy.cn
- * @version V1.0
  * @email hjljy@outlook.com
- * @description: 配置信息
- * @since 2020/1/22 12:16
- **/
+ * @date 2021/10/14
+ */
 @Configuration
 public class MlogWebConfig implements WebMvcConfigurer {
 
     @Bean
-    MlogAuthConfigInterceptor getMlogAuthConfigInterceptor() {
-        return new MlogAuthConfigInterceptor();
-    }
-
-    @Bean
-    MlogPathInterceptor getMlogPathInterceptor() {
-        return new MlogPathInterceptor();
+    AuthConfigInterceptor getMlogAuthConfigInterceptor() {
+        return new AuthConfigInterceptor();
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(getMlogPathInterceptor()).addPathPatterns("/**").order(123);
-        registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/mlog/**").order(124);
+        //权限拦截器 拦截需要鉴权的请求  所有admin开头的都需要拦截
+        registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/admin/**").order(124);
     }
 }
