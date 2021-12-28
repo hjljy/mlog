@@ -28,7 +28,7 @@ public class HttpServletRequestUtils {
         Cookie[] cookies = httpServletRequest.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(name)) {
+                if (cookie.getName().toLowerCase().equals(name)) {
                     return cookie.getValue();
                 }
             }

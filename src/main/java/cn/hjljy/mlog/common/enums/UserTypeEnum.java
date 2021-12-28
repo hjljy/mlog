@@ -6,7 +6,7 @@ package cn.hjljy.mlog.common.enums;
  * @author hjljy
  * @date 2021/09/15
  */
-public enum UserType {
+public enum UserTypeEnum {
     /**
      * 管理员
      */

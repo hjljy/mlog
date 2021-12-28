@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.entity;
 
-import cn.hjljy.mlog.common.enums.UserType;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,7 +35,7 @@ public class MlogUser implements Serializable {
     /**
      * 用户类型
      */
-    private UserType userType;
+    private UserTypeEnum userType;
 
     /**
      * 邮箱
@@ -51,18 +51,14 @@ public class MlogUser implements Serializable {
     private String userAvatar;
 
     /**
+     * 笔名
+     */
+    private String penName;
+
+    /**
      * 角色
      */
     private String role;
-
-    /**
-     * 是否是管理员
-     *
-     * @return Boolean
-     */
-    public Boolean isAdmin() {
-        return UserType.ADMIN.equals(userType);
-    }
 
     /**
      * 是否有后台权限
@@ -70,7 +66,7 @@ public class MlogUser implements Serializable {
      * @return Boolean
      */
     public Boolean hasBackPermission() {
-        return UserType.ADMIN.equals(userType);
+        return UserTypeEnum.ADMIN.equals(userType);
     }
 
 

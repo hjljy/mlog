@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hjljy.mlog.mapper.MlogArticleMapper">
 
+    <select id="pageByQuery" resultType="cn.hjljy.mlog.dto.ArticleDTO">
+        select
+        ma.id,
+        ma.title,
+        ma.abstract_md,
+        ma.abstract_text,
+        ma.content_md,
+        ma.content_text,
+        ma.tags,
+        ma.author_name,
+        ma.links,
+        ma.thumbnail,
+        ma.published,
+        ma.top,
+        ma.disallow_comment,
+        ma.comment_count,
+        ma.view_count,
+        ma.word_count,
+        ma.create_time,
+        ma.update_time
+        from mlog_article ma
+        <where>
+            <if test="query222.title!=null and query222.title!=''">
+                ma.title like CONCAT('%', #{query222.title}::text, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

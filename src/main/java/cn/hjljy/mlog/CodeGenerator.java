@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.Scanner;
  * @author 海加尔金鹰 www.hjljy.cn
  * @version V1.0
  * @email hjljy@outlook.com
- * @description: mybaits-plus 代码生成器
+ * @description: mybatis-plus 代码生成器
  * @since 2020/1/15 23:14
  **/
 public class CodeGenerator {
@@ -31,9 +30,7 @@ public class CodeGenerator {
      */
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
+        System.out.println("请输入" + tip + "：");
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (StrUtil.isNotEmpty(ipt)) {
@@ -113,15 +110,10 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-
         strategy.setEntityLombokModel(true);
-
-
-
+        strategy.setEntityTableFieldAnnotationEnable(true);
         strategy.setInclude(
-
                 scanner("表名，多个英文逗号分割").
-
                         split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

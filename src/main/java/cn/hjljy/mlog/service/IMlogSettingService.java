@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.common.enums.SettingType;
+import cn.hjljy.mlog.common.enums.SettingTypeEnum;
 import cn.hjljy.mlog.entity.MlogSetting;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -29,5 +29,5 @@ public interface IMlogSettingService extends IService<MlogSetting> {
      * @param type 类型
      * @return {@link List}<{@link MlogSetting}>
      */
-    List<MlogSetting> getSettingByType(SettingType type);
+    List<MlogSetting> getSettingByType(SettingTypeEnum type);
 }

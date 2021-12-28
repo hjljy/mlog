@@ -6,7 +6,7 @@ package cn.hjljy.mlog.common.enums;
  * @author hjljy
  * @date 2021/10/15
  */
-public enum SettingType {
+public enum SettingTypeEnum {
     THEME,
     USER,
     BLOG

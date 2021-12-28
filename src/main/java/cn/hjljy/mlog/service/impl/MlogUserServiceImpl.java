@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.common.enums.UserType;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import cn.hjljy.mlog.entity.MlogUser;
 import cn.hjljy.mlog.mapper.MlogUserMapper;
 import cn.hjljy.mlog.service.IMlogUserService;
@@ -27,6 +27,6 @@ public class MlogUserServiceImpl extends ServiceImpl<MlogUserMapper, MlogUser> i
 
     @Override
     public Optional<MlogUser> getAdminUserBaseInfo() {
-        return Optional.ofNullable(lambdaQuery().select(MlogUser::getUsername,MlogUser::getUserAvatar,MlogUser::getEmail,MlogUser::getUserUrl).eq(MlogUser::getUserType, UserType.ADMIN).one());
+        return Optional.ofNullable(lambdaQuery().select(MlogUser::getUsername,MlogUser::getUserAvatar,MlogUser::getEmail,MlogUser::getUserUrl).eq(MlogUser::getUserType, UserTypeEnum.ADMIN).one());
     }
 }

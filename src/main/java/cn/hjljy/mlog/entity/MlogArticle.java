@@ -1,8 +1,13 @@
 package cn.hjljy.mlog.entity;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+
 
 /**
  * <p>
@@ -20,11 +25,12 @@ public class MlogArticle implements Serializable {
     /**
      * 文章ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 文章标题
      */
+
     private String title;
 
     /**
@@ -63,14 +69,25 @@ public class MlogArticle implements Serializable {
     private String links;
 
     /**
-     * 文章状态 （1 草稿  2 已发布 3 删除）
+     * 封面图链接
      */
-    private Boolean status;
+    private String thumbnail;
 
     /**
-     * 是否置顶
+     *
+     * 是否发布 默认不发布
+     */
+    private Boolean published;
+
+    /**
+     * 是否置顶  默认不置顶
      */
     private Boolean top;
+
+    /**
+     * 是否允许评论 默认允许
+     */
+    private Boolean disallowComment;
 
     /**
      * 评论数
@@ -83,13 +100,20 @@ public class MlogArticle implements Serializable {
     private Integer viewCount;
 
     /**
+     * 文章字数
+     */
+    private Integer wordCount;
+
+    /**
      * 创建时间
      */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private Long createTime;
 
     /**
      * 更新时间
      */
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
 

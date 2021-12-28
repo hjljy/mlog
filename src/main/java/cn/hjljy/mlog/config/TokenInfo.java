@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.config;
 
-import cn.hjljy.mlog.common.enums.UserType;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,9 +30,14 @@ public class TokenInfo implements Serializable {
     private String username;
 
     /**
+     * 笔名
+     */
+    private String penName;
+
+    /**
      * 用户类型
      */
-    private UserType userType;
+    private UserTypeEnum userType;
 
     /**
      * 邮箱

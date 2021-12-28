@@ -1,14 +1,9 @@
 package cn.hjljy.mlog.config;
 
-import cn.hjljy.mlog.cache.CacheStore;
 import cn.hjljy.mlog.cache.JsonCacheStore;
-import cn.hjljy.mlog.common.constants.SettingConstant;
-import cn.hjljy.mlog.common.enums.SettingType;
 import cn.hjljy.mlog.entity.MlogSetting;
 import cn.hjljy.mlog.service.IMlogSettingService;
-import freemarker.template.Configuration;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.Ordered;
@@ -17,8 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**

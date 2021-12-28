@@ -5,8 +5,11 @@ import cn.hjljy.mlog.common.constants.CacheConstant;
 import cn.hjljy.mlog.config.TokenInfo;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -20,6 +23,25 @@ import java.util.Optional;
 public class TokenUtils {
     @Resource
     JsonCacheStore jsonCacheStore;
+
+    /**
+     * 获取当前请求当中的token信息
+     * @return {@link TokenInfo}
+     */
+    public TokenInfo get(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return get(request);
+    }
+
+    /**
+     * 获取请求TOKEN INFO
+     *
+     * @param request 请求
+     * @return {@link TokenInfo}
+     */
+    public TokenInfo get(HttpServletRequest request){
+        return get(HttpServletRequestUtils.getAuthorization(request));
+    }
 
     /**
      * 获取token对应详情

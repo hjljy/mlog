@@ -3,8 +3,7 @@ package cn.hjljy.mlog.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.hjljy.mlog.common.enums.SettingType;
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hjljy.mlog.common.enums.SettingTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,7 +26,7 @@ public class MlogSetting implements Serializable {
     /**
      * 设置类型
      */
-    private SettingType type;
+    private SettingTypeEnum type;
 
     /**
      * 设置的key

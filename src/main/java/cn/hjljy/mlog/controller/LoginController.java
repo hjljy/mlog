@@ -8,6 +8,7 @@ import cn.hjljy.mlog.dto.LoginUserDTO;
 import cn.hjljy.mlog.exception.MlogException;
 import cn.hjljy.mlog.entity.MlogUser;
 import cn.hjljy.mlog.service.IMlogUserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +67,8 @@ public class LoginController {
         info.setUserId(mlogUser.getUserId());
         info.setUserType(mlogUser.getUserType());
         info.setCreateTime(LocalDateTime.now());
+        //如果笔名为空 默认笔名为账号名
+        info.setPenName(StringUtils.isEmpty(mlogUser.getPenName())?info.getUsername(): mlogUser.getPenName());
         info.setExpireTime(LocalDateTime.now().minusDays(30));
         //生成token随机标识
         String token = UUID.randomUUID().toString();

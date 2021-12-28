@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.common.enums.SettingType;
+import cn.hjljy.mlog.common.enums.SettingTypeEnum;
 import cn.hjljy.mlog.entity.MlogSetting;
 import cn.hjljy.mlog.mapper.MlogSettingMapper;
 import cn.hjljy.mlog.service.IMlogSettingService;
@@ -23,11 +23,11 @@ public class MlogSettingServiceImpl extends ServiceImpl<MlogSettingMapper, MlogS
 
     @Override
     public List<MlogSetting> getBlogSetting() {
-        return getSettingByType(SettingType.BLOG);
+        return getSettingByType(SettingTypeEnum.BLOG);
     }
 
     @Override
-    public List<MlogSetting> getSettingByType(SettingType blog) {
+    public List<MlogSetting> getSettingByType(SettingTypeEnum blog) {
         QueryWrapper<MlogSetting> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(MlogSetting::getType, blog);
         return list(wrapper);

@@ -24,8 +24,8 @@ public class BaseQuery {
 
     public <T> IPage<T> buildPage(Class<T> clazzType) {
         IPage<T> page = new Page<>();
-        page.setCurrent(this.getPageSize());
-        page.setSize(this.getPageNumber());
+        page.setCurrent(this.getPageNumber());
+        page.setSize(this.getPageSize());
         return page;
     }
 }
