@@ -3,6 +3,11 @@
     {
       "name": "mlog.cache",
       "type": "java.lang.String",
-      "description": "Description for mlog.cache."
-  }
-] }
+      "description": "缓存配置."
+    },
+    {
+      "name": "mlog.work-dir",
+      "type": "java.lang.String",
+      "description": "Description for mlog.work-dir."
+    }
+  ] }

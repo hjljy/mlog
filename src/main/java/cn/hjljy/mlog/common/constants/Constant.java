@@ -23,6 +23,10 @@ public class Constant {
      */
     public static final String AJAX_HEARD_VALUE ="XMLHttpRequest";
 
+    /**
+     * 上传文件前缀信息
+     */
+    public static final String UPLOAD_PREFIX ="files/upload/";
     public static final int FAIL_CODE=1000;
     public static final int SUCCESS_CODE=0;
     public static final int DEFAULT_CODE=-1;

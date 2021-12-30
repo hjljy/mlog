@@ -1,5 +1,6 @@
 package cn.hjljy.mlog.entity;
 
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -23,7 +24,7 @@ public class MlogFiles implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId("id")
-    private Integer id;
+    private Long id;
 
     /**
      * 文件名称
@@ -37,6 +38,16 @@ public class MlogFiles implements Serializable {
     @TableField("file_type")
     private String fileType;
 
+    /**
+     * 文件类型
+     */
+    @TableField("file_size")
+    private Long fileSize;
+    /**
+     * 文件基础路径
+     */
+    @TableField("file_base_path")
+    private String fileBasePath;
     /**
      * 文件路径
      */
@@ -53,7 +64,7 @@ public class MlogFiles implements Serializable {
      * 存储方式：本地 云存储
      */
     @TableField("storage")
-    private String storage;
+    private FileStorageTypeEnum storage;
 
     /**
      * 上传时间

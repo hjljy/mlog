@@ -15,9 +15,14 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("mlog")
 public class MlogProperties {
     /**
-     * cache store impl
-     * memory
+     * 缓存实现
+     * memory （默认）
      * redis
      */
     private String cache = "memory";
+
+    /**
+     * 工作目录 默认是 /home/mlog/
+     */
+    private String workDir ="/home/mlog/";
 }

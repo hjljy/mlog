@@ -1,7 +1,9 @@
 package cn.hjljy.mlog.service;
 
+import cn.hjljy.mlog.dto.FileDTO;
 import cn.hjljy.mlog.entity.MlogFiles;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMlogFilesService extends IService<MlogFiles> {
 
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     * @return {@link FileDTO}
+     */
+    FileDTO uploadFile(MultipartFile file);
 }

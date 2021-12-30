@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8000
 spring:
   freemarker:
     cache: false
@@ -49,5 +49,6 @@ logging:
   level:
    cn.hjljy.mlog: debug
 mlog:
+  work-dir: ${user.home}/mlog/
   cache: redis
 
