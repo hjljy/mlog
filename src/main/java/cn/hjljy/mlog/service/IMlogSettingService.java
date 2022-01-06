@@ -1,7 +1,8 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.common.enums.SettingTypeEnum;
-import cn.hjljy.mlog.entity.MlogSetting;
+import cn.hjljy.mlog.model.dto.FileStorageSettingDTO;
+import cn.hjljy.mlog.model.enums.SettingTypeEnum;
+import cn.hjljy.mlog.model.entity.MlogSetting;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -24,10 +25,25 @@ public interface IMlogSettingService extends IService<MlogSetting> {
     List<MlogSetting> getBlogSetting();
 
     /**
-     * 获取设置通过类型
+     * 通过类型获取设置
      *
      * @param type 类型
      * @return {@link List}<{@link MlogSetting}>
      */
     List<MlogSetting> getSettingByType(SettingTypeEnum type);
+
+    /**
+     * 获取文件存储设置
+     *
+     * @return {@link MlogSetting}
+     */
+    FileStorageSettingDTO getFileStorageSetting();
+
+    /**
+     * 通过选项关键获取设置
+     *
+     * @param optionKey 选择键
+     * @return {@link MlogSetting}
+     */
+    MlogSetting getSettingByOptionKey(String optionKey);
 }

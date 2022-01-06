@@ -14,9 +14,13 @@ public enum ResultCode {
 
 
     //业务逻辑异常
-    CUSTOM_EXCEPTION(10000,"操作逻辑异常，不允许本次操作"),
+    NOT_ALLOW(10000,"不允许本次操作"),
     PARAMETERS_EXCEPTION(10001,"请求参数错误"),
     REQUEST_METHOD_EXCEPTION(10002,"请求方式错误"),
+
+    DATA_EXIST(11000,"数据已存在,请勿重复添加"),
+    DATA_NOT_EXIST(11001,"数据不存在"),
+
 
     //用户 权限相关异常
     USER_NOT_FOUND(20001,"用户不存在"),
@@ -36,6 +40,9 @@ public enum ResultCode {
     INVALID_SCOPE(22012,"无效SCOPE值, 请检查授权范围是否正确"),
     UNSUPPORTED_GRANT_TYPE(22013,"不支持的授权模式"),
 
+
+    //
+    FILE_STORAGE_NOT_EXISTS(40000,"文件存储方式不存在"),
     //服务端代码异常
     SQL_EXCEPTION(90000,"服务器异常,请联系管理员"),
     NPE_EXCEPTION(90001,"服务器异常,请联系管理员");

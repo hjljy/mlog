@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.controller;
 
 import cn.hjljy.mlog.common.ResultInfo;
-import cn.hjljy.mlog.dto.StatisticsCountDTO;
+import cn.hjljy.mlog.model.dto.StatisticsCountDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

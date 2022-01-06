@@ -5,15 +5,16 @@ import cn.hjljy.mlog.common.utils.MarkdownUtils;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.common.utils.TokenUtils;
 import cn.hjljy.mlog.config.TokenInfo;
-import cn.hjljy.mlog.dto.ArticleDTO;
-import cn.hjljy.mlog.entity.MlogArticle;
+import cn.hjljy.mlog.model.dto.ArticleDTO;
+import cn.hjljy.mlog.model.entity.MlogArticle;
 import cn.hjljy.mlog.mapper.MlogArticleMapper;
-import cn.hjljy.mlog.query.ArticleQuery;
+import cn.hjljy.mlog.model.query.ArticleQuery;
 import cn.hjljy.mlog.service.IMlogArticleService;
+import cn.hjljy.mlog.service.IMlogCategoryService;
+import cn.hjljy.mlog.service.IMlogTagsService;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,10 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
 
     private final TokenUtils tokenUtils;
 
+    private final IMlogTagsService tagsService;
+
+    private final IMlogCategoryService categoryService;
+
     @Override
     public IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, ArticleQuery query) {
         return baseMapper.pageByQuery(page, query);
@@ -54,15 +59,20 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         TokenInfo info = tokenUtils.get();
         MlogArticle article = ArticleDTO.convert2Entity(dto);
         article.setId(SnowFlakeUtil.createId());
+        // 处理文章标签
+        tagsService.relateToArticle(article.getId(),article.getTags());
+
         article.setAuthorName(info.getPenName());
+        article.setContentText(MarkdownUtils.renderHtml(article.getContentMd()));
+        //如果没有设置网页链接，按日期生成默认链接
         if(StringUtils.isBlank(article.getLinks())){
             article.setLinks(ArticleDTO.getDefaultLinks(new Date()));
         }
         //如果没有设置封面信息，默认文章当中的第一张图片为封面
         if(StringUtils.isBlank(article.getThumbnail())){
-            //TODO
+            article.setThumbnail(MarkdownUtils.getFirstImgStr(article.getContentText()));
         }
-        article.setContentText(MarkdownUtils.renderHtml(article.getContentMd()));
+
         article.setWordCount(MarkdownUtils.htmlFormatWordCount(article.getContentText()));
         article.setViewCount(0);
         article.setCommentCount(0);

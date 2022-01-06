@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.config;
 
 import cn.hjljy.mlog.cache.JsonCacheStore;
-import cn.hjljy.mlog.entity.MlogSetting;
+import cn.hjljy.mlog.model.entity.MlogSetting;
 import cn.hjljy.mlog.service.IMlogSettingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

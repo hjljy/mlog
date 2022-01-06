@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.mapper;
 
-import cn.hjljy.mlog.entity.MlogFiles;
+import cn.hjljy.mlog.model.entity.MlogFiles;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

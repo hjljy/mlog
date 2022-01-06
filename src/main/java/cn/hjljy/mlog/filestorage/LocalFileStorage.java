@@ -1,7 +1,9 @@
 package cn.hjljy.mlog.filestorage;
 
+
+import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
 import cn.hjljy.mlog.config.MlogProperties;
-import cn.hjljy.mlog.dto.FileDTO;
+import cn.hjljy.mlog.model.dto.FileDTO;
 import cn.hutool.core.io.FileTypeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -10,12 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * 本地文件存储具体实现  如需调用请通过 {FileStorageContext} 策略类进行调用 不建议直接进行调用
+ *
+ * @see FileStorageContext
  * @author hjljy
  */
 @Slf4j
@@ -56,6 +60,7 @@ public class LocalFileStorage implements FileStorage {
         FileDTO fileDTO = new FileDTO.Builder()
                 .setFileName(file.getOriginalFilename())
                 .setFileSize(file.getSize())
+                .setStorage(getFileStorageType())
                 .setFileBasePath(workDir)
                 .setFileType(type)
                 .build();
@@ -77,5 +82,8 @@ public class LocalFileStorage implements FileStorage {
         return fileDTO;
     }
 
-
+    @Override
+    public FileStorageTypeEnum getFileStorageType() {
+        return FileStorageTypeEnum.LOCAL;
+    }
 }

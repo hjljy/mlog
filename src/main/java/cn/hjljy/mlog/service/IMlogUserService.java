@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.entity.MlogUser;
+import cn.hjljy.mlog.model.entity.MlogUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Optional;

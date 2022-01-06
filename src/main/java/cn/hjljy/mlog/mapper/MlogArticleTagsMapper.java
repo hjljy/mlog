@@ -1,7 +1,9 @@
 package cn.hjljy.mlog.mapper;
 
-import cn.hjljy.mlog.entity.MlogArticleTags;
+import cn.hjljy.mlog.model.entity.MlogArticleTags;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MlogArticleTagsMapper extends BaseMapper<MlogArticleTags> {
 
+    /**
+     * 标签id列表
+     *
+     * @return {@link List}<{@link Long}>
+     */
+    List<Long> listTagIds();
 }

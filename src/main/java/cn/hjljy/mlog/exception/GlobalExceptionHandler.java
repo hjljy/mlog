@@ -32,6 +32,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResultInfo<Object> errorHandler(HttpRequestMethodNotSupportedException ex) {
+        log.error("请求方式错误：{}",ex.getMessage());
         return ResultInfo.error(ResultCode.REQUEST_METHOD_EXCEPTION.getCode(), ex.getMessage());
     }
 
@@ -39,7 +40,8 @@ public class GlobalExceptionHandler {
      * 处理请求方法参数格式
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResultInfo<Object> errorHandler() {
+    public ResultInfo<Object> errorHandler(MissingServletRequestParameterException ex) {
+        log.error("请求方法参数格式错误：{}",ex.getMessage());
         return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION);
     }
 
@@ -48,6 +50,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
     public ResultInfo<Object> errorHandler(IllegalArgumentException ex) {
+        log.error("请求方法参数类型异常：{}",ex.getMessage());
         return ResultInfo.error(ResultCode.PARAMETERS_EXCEPTION.getCode(), ex.getMessage());
     }
 
@@ -65,6 +68,7 @@ public class GlobalExceptionHandler {
             msg.add(error.getDefaultMessage());
         }
         resultInfo.setMsg(msg.toString());
+        log.error("请求方法参数数据不符合要求：{}",msg.toString());
         return resultInfo;
     }
 
@@ -73,6 +77,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = MlogException.class)
     public ResultInfo<Object> errorHandler(MlogException ex) {
+        log.error("业务抛出异常：{}",ex.getMessage());
         return ResultInfo.error(ex.getCode(), ex.getMessage());
     }
 
@@ -82,6 +87,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResultInfo<Object> errorHandler(Exception ex) {
         ex.printStackTrace();
+        log.error("请求异常：{}",ex.getMessage());
         ResultInfo<Object> resultInfo = ResultInfo.error(ResultCode.ERROR);
         if (ex instanceof SQLException) {
             resultInfo.setCode(ResultCode.SQL_EXCEPTION.getCode());

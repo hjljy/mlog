@@ -10,6 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.invoke.MethodHandle;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -28,6 +29,10 @@ public class AuthConfigInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //如果不是映射到方法的请求，直接放行，避免静态资源被拦截
+        if(!(handler instanceof MethodHandle)){
+            return true;
+        }
         //在调用getWriter之前设置编码，否者不生效
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         String authorization = HttpServletRequestUtils.getAuthorization(request);

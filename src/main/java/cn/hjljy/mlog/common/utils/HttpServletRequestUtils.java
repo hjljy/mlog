@@ -4,6 +4,7 @@ import cn.hjljy.mlog.common.ResultCode;
 import cn.hjljy.mlog.common.ResultInfo;
 import cn.hjljy.mlog.common.constants.Constant;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.io.PrintWriter;
  * @description: httpServletRequest工具类
  * @since 2020/1/23 20:58
  **/
+@Slf4j
 public class HttpServletRequestUtils {
     public static String getCookieByName(HttpServletRequest httpServletRequest, String name) {
         Cookie[] cookies = httpServletRequest.getCookies();

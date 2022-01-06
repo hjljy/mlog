@@ -7,21 +7,16 @@ import cn.hjljy.mlog.common.ResultCode;
  * @version V1.0
  * @email hjljy@outlook.com
  * @description: Mlog自定义异常
- * @since 2020/2/8 21:46
+ * @since 2021/12/8 21:46
  **/
 public class MlogException extends RuntimeException {
 
     private int code;
 
-    public MlogException() {
-        super();
-    }
-
-    public MlogException(int code, String msg) {
+    public MlogException(ResultCode code, String msg) {
         super(msg);
-        this.code = code;
+        this.code = code.getCode();
     }
-
     public MlogException(ResultCode resultCode) {
         super(resultCode.getMsg());
         this.code = resultCode.getCode();

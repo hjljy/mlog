@@ -1,8 +1,8 @@
 package cn.hjljy.mlog.mapper;
 
-import cn.hjljy.mlog.dto.ArticleDTO;
-import cn.hjljy.mlog.entity.MlogArticle;
-import cn.hjljy.mlog.query.ArticleQuery;
+import cn.hjljy.mlog.model.dto.ArticleDTO;
+import cn.hjljy.mlog.model.entity.MlogArticle;
+import cn.hjljy.mlog.model.query.ArticleQuery;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.apache.ibatis.annotations.Param;

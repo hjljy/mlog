@@ -119,7 +119,25 @@ public class MarkdownUtils {
         }
         return pics;
     }
-
+    public static String getFirstImgStr(String htmlStr) {
+        String str="";
+        String regExImg = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
+        Pattern pImage = Pattern.compile
+                (regExImg, Pattern.CASE_INSENSITIVE);
+        Matcher mImage = pImage.matcher(htmlStr);
+        String exImg = "src\\s*=\\s*\"?(.*?)(\"|>|\\s+)";
+        if (mImage.find()) {
+            // 得到<img />数据
+            String img = mImage.group();
+            // 匹配<img>中的src数据
+            Matcher m = Pattern.compile(exImg).matcher(img);
+            if(m.find()){
+                str=m.group(1);
+                return str;
+            }
+        }
+        return str;
+    }
 
     /**
      * html格式字数

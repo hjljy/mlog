@@ -101,8 +101,6 @@ public class CodeGenerator {
         // 配置模板
         TemplateConfig templateConfig = new TemplateConfig();
 
-
-
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
 
@@ -111,6 +109,7 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
+        strategy.setRestControllerStyle(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
         strategy.setInclude(
                 scanner("表名，多个英文逗号分割").

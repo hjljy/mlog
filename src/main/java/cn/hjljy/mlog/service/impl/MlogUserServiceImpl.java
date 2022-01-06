@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.common.enums.UserTypeEnum;
-import cn.hjljy.mlog.entity.MlogUser;
+import cn.hjljy.mlog.model.enums.UserTypeEnum;
+import cn.hjljy.mlog.model.entity.MlogUser;
 import cn.hjljy.mlog.mapper.MlogUserMapper;
 import cn.hjljy.mlog.service.IMlogUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -22,11 +22,11 @@ public class MlogUserServiceImpl extends ServiceImpl<MlogUserMapper, MlogUser> i
 
     @Override
     public Optional<MlogUser> findByUsername(String username) {
-        return Optional.ofNullable(lambdaQuery().eq(MlogUser::getUsername, username).one());
+        return lambdaQuery().eq(MlogUser::getUsername, username).oneOpt();
     }
 
     @Override
     public Optional<MlogUser> getAdminUserBaseInfo() {
-        return Optional.ofNullable(lambdaQuery().select(MlogUser::getUsername,MlogUser::getUserAvatar,MlogUser::getEmail,MlogUser::getUserUrl).eq(MlogUser::getUserType, UserTypeEnum.ADMIN).one());
+        return lambdaQuery().select(MlogUser::getUsername,MlogUser::getUserAvatar,MlogUser::getEmail,MlogUser::getUserUrl).eq(MlogUser::getUserType, UserTypeEnum.ADMIN).oneOpt();
     }
 }

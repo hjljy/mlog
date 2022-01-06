@@ -44,6 +44,7 @@ public class MlogConfiguration {
                 cacheStore = new InMemoryCacheStore();
                 break;
         }
+        log.info("mlog缓存为:{}",cacheStore.getClass());
         return cacheStore;
     }
 }

@@ -1,8 +1,8 @@
 package cn.hjljy.mlog.config;
 
 import cn.hjljy.mlog.common.constants.SettingConstant;
-import cn.hjljy.mlog.entity.MlogSetting;
-import cn.hjljy.mlog.entity.MlogUser;
+import cn.hjljy.mlog.model.entity.MlogSetting;
+import cn.hjljy.mlog.model.entity.MlogUser;
 import cn.hjljy.mlog.service.IMlogSettingService;
 import cn.hjljy.mlog.service.IMlogUserService;
 import freemarker.template.Configuration;

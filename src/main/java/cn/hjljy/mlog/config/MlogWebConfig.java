@@ -1,7 +1,11 @@
 package cn.hjljy.mlog.config;
 
 import cn.hjljy.mlog.common.constants.Constant;
+import cn.hjljy.mlog.common.utils.MlogUtils;
 import cn.hjljy.mlog.config.interceptor.AuthConfigInterceptor;
+import cn.hjljy.mlog.config.interceptor.MlogPathInterceptor;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
@@ -33,10 +37,16 @@ public class MlogWebConfig implements WebMvcConfigurer {
         return new AuthConfigInterceptor();
     }
 
+    @Bean
+    MlogPathInterceptor getMlogPathInterceptor() {
+        return new MlogPathInterceptor();
+    }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //权限拦截器 拦截需要鉴权的请求  所有admin开头的都需要拦截
         registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/admin/**").order(124);
+
+        registry.addInterceptor(getMlogPathInterceptor()).addPathPatterns("/**").order(12);
     }
 
     /**
@@ -47,9 +57,9 @@ public class MlogWebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + mlogProperties.getWorkDir();
-        String uploadUrlPattern = File.separator+Constant.UPLOAD_PREFIX + "**";
+        String uploadUrlPattern = MlogUtils.ensureBoth( Constant.UPLOAD_PREFIX,"/") + "**";
         registry.addResourceHandler(uploadUrlPattern)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
-                .addResourceLocations(workDir + "/mlog/upload/");
+                .addResourceLocations(workDir +Constant.UPLOAD_PREFIX);
     }
 }

@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hjljy.mlog.mapper.MlogArticleTagsMapper">
 
+    <select id="listTagIds" resultType="java.lang.Long">
+        select distinct tag_id from mlog_article_tags
+    </select>
 </mapper>

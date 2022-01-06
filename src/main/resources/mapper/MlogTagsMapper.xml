@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hjljy.mlog.mapper.MlogTagsMapper">
 
+    <select id="listTags" resultType="cn.hjljy.mlog.model.dto.TagDTO">
+        SELECT id,
+               tag,
+               color,
+               IFNULL(count, 0) useNum
+        FROM mlog_tags mt
+                 LEFT JOIN (SELECT tag_id, count(tag_id) count FROM mlog_article_tags GROUP BY tag_id) mat
+                           on mt.id = mat.tag_id
+    </select>
 </mapper>

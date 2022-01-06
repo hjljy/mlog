@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.exception;
 
 import cn.hjljy.mlog.common.ResultCode;
+import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,8 @@ import java.io.IOException;
  **/
 @Controller
 public class MainsiteErrorHandler  implements ErrorController {
-    private static final String ERROR_PATH = "/error";
 
-    @RequestMapping(ERROR_PATH)
+    @RequestMapping(Constant.ERROR_PATH)
     public void handleError(HttpServletRequest request,HttpServletResponse response) throws IOException {
         // 获取到响应状态码
         int status = response.getStatus();

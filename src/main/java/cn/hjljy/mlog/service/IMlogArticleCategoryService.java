@@ -1,7 +1,9 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.entity.MlogArticleCategory;
+import cn.hjljy.mlog.model.entity.MlogArticleCategory;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IMlogArticleCategoryService extends IService<MlogArticleCategory> {
 
+    /**
+     * 列表通过类别id
+     *
+     * @param id id
+     * @return {@link List}<{@link MlogArticleCategory}>
+     */
+    List<MlogArticleCategory> listByCategoryId(Long id);
 }

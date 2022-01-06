@@ -27,10 +27,23 @@ public class Constant {
      * 上传文件前缀信息
      */
     public static final String UPLOAD_PREFIX ="files/upload/";
+
+    /**
+     * 错误页面地址
+     */
+    public static final String ERROR_PATH ="/error";
+
+    /**
+     * 逗号分割值
+     */
+    public static final String CSV=",";
+
+    /**
+     * 默认颜色
+     */
+    public static final String DEFAULT_COLOR="#FFFFFF";
     public static final int FAIL_CODE=1000;
     public static final int SUCCESS_CODE=0;
-    public static final int DEFAULT_CODE=-1;
-
     /**
      * 数据获取失败
      */

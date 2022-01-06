@@ -1,9 +1,15 @@
 package cn.hjljy.mlog.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import cn.hjljy.mlog.common.ResultInfo;
+import cn.hjljy.mlog.model.dto.CategoryDTO;
+import cn.hjljy.mlog.service.IMlogCategoryService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,9 +19,31 @@ import org.springframework.stereotype.Controller;
  * @author 海加尔金鹰（www.hjljy.cn）
  * @since 2021-12-22
  */
-@Controller
-@RequestMapping("/mlog-category")
+@RestController
+@RequestMapping("/category")
+@AllArgsConstructor
 public class MlogCategoryController {
 
+    private final IMlogCategoryService categoryService;
+
+    @GetMapping
+    public ResultInfo<List<CategoryDTO>> list(){
+        return ResultInfo.success(categoryService.listCategories());
+    }
+
+    @PostMapping
+    public ResultInfo<Boolean> add(@RequestBody CategoryDTO dto){
+        return ResultInfo.success(categoryService.create(dto));
+    }
+
+    @PutMapping
+    public ResultInfo<Boolean> update(@RequestBody CategoryDTO dto){
+        return ResultInfo.success(categoryService.updateCategory(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResultInfo<Boolean> remove(@PathVariable Long id){
+        return ResultInfo.success(categoryService.delete(id));
+    }
 }
 
