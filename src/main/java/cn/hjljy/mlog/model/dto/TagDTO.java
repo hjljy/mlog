@@ -20,6 +20,8 @@ public class TagDTO extends MlogTags {
 
     private Integer useNum;
 
+    private Long articleId;
+
     public static MlogTags convert2Entity(TagDTO dto) {
         MlogTags tags = new MlogTags();
         BeanUtils.copyProperties(dto, tags);

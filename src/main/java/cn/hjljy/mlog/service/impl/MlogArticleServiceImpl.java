@@ -5,9 +5,11 @@ import cn.hjljy.mlog.common.utils.MarkdownUtils;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.common.utils.TokenUtils;
 import cn.hjljy.mlog.config.TokenInfo;
-import cn.hjljy.mlog.model.dto.ArticleDTO;
-import cn.hjljy.mlog.model.entity.MlogArticle;
 import cn.hjljy.mlog.mapper.MlogArticleMapper;
+import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
+import cn.hjljy.mlog.model.dto.ArticleDTO;
+import cn.hjljy.mlog.model.dto.ArticleTagsDTO;
+import cn.hjljy.mlog.model.entity.MlogArticle;
 import cn.hjljy.mlog.model.query.ArticleQuery;
 import cn.hjljy.mlog.service.IMlogArticleService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
@@ -28,7 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -51,7 +55,22 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
 
     @Override
     public IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, ArticleQuery query) {
-        return baseMapper.pageByQuery(page, query);
+        //分页查询
+        IPage<ArticleDTO> pageByQuery = baseMapper.pageByQuery(page, query);
+        List<ArticleDTO> records = pageByQuery.getRecords();
+        List<Long> articleIds = records.stream().map(MlogArticle::getId).collect(Collectors.toList());
+
+        //查询标签
+        List<ArticleTagsDTO> tags = tagsService.getArticleTags(articleIds);
+        //查询分类
+        List<ArticleCategoryDTO> categories = categoryService.getArticleCategories(articleIds);
+        for (ArticleDTO record : records) {
+            Long id = record.getId();
+            //设置文章的分类和标签信息
+            record.setTagList(ArticleTagsDTO.getTagByArticleId(id,tags));
+            record.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id,categories));
+        }
+        return pageByQuery;
     }
 
     @Override
@@ -59,24 +78,41 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         TokenInfo info = tokenUtils.get();
         MlogArticle article = ArticleDTO.convert2Entity(dto);
         article.setId(SnowFlakeUtil.createId());
-        // 处理文章标签
-        tagsService.relateToArticle(article.getId(),article.getTags());
-
         article.setAuthorName(info.getPenName());
         article.setContentText(MarkdownUtils.renderHtml(article.getContentMd()));
+
+        // 处理文章标签
+        tagsService.relateToArticle(article.getId(), dto.getTagList());
+        // 处理文章分类
+        categoryService.relateToArticle(article.getId(), dto.getCategoryList());
+
         //如果没有设置网页链接，按日期生成默认链接
-        if(StringUtils.isBlank(article.getLinks())){
+        if (StringUtils.isBlank(article.getLinks())) {
             article.setLinks(ArticleDTO.getDefaultLinks(new Date()));
         }
         //如果没有设置封面信息，默认文章当中的第一张图片为封面
-        if(StringUtils.isBlank(article.getThumbnail())){
+        if (StringUtils.isBlank(article.getThumbnail())) {
             article.setThumbnail(MarkdownUtils.getFirstImgStr(article.getContentText()));
         }
 
         article.setWordCount(MarkdownUtils.htmlFormatWordCount(article.getContentText()));
+        article.setPublished(true);
         article.setViewCount(0);
         article.setCommentCount(0);
         return save(article);
+    }
+
+    @Override
+    public ArticleDTO getDetailById(Long id) {
+        MlogArticle mlogArticle = getById(id);
+        ArticleDTO dto = ArticleDTO.convert2DTO(mlogArticle);
+
+        List<ArticleTagsDTO> tags = tagsService.getArticleTags(List.of(id));
+        List<ArticleCategoryDTO> categories = categoryService.getArticleCategories(List.of(id));
+        //设置文章的分类和标签信息
+        dto.setTagList(ArticleTagsDTO.getTagByArticleId(id,tags));
+        dto.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id,categories));
+        return dto;
     }
 
     @Override
@@ -194,7 +230,7 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         //处理文章标签
         Object tags = map.get(MarkdownConstant.MD_TAGS);
         if (null != tags) {
-            handleTags(tags.toString(),article);
+            handleTags(tags.toString(), article);
         }
 
     }

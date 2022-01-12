@@ -1,11 +1,12 @@
 package cn.hjljy.mlog.config;
 
-import cn.hjljy.mlog.cache.CacheStore;
 import cn.hjljy.mlog.cache.InMemoryCacheStore;
 import cn.hjljy.mlog.cache.JsonCacheStore;
 import cn.hjljy.mlog.cache.RedisCacheStore;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -47,4 +48,18 @@ public class MlogConfiguration {
         log.info("mlog缓存为:{}",cacheStore.getClass());
         return cacheStore;
     }
+
+    /**
+     * 描述:统一配置类型的转换策略
+     */
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return builder -> {
+            //将Long类型转换成string类型返回，避免大整数导致前端精度丢失的问题
+            builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
+            builder.serializerByType(Long.class, ToStringSerializer.instance);
+        };
+    }
+
+
 }

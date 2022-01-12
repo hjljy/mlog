@@ -1,8 +1,11 @@
 package cn.hjljy.mlog.service;
 
+import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.dto.CategoryDTO;
 import cn.hjljy.mlog.model.entity.MlogCategory;
+import cn.hjljy.mlog.model.entity.MlogTags;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -56,4 +59,29 @@ public interface IMlogCategoryService extends IService<MlogCategory> {
      * @return {@link MlogCategory}
      */
     Optional<MlogCategory> getByName(@NotNull(message = "分类名称不能为空") String category);
+
+    /**
+     * 分类关联文章
+     *
+     * @param articleId    文章id
+     * @param categoryList 类别列表
+     */
+    void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList);
+
+    /**
+     * 如果分类不存在就新增保存  否者返回分类信息
+     *
+     * @param categoryName 分类名
+     * @return {@link MlogCategory}
+     */
+    @NonNull
+    MlogCategory saveIfAbsent(@NotNull(message = "分类名称不能为空") String categoryName);
+
+    /**
+     * 获取文章类别
+     *
+     * @param articleIds 文章的id
+     * @return {@link List}<{@link ArticleCategoryDTO}>
+     */
+    List<ArticleCategoryDTO> getArticleCategories(List<Long> articleIds);
 }

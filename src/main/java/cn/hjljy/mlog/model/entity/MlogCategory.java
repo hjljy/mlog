@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -28,16 +29,19 @@ public class MlogCategory implements Serializable {
     /**
      * 分类
      */
+    @TableField(value = "category")
     private String category;
 
     /**
      * 分类图片
      */
+    @TableField(value = "category_image")
     private String categoryImage;
 
     /**
      * 描述
      */
+    @TableField(value = "remark")
     private String remark;
 
 

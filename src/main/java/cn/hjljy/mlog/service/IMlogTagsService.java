@@ -1,5 +1,6 @@
 package cn.hjljy.mlog.service;
 
+import cn.hjljy.mlog.model.dto.ArticleTagsDTO;
 import cn.hjljy.mlog.model.dto.TagDTO;
 import cn.hjljy.mlog.model.entity.MlogTags;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -27,7 +28,7 @@ public interface IMlogTagsService extends IService<MlogTags> {
      * @param tags      标签
      */
 
-    void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, String tags);
+    void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId,  List<String> tags);
 
     /**
      * 通过名字获取标签
@@ -80,7 +81,16 @@ public interface IMlogTagsService extends IService<MlogTags> {
     /**
      * 清理未使用的标签
      *
-     * @return {@link Integer}
+     * @return {@link Integer}  清理的数量
      */
     Integer clean();
+
+
+    /**
+     * 获取文章标签
+     *
+     * @param articleIds 文章的id
+     * @return {@link List}<{@link ArticleTagsDTO}>
+     */
+    List<ArticleTagsDTO> getArticleTags(List<Long> articleIds);
 }

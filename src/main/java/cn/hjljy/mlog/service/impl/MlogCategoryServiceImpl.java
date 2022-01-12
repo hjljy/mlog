@@ -1,8 +1,10 @@
 package cn.hjljy.mlog.service.impl;
 
 import cn.hjljy.mlog.common.ResultCode;
+import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.exception.MlogException;
+import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.dto.CategoryDTO;
 import cn.hjljy.mlog.model.entity.MlogArticleCategory;
 import cn.hjljy.mlog.model.entity.MlogCategory;
@@ -12,9 +14,13 @@ import cn.hjljy.mlog.service.IMlogArticleCategoryService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +80,42 @@ public class MlogCategoryServiceImpl extends ServiceImpl<MlogCategoryMapper, Mlo
     @Override
     public Optional<MlogCategory> getByName(@NotNull(message = "分类名称不能为空") String category) {
         return lambdaQuery().eq(MlogCategory::getCategory,category).oneOpt();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList) {
+        if (!CollectionUtils.isEmpty(categoryList)) {
+            List<Long> categoryIds = new ArrayList<>();
+            for (String category : categoryList) {
+                MlogCategory mlogCategory = this.saveIfAbsent(category);
+                categoryIds.add(mlogCategory.getId());
+            }
+            articleCategoryService.contact(articleId, categoryIds);
+        }
+    }
+
+    @Override
+    @NonNull
+    public MlogCategory saveIfAbsent(@NotNull(message = "分类名称不能为空") String categoryName) {
+        Optional<MlogCategory> optional = getByName(categoryName);
+        MlogCategory category;
+        if (optional.isEmpty()) {
+            category = new MlogCategory();
+            category.setCategory(categoryName);
+            category.setRemark("自动添加");
+            save(category);
+        } else {
+            category = optional.get();
+        }
+        return category;
+    }
+
+    @Override
+    public List<ArticleCategoryDTO> getArticleCategories(List<Long> articleIds) {
+        if(CollectionUtils.isEmpty(articleIds)){
+            return new ArrayList<>();
+        }
+        return baseMapper.getArticleCategories(articleIds);
     }
 }

@@ -25,7 +25,7 @@ public class MlogArticleTagsServiceImpl extends ServiceImpl<MlogArticleTagsMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void mergeOrCreateByIfAbsent(@NotNull(message = "文章id不能为空") Long articleId, List<Long> tagIds) {
+    public void contact(@NotNull(message = "文章id不能为空") Long articleId, List<Long> tagIds) {
        this.removeByArticleId(articleId);
        List<MlogArticleTags> mlogArticleTags=new ArrayList<>();
         for (Long tagId : tagIds) {

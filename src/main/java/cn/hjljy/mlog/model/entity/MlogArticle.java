@@ -53,10 +53,7 @@ public class MlogArticle implements Serializable {
      */
     private String contentText;
 
-    /**
-     * 文章标签 (逗号分割)
-     */
-    private String tags;
+
 
     /**
      * 文章作者

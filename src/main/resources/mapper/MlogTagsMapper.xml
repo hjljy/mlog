@@ -11,4 +11,14 @@
                  LEFT JOIN (SELECT tag_id, count(tag_id) count FROM mlog_article_tags GROUP BY tag_id) mat
                            on mt.id = mat.tag_id
     </select>
+    <select id="getArticleTags" resultType="cn.hjljy.mlog.model.dto.ArticleTagsDTO">
+        select mat.article_id,mt.color,mt.tag from
+        mlog_article_tags mat
+        left join mlog_tags mt on mat.tag_id = mt.id
+        where mat.article_id in
+        <foreach collection="articleIds" item="articleId" open="(" close=")"
+                 separator=",">
+            #{articleId}
+        </foreach>
+    </select>
 </mapper>

@@ -1,7 +1,11 @@
 package cn.hjljy.mlog.mapper;
 
+import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.entity.MlogCategory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MlogCategoryMapper extends BaseMapper<MlogCategory> {
 
+    /**
+     * 获取文章类别
+     *
+     * @param articleIds 文章的id
+     * @return {@link List}<{@link ArticleCategoryDTO}>
+     */
+    List<ArticleCategoryDTO> getArticleCategories(@Param("articleIds") List<Long> articleIds);
 }

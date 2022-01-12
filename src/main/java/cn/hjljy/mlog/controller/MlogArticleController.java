@@ -27,6 +27,11 @@ public class MlogArticleController {
 
     private final IMlogArticleService articleService;
 
+    @GetMapping("/{id}")
+    public ResultInfo<ArticleDTO> getById(@PathVariable Long id){
+       ArticleDTO dto= articleService.getDetailById(id);
+      return ResultInfo.success(dto);
+    }
     /**
      * 分页查询文章信息
      *

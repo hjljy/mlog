@@ -7,6 +7,7 @@ import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.model.entity.MlogFiles;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
+@ToString
 public class FileDTO extends MlogFiles {
     /**
      * 是否存在
@@ -92,7 +94,7 @@ public class FileDTO extends MlogFiles {
         }
         public FileDTO build() {
             //优先生成路径地址
-            this.filePath = MlogUtils.ensureBoth(getFilePath(this.fileName),"/") ;
+            this.filePath = getFilePath(this.fileName);
             FileDTO dto = new FileDTO();
             dto.setId(SnowFlakeUtil.createId());
             dto.setExist(Boolean.FALSE);
@@ -100,11 +102,11 @@ public class FileDTO extends MlogFiles {
             dto.setFileSize(this.fileSize);
             dto.setFileName(this.fileName);
             dto.setStorage(this.storage);
-            dto.setFileBasePath(MlogUtils.ensureSuffix(this.fileBasePath,"/"));
+            dto.setFileBasePath(MlogUtils.changeFileSeparatorToUrlSeparator(MlogUtils.ensureSuffix(this.fileBasePath,"/")));
             dto.setFilePath(MlogUtils.changeFileSeparatorToUrlSeparator(this.filePath));
             dto.setFileType(this.fileType);
-            dto.setFullPath(getFullPath());
-            log.info("上传文件信息：{}",dto.toString());
+            dto.setFullPath(MlogUtils.changeFileSeparatorToUrlSeparator(getFullPath()));
+            log.info("上传文件名称:{},文件类型:{},是否存在:{},存储方式:{},文件地址:{}",dto.getFileName(),dto.getFileType(),dto.getExist(),dto.getStorage(),dto.getFullPath());
             return dto;
         }
     }

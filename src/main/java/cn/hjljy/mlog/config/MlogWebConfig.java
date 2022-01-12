@@ -6,14 +6,21 @@ import cn.hjljy.mlog.config.interceptor.AuthConfigInterceptor;
 import cn.hjljy.mlog.config.interceptor.MlogPathInterceptor;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.http.CacheControl;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -61,5 +68,31 @@ public class MlogWebConfig implements WebMvcConfigurer {
         registry.addResourceHandler(uploadUrlPattern)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                 .addResourceLocations(workDir +Constant.UPLOAD_PREFIX);
+    }
+
+    /**
+     * 允许跨域请求
+     *
+     */
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+
+        // 设置所有地址的请求都可以
+        config.addAllowedOriginPattern("*");
+
+        // 设置为允许所有请求头信息
+        config.addAllowedHeader("*");
+
+        // 设置为支持所有请求方式
+        config.addAllowedMethod("*");
+
+        // 设置所有的请求路径都可以访问
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        //设置优先级为最高
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 }

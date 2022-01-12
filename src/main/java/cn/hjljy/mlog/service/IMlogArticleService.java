@@ -46,4 +46,11 @@ public interface IMlogArticleService extends IService<MlogArticle> {
     Boolean importMd(MultipartFile[] files, HttpServletRequest request);
 
 
+    /**
+     * 获取细节通过id
+     *
+     * @param id id
+     * @return {@link ArticleDTO}
+     */
+    ArticleDTO getDetailById(Long id);
 }

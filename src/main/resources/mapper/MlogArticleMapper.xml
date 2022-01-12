@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hjljy.mlog.mapper.MlogArticleMapper">
+    <resultMap id="ArticleDto" type="cn.hjljy.mlog.model.dto.ArticleDTO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="abstract_md" property="abstractMd" jdbcType="VARCHAR"/>
+        <result column="abstract_text" property="abstractText" jdbcType="VARCHAR"/>
+        <result column="content_md" property="contentMd" jdbcType="VARCHAR"/>
+        <result column="content_text" property="contentText" jdbcType="VARCHAR"/>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR"/>
+        <result column="links" property="links" jdbcType="VARCHAR"/>
+        <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR"/>
+        <result column="published" property="published"/>
+        <result column="top" property="top"/>
+        <result column="disallow_comment" property="disallowComment"/>
+        <result column="comment_count" property="commentCount"/>
+        <result column="view_count" property="viewCount"/>
+        <result column="word_count" property="wordCount"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <collection property="tagList" ofType="java.lang.String" javaType="java.util.List">
+            <result column="tags"/>
+        </collection>
+        <collection property="categoryList" ofType="java.lang.String" javaType="java.util.List">
+            <result column="category"/>
+        </collection>
+    </resultMap>
 
     <select id="pageByQuery" resultType="cn.hjljy.mlog.model.dto.ArticleDTO">
-        select
+        SELECT
+        CASE
+        WHEN
+        ma.top = TRUE
+        THEN 9999999999999
+        ELSE ma.update_time end flag,
         ma.id,
         ma.title,
         ma.abstract_md,
         ma.abstract_text,
         ma.content_md,
         ma.content_text,
-        ma.tags,
-        ma.author_name,
         ma.links,
         ma.thumbnail,
         ma.published,
@@ -22,11 +50,49 @@
         ma.word_count,
         ma.create_time,
         ma.update_time
-        from mlog_article ma
-        <where>
-            <if test="query222.title!=null and query222.title!=''">
-                ma.title like CONCAT('%', #{query222.title}::text, '%')
-            </if>
-        </where>
+        FROM
+        mlog_article ma
+        LEFT JOIN mlog_article_tags mat ON ma.id = mat.article_id
+        LEFT JOIN mlog_tags mt ON mt.id = mat.tag_id
+        LEFT JOIN mlog_article_category mac ON mat.article_id = mac.article_id
+        LEFT JOIN mlog_category mc ON mac.category_id = mc.id
+        WHERE
+        ma.published = TRUE
+        <if test="articleQuery.title!=null and articleQuery.title!=''">
+            and ma.title like CONCAT('%', #{articleQuery.title}, '%')
+        </if>
+        ORDER BY flag desc
+    </select>
+    <select id="getDetailById" resultMap="ArticleDto">
+        select
+            ma.id,
+            ma.title,
+            ma.abstract_md,
+            ma.abstract_text,
+            ma.content_md,
+            ma.content_text,
+            ma.author_name,
+            ma.links,
+            ma.thumbnail,
+            ma.published,
+            ma.top,
+            ma.disallow_comment,
+            ma.comment_count,
+            ma.view_count,
+            ma.word_count,
+            ma.create_time,
+            ma.update_time,
+            mt.tag as tags,
+            mc.category as category
+        FROM mlog_article ma
+                 LEFT JOIN mlog_article_tags mat
+                           ON ma.id= mat.article_id
+                 LEFT JOIN mlog_tags mt
+                           ON mt.id = mat.tag_id
+                 LEFT JOIN mlog_article_category mac
+                           on mat.article_id = mac.article_id
+                 LEFT JOIN mlog_category mc on mac.category_id = mc.id
+        where
+            ma.id = #{id}
     </select>
 </mapper>

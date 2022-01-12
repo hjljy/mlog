@@ -5,6 +5,7 @@ import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.exception.MlogException;
 import cn.hjljy.mlog.mapper.MlogTagsMapper;
+import cn.hjljy.mlog.model.dto.ArticleTagsDTO;
 import cn.hjljy.mlog.model.dto.TagDTO;
 import cn.hjljy.mlog.model.entity.MlogArticleTags;
 import cn.hjljy.mlog.model.entity.MlogCategory;
@@ -19,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.swing.text.html.HTML;
 import javax.validation.constraints.NotNull;
@@ -43,16 +45,14 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, String tags) {
-        if (StringUtils.isNotBlank(tags)) {
+    public void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> tags) {
+        if (!CollectionUtils.isEmpty(tags)) {
             List<Long> tagIds = new ArrayList<>();
-            for (String tagName : tags.split(Constant.CSV)) {
-                if (StringUtils.isNotBlank(tags)) {
-                    MlogTags tag = this.saveIfAbsent(tagName);
-                    tagIds.add(tag.getId());
-                }
+            for (String tagName : tags) {
+                MlogTags tag = this.saveIfAbsent(tagName);
+                tagIds.add(tag.getId());
             }
-            articleTagsService.mergeOrCreateByIfAbsent(articleId, tagIds);
+            articleTagsService.contact(articleId, tagIds);
         }
     }
 
@@ -66,8 +66,8 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
             tag.setTag(tagName);
             tag.setColor(Constant.DEFAULT_COLOR);
             save(tag);
-        }else {
-            tag=tags.get();
+        } else {
+            tag = tags.get();
         }
         return tag;
     }
@@ -124,7 +124,14 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
         List<Long> tagIds = articleTagsService.listTagIds();
         QueryWrapper<MlogTags> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().notIn(MlogTags::getId, tagIds);
-
         return baseMapper.delete(queryWrapper);
+    }
+
+    @Override
+    public List<ArticleTagsDTO> getArticleTags(List<Long> articleIds) {
+        if(CollectionUtils.isEmpty(articleIds)){
+            return new ArrayList<>();
+        }
+        return baseMapper.getArticleTags(articleIds);
     }
 }

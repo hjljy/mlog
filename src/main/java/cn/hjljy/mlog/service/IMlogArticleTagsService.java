@@ -18,13 +18,13 @@ import java.util.List;
 public interface IMlogArticleTagsService extends IService<MlogArticleTags> {
 
     /**
-     * 合并或不存在就新建
+     * 文章关联标签
      *
      * @param articleId 文章的id
      * @param tagIds    标签id
      */
 
-    void mergeOrCreateByIfAbsent(@NotNull(message = "文章id不能为空") Long articleId, List<Long> tagIds);
+    void contact(@NotNull(message = "文章id不能为空") Long articleId, List<Long> tagIds);
 
     /**
      * 通过文章id获取

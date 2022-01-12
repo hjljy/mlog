@@ -24,5 +24,13 @@ public interface MlogArticleMapper extends BaseMapper<MlogArticle> {
      * @param query 查询
      * @return {@link IPage}<{@link ArticleDTO}>
      */
-    IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, @Param("query222") ArticleQuery query);
+    IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, @Param("articleQuery") ArticleQuery query);
+
+    /**
+     * 获取细节通过id
+     *
+     * @param id id
+     * @return {@link ArticleDTO}
+     */
+    ArticleDTO getDetailById(Long id);
 }
