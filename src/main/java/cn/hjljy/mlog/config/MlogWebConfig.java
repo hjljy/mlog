@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class MlogWebConfig implements WebMvcConfigurer {
     private static final String FILE_PROTOCOL = "file:///";
+    private static final String UPLOAD_URL = MlogUtils.ensureBoth( Constant.UPLOAD_PREFIX,"/") + "**";
     private final MlogProperties mlogProperties;
 
     public MlogWebConfig(MlogProperties mlogProperties) {
@@ -53,7 +55,21 @@ public class MlogWebConfig implements WebMvcConfigurer {
         //权限拦截器 拦截需要鉴权的请求  所有admin开头的都需要拦截
         registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/admin/**").order(124);
 
-        registry.addInterceptor(getMlogPathInterceptor()).addPathPatterns("/**").order(12);
+       //无需拦截的路径  静态资源，主题信息，后台请求
+        List<String> excludePath = new ArrayList<>();
+        excludePath.add("/themes/**");
+        excludePath.add("/admin/**");
+        excludePath.add(UPLOAD_URL);
+        excludePath.add("/**/401.html");
+        excludePath.add("/**/404.html");
+        excludePath.add("/**/500.html");
+        excludePath.add("/**/**.js");
+        excludePath.add("/**/**.css");
+        excludePath.add("/**/**.ico");
+        excludePath.add("/**/**.png");
+        excludePath.add("/**/**.jpg");
+        //拦截所有路径
+        registry.addInterceptor(getMlogPathInterceptor()).excludePathPatterns(excludePath).addPathPatterns("/**").order(12);
     }
 
     /**
@@ -64,8 +80,13 @@ public class MlogWebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + mlogProperties.getWorkDir();
-        String uploadUrlPattern = MlogUtils.ensureBoth( Constant.UPLOAD_PREFIX,"/") + "**";
-        registry.addResourceHandler(uploadUrlPattern)
+
+
+        // register /themes/** resource handler.
+        registry.addResourceHandler("/themes/**")
+                .addResourceLocations("classpath:/templates/themes/");
+
+        registry.addResourceHandler(UPLOAD_URL)
                 .setCacheControl(CacheControl.maxAge(7L, TimeUnit.DAYS))
                 .addResourceLocations(workDir +Constant.UPLOAD_PREFIX);
     }

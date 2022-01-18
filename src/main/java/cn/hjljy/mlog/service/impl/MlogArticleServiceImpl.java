@@ -10,13 +10,18 @@ import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.dto.ArticleTagsDTO;
 import cn.hjljy.mlog.model.entity.MlogArticle;
-import cn.hjljy.mlog.model.query.ArticleQuery;
+import cn.hjljy.mlog.model.params.ArticleQuery;
+import cn.hjljy.mlog.model.vo.ArticleVO;
+import cn.hjljy.mlog.common.support.PageVO;
 import cn.hjljy.mlog.service.IMlogArticleService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
+import cn.hjljy.mlog.service.IMlogSettingService;
 import cn.hjljy.mlog.service.IMlogTagsService;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -53,12 +58,14 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
 
     private final IMlogCategoryService categoryService;
 
+    private final IMlogSettingService settingService;
+
     @Override
     public IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, ArticleQuery query) {
         //分页查询
         IPage<ArticleDTO> pageByQuery = baseMapper.pageByQuery(page, query);
         List<ArticleDTO> records = pageByQuery.getRecords();
-        List<Long> articleIds = records.stream().map(MlogArticle::getId).collect(Collectors.toList());
+        List<Long> articleIds = records.stream().map(ArticleDTO::getId).collect(Collectors.toList());
 
         //查询标签
         List<ArticleTagsDTO> tags = tagsService.getArticleTags(articleIds);
@@ -67,8 +74,8 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         for (ArticleDTO record : records) {
             Long id = record.getId();
             //设置文章的分类和标签信息
-            record.setTagList(ArticleTagsDTO.getTagByArticleId(id,tags));
-            record.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id,categories));
+            record.setTagList(ArticleTagsDTO.getTagByArticleId(id, tags));
+            record.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id, categories));
         }
         return pageByQuery;
     }
@@ -110,9 +117,58 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         List<ArticleTagsDTO> tags = tagsService.getArticleTags(List.of(id));
         List<ArticleCategoryDTO> categories = categoryService.getArticleCategories(List.of(id));
         //设置文章的分类和标签信息
-        dto.setTagList(ArticleTagsDTO.getTagByArticleId(id,tags));
-        dto.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id,categories));
+        dto.setTagList(ArticleTagsDTO.getTagByArticleId(id, tags));
+        dto.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id, categories));
         return dto;
+    }
+
+    @Override
+    public PageVO<ArticleVO> pageQuery(ArticleQuery query) {
+        PageVO<ArticleVO> result = new PageVO<>();
+        if (StringUtils.isEmpty(query.getSortBy())) {
+            query.setSortBy(settingService.getArticleSort());
+        }
+        IPage<MlogArticle> pageData = query()
+                .like(StringUtils.isNotBlank(query.getTitle()), "title", query.getTitle())
+                .orderByDesc("top")
+                .orderByDesc(query.getSortBy()).page(query.buildPage(MlogArticle.class));
+        List<MlogArticle> dataRecords = pageData.getRecords();
+        List<ArticleVO> content = MlogArticle.convert2VO(dataRecords);
+        List<Long> articleIds = content.stream().map(ArticleVO::getId).collect(Collectors.toList());
+        //查询标签
+        List<ArticleTagsDTO> tags = tagsService.getArticleTags(articleIds);
+        //查询分类
+        List<ArticleCategoryDTO> categories = categoryService.getArticleCategories(articleIds);
+        for (ArticleVO record : content) {
+            Long id = record.getId();
+            //设置文章的分类和标签信息
+            record.setTags(ArticleTagsDTO.getTagsByArticleId(id, tags));
+            record.setCategories(ArticleCategoryDTO.getCategoriesByArticleId(id, categories));
+        }
+        result.setContent(content);
+        result.setTotalPages(pageData.getPages());
+        result.setNumber(pageData.getCurrent());
+        result.setSize(pageData.getSize());
+        return result;
+    }
+
+    @Override
+    public PageVO<ArticleVO> convertToListVo(IPage<ArticleDTO> articleData) {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllUrl() {
+        LambdaQueryWrapper<MlogArticle> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(MlogArticle::getLinks);
+        return list(queryWrapper).stream().map(MlogArticle::getLinks).collect(Collectors.toList());
+    }
+
+    @Override
+    public MlogArticle getByLinks(String links) {
+        LambdaQueryWrapper<MlogArticle> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(MlogArticle::getLinks,links);
+        return getOne(queryWrapper);
     }
 
     @Override

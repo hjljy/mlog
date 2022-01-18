@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.exception;
 
-import cn.hjljy.mlog.common.ResultCode;
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import org.springframework.boot.web.servlet.error.ErrorController;

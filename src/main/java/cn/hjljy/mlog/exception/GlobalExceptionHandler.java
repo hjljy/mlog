@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.exception;
 
-import cn.hjljy.mlog.common.ResultCode;
-import cn.hjljy.mlog.common.ResultInfo;
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;

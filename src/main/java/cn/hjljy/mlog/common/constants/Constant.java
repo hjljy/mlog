@@ -39,6 +39,11 @@ public class Constant {
     public static final String CSV=",";
 
     /**
+     * freemarker 方法名称
+     */
+    public static final String METHOD_KEY = "method";
+
+    /**
      * 默认颜色
      */
     public static final String DEFAULT_COLOR="#FFFFFF";

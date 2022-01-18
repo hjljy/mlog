@@ -20,10 +20,10 @@ import java.util.Optional;
 public class RedisCacheStore extends JsonCacheStore {
 
     StringRedisTemplate redisTemplate;
-
     public RedisCacheStore(RedisConnectionFactory redisConnectionFactory) {
         initRedis(redisConnectionFactory);
     }
+
 
     @Override
     protected Optional<CacheWrapper<String>> getInternal(String key) {

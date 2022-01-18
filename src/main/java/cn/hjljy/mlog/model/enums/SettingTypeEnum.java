@@ -7,6 +7,10 @@ package cn.hjljy.mlog.model.enums;
  * @date 2021/10/15
  */
 public enum SettingTypeEnum {
+    /**
+     * 文章设置
+     */
+    ARTICLE,
     THEME,
     USER,
     FILE,

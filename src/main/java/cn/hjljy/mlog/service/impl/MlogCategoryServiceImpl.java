@@ -1,15 +1,13 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.common.ResultCode;
-import cn.hjljy.mlog.common.constants.Constant;
-import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.exception.MlogException;
 import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.dto.CategoryDTO;
 import cn.hjljy.mlog.model.entity.MlogArticleCategory;
 import cn.hjljy.mlog.model.entity.MlogCategory;
 import cn.hjljy.mlog.mapper.MlogCategoryMapper;
-import cn.hjljy.mlog.model.entity.MlogTags;
 import cn.hjljy.mlog.service.IMlogArticleCategoryService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

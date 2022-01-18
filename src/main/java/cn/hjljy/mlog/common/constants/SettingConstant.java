@@ -34,7 +34,7 @@ public class SettingConstant {
         /**
          * 博客标题
          */
-        public static final String BLOG_TITLE = "blogTitle";
+        public static final String BLOG_TITLE = "blog_title";
 
         /**
          * 博客标题默认值

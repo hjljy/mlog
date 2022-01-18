@@ -1,6 +1,8 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.model.dto.FileStorageSettingDTO;
+import cn.hjljy.mlog.model.enums.SettingOptionKeyEnum;
+import cn.hjljy.mlog.model.setting.ArticleSetting;
+import cn.hjljy.mlog.model.setting.FileStorageSetting;
 import cn.hjljy.mlog.model.enums.SettingTypeEnum;
 import cn.hjljy.mlog.model.entity.MlogSetting;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -37,7 +39,7 @@ public interface IMlogSettingService extends IService<MlogSetting> {
      *
      * @return {@link MlogSetting}
      */
-    FileStorageSettingDTO getFileStorageSetting();
+    FileStorageSetting getFileStorageSetting();
 
     /**
      * 通过选项关键获取设置
@@ -45,5 +47,41 @@ public interface IMlogSettingService extends IService<MlogSetting> {
      * @param optionKey 选择键
      * @return {@link MlogSetting}
      */
-    MlogSetting getSettingByOptionKey(String optionKey);
+    MlogSetting getSettingByOptionKey(SettingOptionKeyEnum optionKey);
+
+    /**
+     * 获取文章设置
+     *
+     * @return {@link ArticleSetting}
+     */
+    ArticleSetting getArticleSetting();
+
+    /**
+     * 获取文章每页条数
+     *
+     * @return {@link Integer}
+     */
+    Integer getArticlePageSize();
+
+    /**
+     * 获取文章排序
+     *
+     * @return {@link String}
+     */
+    String getArticleSort();
+
+    /**
+     * 获取值通过选项关键
+     * 如果不存在，返回默认值
+     * @param optionKey 选择键
+     * @return {@link String}
+     */
+    String getValueByOptionKeyOrDefault(SettingOptionKeyEnum optionKey);
+
+    /**
+     * 获取主题设置
+     *
+     * @return {@link String}
+     */
+    String getThemeSetting();
 }

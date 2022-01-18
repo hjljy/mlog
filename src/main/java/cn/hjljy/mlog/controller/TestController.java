@@ -1,8 +1,7 @@
 package cn.hjljy.mlog.controller;
 
-import cn.hjljy.mlog.common.AjaxResult;
-import cn.hjljy.mlog.common.ResultCode;
-import cn.hjljy.mlog.common.ResultInfo;
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

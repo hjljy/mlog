@@ -1,8 +1,10 @@
 package cn.hjljy.mlog.common.utils;
 
-import cn.hjljy.mlog.common.ResultCode;
-import cn.hjljy.mlog.common.ResultInfo;
+
+
 import cn.hjljy.mlog.common.constants.Constant;
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -72,7 +74,7 @@ public class HttpServletRequestUtils {
         return isAjaxRequest;
     }
 
-    public static void buildBadResponseInfo(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull HttpStatus status, @NonNull ResultCode resultCode,@NonNull String redirectUrl) throws IOException {
+    public static void buildBadResponseInfo(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull HttpStatus status, @NonNull ResultCode resultCode, @NonNull String redirectUrl) throws IOException {
         response.setStatus(status.value());
         if (isAjax(request)) {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
@@ -81,7 +83,7 @@ public class HttpServletRequestUtils {
             errorInfo.setData(false);
             writer.write(errorInfo.toString());
         } else {
-            response.sendRedirect(redirectUrl);
+//            response.sendRedirect(redirectUrl);
         }
     }
 }

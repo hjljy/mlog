@@ -3,6 +3,7 @@ package cn.hjljy.mlog.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import cn.hjljy.mlog.model.enums.SettingOptionKeyEnum;
 import cn.hjljy.mlog.model.enums.SettingTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ public class MlogSetting implements Serializable {
     /**
      * 设置的key
      */
-    private String optionKey;
+    private SettingOptionKeyEnum optionKey;
 
     /**
      * 具体值
@@ -39,11 +40,23 @@ public class MlogSetting implements Serializable {
     private String optionValue;
 
 
-    public static String getValueByKey(String optionKey, List<MlogSetting> settingList) {
-        return getValueByKeyOrDefault(optionKey, settingList, null);
+    /**
+     *
+     * 获取到对应optionKey的值否则取默认值
+     *
+     * @param optionKey   key
+     * @param settingList 设置列表
+     * @return 值
+     */
+    public static String getValueByKeyOrDefault(SettingOptionKeyEnum optionKey, List<MlogSetting> settingList) {
+        return settingList.stream().filter(item -> item.getOptionKey().equals(optionKey)).findFirst().map(MlogSetting::getOptionValue).orElse(optionKey.getDefaultValue());
     }
 
-    public static String getValueByKeyOrDefault(String optionKey, List<MlogSetting> settingList, String defaultValue) {
-        return settingList.stream().filter(item -> item.getOptionKey().equals(optionKey)).findFirst().map(MlogSetting::getOptionValue).orElse(defaultValue);
+    public String getValueOrDefault() {
+        String value = this.getOptionValue();
+        if(null==value){
+            return this.optionKey.getDefaultValue();
+        }
+        return value;
     }
 }

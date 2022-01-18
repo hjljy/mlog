@@ -1,7 +1,8 @@
 package cn.hjljy.mlog.controller;
 
-import cn.hjljy.mlog.common.ResultCode;
-import cn.hjljy.mlog.common.ResultInfo;
+
+import cn.hjljy.mlog.common.support.ResultCode;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.common.utils.TokenUtils;
 import cn.hjljy.mlog.config.TokenInfo;
 import cn.hjljy.mlog.model.dto.LoginUserDTO;

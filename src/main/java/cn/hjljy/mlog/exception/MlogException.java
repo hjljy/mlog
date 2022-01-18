@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.exception;
 
-import cn.hjljy.mlog.common.ResultCode;
+
+import cn.hjljy.mlog.common.support.ResultCode;
 
 /**
  * @author 海加尔金鹰 www.hjljy.cn

@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.config;
 
 import cn.hjljy.mlog.cache.JsonCacheStore;
+import cn.hjljy.mlog.freemarker.FreemarkerConfiguration;
 import cn.hjljy.mlog.model.entity.MlogSetting;
 import cn.hjljy.mlog.service.IMlogSettingService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class MlogStarterRunner implements ApplicationRunner {
         log.info("......初始化系统配置开始......");
         freemarker.loadBlogConfig();
         freemarker.loadAdminInfo();
+        freemarker.loadThemeConfig();
         log.info("......初始化系统配置完毕......");
     }
 

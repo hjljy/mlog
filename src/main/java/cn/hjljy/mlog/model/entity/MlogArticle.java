@@ -1,12 +1,16 @@
 package cn.hjljy.mlog.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import cn.hjljy.mlog.model.dto.ArticleDTO;
+import cn.hjljy.mlog.model.vo.ArticleVO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
+import org.springframework.beans.BeanUtils;
 
 
 /**
@@ -114,4 +118,27 @@ public class MlogArticle implements Serializable {
     private Long updateTime;
 
 
+    public static MlogArticle convert2Entity(ArticleDTO dto) {
+        MlogArticle article = new MlogArticle();
+        BeanUtils.copyProperties(dto, article);
+        return article;
+    }
+
+    public static ArticleDTO convert2DTO(MlogArticle article) {
+        ArticleDTO dto = new ArticleDTO();
+        BeanUtils.copyProperties(article, dto);
+        return dto;
+    }
+    public static ArticleVO convert2VO(MlogArticle article) {
+        ArticleVO vo = new ArticleVO();
+        BeanUtils.copyProperties(article, vo);
+        return vo;
+    }
+    public static List<ArticleVO> convert2VO(List<MlogArticle> dataRecords) {
+        List<ArticleVO> list =new ArrayList<>();
+        for (MlogArticle dataRecord : dataRecords) {
+          list.add(convert2VO(dataRecord));
+        }
+        return list;
+    }
 }

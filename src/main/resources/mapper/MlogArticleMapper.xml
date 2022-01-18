@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.hjljy.mlog.mapper.MlogArticleMapper">
-    <resultMap id="ArticleDto" type="cn.hjljy.mlog.model.dto.ArticleDTO">
+    <resultMap id="BaseResultMap" type="cn.hjljy.mlog.model.dto.ArticleDTO">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="abstract_md" property="abstractMd" jdbcType="VARCHAR"/>
@@ -29,17 +29,10 @@
 
     <select id="pageByQuery" resultType="cn.hjljy.mlog.model.dto.ArticleDTO">
         SELECT
-        CASE
-        WHEN
-        ma.top = TRUE
-        THEN 9999999999999
-        ELSE ma.update_time end flag,
         ma.id,
         ma.title,
         ma.abstract_md,
         ma.abstract_text,
-        ma.content_md,
-        ma.content_text,
         ma.links,
         ma.thumbnail,
         ma.published,
@@ -52,18 +45,14 @@
         ma.update_time
         FROM
         mlog_article ma
-        LEFT JOIN mlog_article_tags mat ON ma.id = mat.article_id
-        LEFT JOIN mlog_tags mt ON mt.id = mat.tag_id
-        LEFT JOIN mlog_article_category mac ON mat.article_id = mac.article_id
-        LEFT JOIN mlog_category mc ON mac.category_id = mc.id
         WHERE
         ma.published = TRUE
         <if test="articleQuery.title!=null and articleQuery.title!=''">
             and ma.title like CONCAT('%', #{articleQuery.title}, '%')
         </if>
-        ORDER BY flag desc
+        ORDER BY ma.top desc
     </select>
-    <select id="getDetailById" resultMap="ArticleDto">
+    <select id="getDetailById" resultMap="BaseResultMap">
         select
             ma.id,
             ma.title,

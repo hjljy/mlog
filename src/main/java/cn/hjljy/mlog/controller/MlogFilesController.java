@@ -1,14 +1,12 @@
 package cn.hjljy.mlog.controller;
 
 
-import cn.hjljy.mlog.common.ResultInfo;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.model.dto.FileDTO;
-import cn.hjljy.mlog.model.entity.MlogFiles;
 import cn.hjljy.mlog.service.IMlogFilesService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -2,12 +2,15 @@ package cn.hjljy.mlog.service;
 
 import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.entity.MlogArticle;
-import cn.hjljy.mlog.model.query.ArticleQuery;
+import cn.hjljy.mlog.model.params.ArticleQuery;
+import cn.hjljy.mlog.model.vo.ArticleVO;
+import cn.hjljy.mlog.common.support.PageVO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -53,4 +56,35 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      * @return {@link ArticleDTO}
      */
     ArticleDTO getDetailById(Long id);
+
+    /**
+     * 分页查询
+     *
+     * @param query 查询
+     * @return {@link IPage}<{@link ArticleDTO}>
+     */
+    PageVO<ArticleVO>  pageQuery(ArticleQuery query);
+
+    /**
+     * 将yuan's
+     *
+     * @param articleData 文章数据
+     * @return {@link PageVO}<{@link ArticleVO}>
+     */
+    PageVO<ArticleVO> convertToListVo(IPage<ArticleDTO> articleData);
+
+    /**
+     * 获取所有url
+     *
+     * @return {@link List}<{@link String}>
+     */
+    List<String> getAllUrl();
+
+    /**
+     * 获取通过链接
+     *
+     * @param servletPath servlet路径
+     * @return {@link MlogArticle}
+     */
+    MlogArticle getByLinks(String servletPath);
 }

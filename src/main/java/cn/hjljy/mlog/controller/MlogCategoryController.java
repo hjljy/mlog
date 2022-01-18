@@ -1,13 +1,11 @@
 package cn.hjljy.mlog.controller;
 
 
-import cn.hjljy.mlog.common.ResultInfo;
+import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.model.dto.CategoryDTO;
 import cn.hjljy.mlog.service.IMlogCategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 

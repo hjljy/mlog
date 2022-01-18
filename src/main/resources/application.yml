@@ -2,9 +2,11 @@ server:
   port: 8000
 spring:
   freemarker:
-    cache: false
-    charset: UTF-8
     suffix: .ftl
+    settings:
+      auto_import: /common/macro/global_macro.ftl as global
+    template-loader-path: classpath:/templates/
+    expose-spring-macro-helpers: false
   servlet:
     multipart:
       max-file-size: 10MB
@@ -45,9 +47,15 @@ mybatis-plus:
       logic-delete-field: status #逻辑删除默认字段
       update-strategy: not_null # 更新时字段如果为null，就不进行更新该字段。
       insert-strategy: not_null # 插入时如果字段为null,就不插入数据，建议数据库表字段设置默认值
+  # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名
+  type-aliases-package: cn.hjljy.mlog.model.*
+  # 该配置请和 typeAliasesPackage 一起使用，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象 。
+  type-aliases-super-type: java.lang.Object
+  # 枚举类配置
+  type-enums-package: cn.hjljy.mlog.model.enums
 logging:
   level:
-   cn.hjljy.mlog: debug
+    cn.hjljy.mlog: debug
 mlog:
   work-dir: ${user.home}/mlog/
   cache: redis

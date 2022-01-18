@@ -1,10 +1,8 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.model.dto.FileStorageSettingDTO;
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.model.setting.FileStorageSetting;
 import cn.hjljy.mlog.model.dto.FileDTO;
 import cn.hjljy.mlog.model.entity.MlogFiles;
-import cn.hjljy.mlog.model.entity.MlogSetting;
 import cn.hjljy.mlog.filestorage.FileStorageContext;
 import cn.hjljy.mlog.mapper.MlogFilesMapper;
 import cn.hjljy.mlog.service.IMlogFilesService;
@@ -36,7 +34,7 @@ public class MlogFilesServiceImpl extends ServiceImpl<MlogFilesMapper, MlogFiles
 
     @Override
     public FileDTO uploadFile(MultipartFile file) {
-        FileStorageSettingDTO setting = settingService.getFileStorageSetting();
+        FileStorageSetting setting = settingService.getFileStorageSetting();
         FileDTO uploadFile = fileStorageContext.uploadFile(file, setting.getType());
         if (!uploadFile.getExist()) {
             MlogFiles mlogFiles = FileDTO.convert2Entity(uploadFile);

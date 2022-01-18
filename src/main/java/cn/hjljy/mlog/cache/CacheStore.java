@@ -21,7 +21,6 @@ public interface CacheStore<V> {
      * @param key key不能为空
      * @return {@link Optional}<{@link V}>
      */
-    @NonNull
     Optional<V> get(@NonNull String key);
 
 

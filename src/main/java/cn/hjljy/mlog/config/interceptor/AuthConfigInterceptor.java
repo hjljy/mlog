@@ -1,9 +1,11 @@
 package cn.hjljy.mlog.config.interceptor;
 
-import cn.hjljy.mlog.common.ResultCode;
+
+import cn.hjljy.mlog.common.support.ResultCode;
 import cn.hjljy.mlog.common.utils.HttpServletRequestUtils;
 import cn.hjljy.mlog.common.utils.TokenUtils;
 import cn.hutool.core.util.StrUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -28,7 +30,7 @@ public class AuthConfigInterceptor implements HandlerInterceptor {
     TokenUtils tokenUtils;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
         //如果不是映射到方法的请求，直接放行，避免静态资源被拦截
         if(!(handler instanceof MethodHandle)){
             return true;
@@ -38,7 +40,7 @@ public class AuthConfigInterceptor implements HandlerInterceptor {
         String authorization = HttpServletRequestUtils.getAuthorization(request);
         //如果没有携带token
         if (StrUtil.isBlank(authorization)) {
-            HttpServletRequestUtils.buildBadResponseInfo(request, response, HttpStatus.UNAUTHORIZED,ResultCode.TOKEN_NOT_FOUND,"/401.html");
+            HttpServletRequestUtils.buildBadResponseInfo(request, response, HttpStatus.UNAUTHORIZED, ResultCode.TOKEN_NOT_FOUND,"/401.html");
             return false;
         }
         if (null == tokenUtils.get(authorization)) {
