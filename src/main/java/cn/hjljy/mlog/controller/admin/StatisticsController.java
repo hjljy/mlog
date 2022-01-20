@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.controller;
+package cn.hjljy.mlog.controller.admin;
 
 import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.model.dto.StatisticsCountDTO;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/12/16
  */
 @RestController
-@RequestMapping("/statistics")
+@RequestMapping("/admin/statistics")
 public class StatisticsController {
 
     /**

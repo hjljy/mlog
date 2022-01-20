@@ -35,8 +35,8 @@ public class MlogPathInterceptor implements HandlerInterceptor {
         MlogArticle article= articleService.getByLinks(servletPath);
         //如果包含就跳转
         if(null!=article){
-            //将本次请求发送到/details
-            request.getRequestDispatcher("/article/"+article.getId()).forward(request,response);
+            //将本次请求发送到/post
+            request.getRequestDispatcher("/post/"+article.getId()).forward(request,response);
             return false;
         }
         return true;

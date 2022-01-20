@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.controller;
+package cn.hjljy.mlog.controller.admin;
 
 
 import cn.hjljy.mlog.common.support.ResultInfo;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2021-12-17
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/admin/article")
 @AllArgsConstructor
 public class MlogArticleController {
 

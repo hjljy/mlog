@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.controller;
+package cn.hjljy.mlog.controller.admin;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

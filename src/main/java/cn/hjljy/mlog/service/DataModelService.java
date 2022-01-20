@@ -17,4 +17,13 @@ public interface DataModelService {
      * @return {@link String}
      */
     String indexPage(Model model, Integer page);
+
+    /**
+     * 文章页面
+     *
+     * @param model     模型
+     * @param articleId 文章的id
+     * @return {@link String}
+     */
+    String articlePage(Model model, Long articleId);
 }

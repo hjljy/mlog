@@ -167,8 +167,17 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
     @Override
     public MlogArticle getByLinks(String links) {
         LambdaQueryWrapper<MlogArticle> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MlogArticle::getLinks,links);
+        queryWrapper.eq(MlogArticle::getLinks, links);
         return getOne(queryWrapper);
+    }
+
+    @Override
+    public ArticleVO getArticleVO(Long articleId) {
+        MlogArticle article = getById(articleId);
+        ArticleVO vo = MlogArticle.convert2VO(article);
+        vo.setTags(tagsService.getArticleTagsById(articleId));
+        vo.setCategories(categoryService.getArticleCategoriesById(articleId));
+        return vo;
     }
 
     @Override

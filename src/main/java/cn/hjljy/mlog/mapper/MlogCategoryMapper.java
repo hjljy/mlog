@@ -24,4 +24,12 @@ public interface MlogCategoryMapper extends BaseMapper<MlogCategory> {
      * @return {@link List}<{@link ArticleCategoryDTO}>
      */
     List<ArticleCategoryDTO> getArticleCategories(@Param("articleIds") List<Long> articleIds);
+
+    /**
+     * 获取文章类别通过id
+     *
+     * @param articleId 文章的id
+     * @return {@link List}<{@link ArticleCategoryDTO}>
+     */
+    List<ArticleCategoryDTO> getArticleCategoriesById(Long articleId);
 }

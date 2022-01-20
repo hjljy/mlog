@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.controller;
+package cn.hjljy.mlog.controller.admin;
 
 
 import cn.hjljy.mlog.common.support.ResultInfo;
@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2021-12-22
  */
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/admin/category")
 @AllArgsConstructor
 public class MlogCategoryController {
 

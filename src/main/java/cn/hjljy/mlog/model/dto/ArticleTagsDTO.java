@@ -30,21 +30,13 @@ public class ArticleTagsDTO{
      */
     private String name;
 
-    /**
-     * 路径
-     */
-    private String fullPath;
 
     /**
      * Tag color.
      */
     private String color;
 
-    public static ArticleTagsDTO init(ArticleTagsDTO dto){
-        dto.setFullPath("/tags/"+dto.tag);
-        dto.setName(dto.tag);
-        return dto;
-    }
+
 
     /**
      * 获取标签通过文章id
@@ -65,7 +57,7 @@ public class ArticleTagsDTO{
      * @return {@link List}<{@link String}>
      */
     public static List<ArticleTagsDTO> getTagsByArticleId(Long articleId,List<ArticleTagsDTO> dtoList){
-        return  dtoList.stream().filter(n->n.getArticleId().equals(articleId)).map(ArticleTagsDTO::init).collect(Collectors.toList());
+        return  dtoList.stream().filter(n->n.getArticleId().equals(articleId)).collect(Collectors.toList());
     }
 
 }

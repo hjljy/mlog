@@ -2,11 +2,18 @@ package cn.hjljy.mlog.service;
 
 public interface ThemeService {
     /**
-     * 呈现指数
+     * 渲染首页
      *
      * @return {@link String}
      */
     String renderIndex();
+
+    /**
+     * 渲染文章
+     *
+     * @return {@link String}
+     */
+    String renderArticle();
 
     /**
      * 渲染
@@ -16,4 +23,6 @@ public interface ThemeService {
      * @return {@link String}
      */
     String render(String themeName, String pageName);
+
+
 }

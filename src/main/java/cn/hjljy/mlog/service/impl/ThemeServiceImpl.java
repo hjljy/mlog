@@ -25,6 +25,12 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
+    public String renderArticle() {
+        String themeName = settingService.getThemeSetting();
+        return this.render(themeName,"post");
+    }
+
+    @Override
     public String render(String themeName, String pageName) {
         return "themes/"+themeName+"/"+pageName;
     }

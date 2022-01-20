@@ -93,4 +93,12 @@ public interface IMlogTagsService extends IService<MlogTags> {
      * @return {@link List}<{@link ArticleTagsDTO}>
      */
     List<ArticleTagsDTO> getArticleTags(List<Long> articleIds);
+
+    /**
+     * 获取文章标签通过id
+     *
+     * @param articleId 文章的id
+     * @return {@link List}<{@link ArticleTagsDTO}>
+     */
+    List<ArticleTagsDTO> getArticleTagsById(Long articleId);
 }

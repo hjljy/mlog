@@ -12,7 +12,11 @@
                            on mt.id = mat.tag_id
     </select>
     <select id="getArticleTags" resultType="cn.hjljy.mlog.model.dto.ArticleTagsDTO">
-        select mat.article_id,mt.color,mt.tag from
+        select
+        mat.article_id,
+        mt.color,
+        mt.tag ,
+        mt.tag as name from
         mlog_article_tags mat
         left join mlog_tags mt on mat.tag_id = mt.id
         where mat.article_id in
@@ -20,5 +24,15 @@
                  separator=",">
             #{articleId}
         </foreach>
+    </select>
+    <select id="getArticleTagsById" resultType="cn.hjljy.mlog.model.dto.ArticleTagsDTO">
+        select mat.article_id,
+               mt.color,
+               mt.tag,
+               mt.tag as name
+        from mlog_article_tags mat
+                 left join mlog_tags mt on mat.tag_id = mt.id
+        where mat.article_id = #{articleId}
+
     </select>
 </mapper>

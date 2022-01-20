@@ -131,4 +131,9 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
         }
         return baseMapper.getArticleTags(articleIds);
     }
+
+    @Override
+    public List<ArticleTagsDTO> getArticleTagsById(Long articleId) {
+        return baseMapper.getArticleTagsById(articleId) ;
+    }
 }

@@ -87,4 +87,12 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      * @return {@link MlogArticle}
      */
     MlogArticle getByLinks(String servletPath);
+
+    /**
+     * 获取文章VO
+     *
+     * @param articleId 文章的id
+     * @return {@link ArticleVO}
+     */
+    ArticleVO getArticleVO(Long articleId);
 }

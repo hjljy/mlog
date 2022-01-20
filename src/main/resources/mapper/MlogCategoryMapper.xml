@@ -3,13 +3,26 @@
 <mapper namespace="cn.hjljy.mlog.mapper.MlogCategoryMapper">
 
     <select id="getArticleCategories" resultType="cn.hjljy.mlog.model.dto.ArticleCategoryDTO">
-        select mac.article_id,mc.category,mc.category_image
+        select
+        mac.article_id,
+        mc.category,
+        mc.category_image
         from mlog_article_category mac
-                 left join mlog_category mc on mac.category_id = mc.id
+        left join mlog_category mc on mac.category_id = mc.id
         where mac.article_id in
         <foreach collection="articleIds" item="articleId" open="(" close=")"
                  separator=",">
             #{articleId}
         </foreach>
+    </select>
+    <select id="getArticleCategoriesById" resultType="cn.hjljy.mlog.model.dto.ArticleCategoryDTO">
+        select mac.article_id,
+               mc.category,
+               mc.category_image
+        from mlog_article_category mac
+                 left join mlog_category mc on mac.category_id = mc.id
+        where mac.article_id =
+              #{articleId}
+
     </select>
 </mapper>

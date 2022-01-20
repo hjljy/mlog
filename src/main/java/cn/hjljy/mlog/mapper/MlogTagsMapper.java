@@ -33,5 +33,11 @@ public interface MlogTagsMapper extends BaseMapper<MlogTags> {
      */
     List<ArticleTagsDTO> getArticleTags(@Param("articleIds") List<Long> articleIds);
 
-    List<ArticleTagsDTO> getArticleTags(Long articleId);
+    /**
+     * 获取文章标签通过id
+     *
+     * @param articleId 文章的id
+     * @return {@link List}<{@link ArticleTagsDTO}>
+     */
+    List<ArticleTagsDTO> getArticleTagsById(Long articleId);
 }

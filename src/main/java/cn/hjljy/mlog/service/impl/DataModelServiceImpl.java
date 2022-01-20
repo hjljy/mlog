@@ -2,6 +2,7 @@ package cn.hjljy.mlog.service.impl;
 
 import cn.hjljy.mlog.common.constants.PaginationConstant;
 import cn.hjljy.mlog.common.utils.MlogUtils;
+import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.params.ArticleQuery;
 import cn.hjljy.mlog.model.setting.ArticleSetting;
 import cn.hjljy.mlog.model.vo.ArticleVO;
@@ -34,9 +35,7 @@ public class DataModelServiceImpl implements DataModelService {
 
     @Override
     public String indexPage(Model model, Integer page) {
-
         ArticleSetting setting = settingService.getArticleSetting();
-
         ArticleQuery query = new ArticleQuery();
         query.setPageNumber(page);
         query.setPageSize(setting.getPageSize());
@@ -44,6 +43,7 @@ public class DataModelServiceImpl implements DataModelService {
         PageVO<ArticleVO> posts = articleService.pageQuery(query);
         model.addAttribute("is_index", true);
         model.addAttribute("posts", posts);
+        //分页信息
         Long totalPages = posts.getTotalPages();
         List<Long> paginate = MlogUtils.paginate(page, totalPages, setting.getShowPage());
         model.addAttribute(PaginationConstant.PAGINATION_PAGE_COUNT, totalPages);
@@ -54,5 +54,13 @@ public class DataModelServiceImpl implements DataModelService {
         long nextPageNum = page + 1 > totalPages ? totalPages : page + 1;
         model.addAttribute(PaginationConstant.PAGINATION_NEXT_PAGE_NUM, nextPageNum);
         return themeService.renderIndex();
+    }
+
+    @Override
+    public String articlePage(Model model, Long articleId) {
+        ArticleDTO articleDTO = articleService.getDetailById(articleId);
+        ArticleVO vo = articleService.getArticleVO(articleId);
+        model.addAttribute("post",vo);
+        return themeService.renderArticle();
     }
 }

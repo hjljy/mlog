@@ -38,4 +38,16 @@ public class PageController {
         }
         return dataModelService.indexPage(model,p);
     }
+
+    /**
+     * 博客文章展示页面
+     *
+     * @param model     模型
+     * @param articleId 文章的id
+     * @return {@link String}
+     */
+    @GetMapping("/post/{articleId}")
+    public String article(Model model, @PathVariable Long articleId){
+        return dataModelService.articlePage(model,articleId);
+    }
 }

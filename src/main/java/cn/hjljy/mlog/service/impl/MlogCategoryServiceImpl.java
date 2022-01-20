@@ -116,4 +116,9 @@ public class MlogCategoryServiceImpl extends ServiceImpl<MlogCategoryMapper, Mlo
         }
         return baseMapper.getArticleCategories(articleIds);
     }
+
+    @Override
+    public List<ArticleCategoryDTO> getArticleCategoriesById(Long articleId) {
+        return baseMapper.getArticleCategoriesById(articleId);
+    }
 }
