@@ -61,6 +61,7 @@ public class MlogWebConfig implements WebMvcConfigurer {
         excludePath.add("/admin/**");
         excludePath.add(UPLOAD_URL);
         excludePath.add("/login");
+        excludePath.add("/error");
         excludePath.add("/**/401.html");
         excludePath.add("/**/404.html");
         excludePath.add("/**/500.html");

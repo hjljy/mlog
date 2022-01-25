@@ -22,8 +22,17 @@ import java.util.List;
  */
 public interface IMlogArticleService extends IService<MlogArticle> {
 
+
     /**
-     * 分页查询文章列表（不查询文章具体内容信息避免内容信息过多造成内存占用过多）
+     * 基础分页查询
+     *
+     * @param query 查询
+     * @return {@link IPage}<{@link MlogArticle}>
+     */
+    IPage<MlogArticle> basePageByQuery(ArticleQuery query);
+
+    /**
+     * 分页查询文章列表
      *
      * @param page 构建页面
      * @param query     查询
@@ -38,6 +47,22 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      * @return {@link Boolean}
      */
     Boolean publish(ArticleDTO dto);
+
+    /**
+     * 更新文章
+     *
+     * @param dto dto
+     * @return {@link Boolean}
+     */
+    Boolean updateArticle(ArticleDTO dto);
+
+    /**
+     * 创建文章
+     *
+     * @param dto dto
+     * @return {@link Boolean}
+     */
+    Boolean createArticle(ArticleDTO dto);
 
     /**
      * // 批量导入md格式文章
@@ -95,4 +120,21 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      * @return {@link ArticleVO}
      */
     ArticleVO getArticleVO(Long articleId);
+
+
+    /**
+     * 更新文章置顶状态
+     *
+     * @param articleId 文章的id
+     * @param top       置顶状态
+     */
+    void updateArticleTop(Long articleId, Boolean top);
+
+    /**
+     * 更新文章不允许评论
+     *
+     * @param articleId       文章的id
+     * @param disallowComment 不允许评论
+     */
+    void updateArticleDisallowComment(Long articleId, Boolean disallowComment);
 }

@@ -8,6 +8,8 @@ import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.vo.ArticleVO;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +17,7 @@ import org.springframework.beans.BeanUtils;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -34,13 +36,7 @@ public class MlogArticle implements Serializable {
     /**
      * 文章标题
      */
-
     private String title;
-
-    /**
-     * 文章摘要（md格式）
-     */
-    private String abstractMd;
 
     /**
      * 文章摘要（纯文本格式）
@@ -56,7 +52,6 @@ public class MlogArticle implements Serializable {
      * 文章内容（纯文本格式）
      */
     private String contentText;
-
 
 
     /**
@@ -75,7 +70,6 @@ public class MlogArticle implements Serializable {
     private String thumbnail;
 
     /**
-     *
      * 是否发布 默认不发布
      */
     private Boolean published;
@@ -129,16 +123,36 @@ public class MlogArticle implements Serializable {
         BeanUtils.copyProperties(article, dto);
         return dto;
     }
+
+    public static List<ArticleDTO> convert2DTO(List<MlogArticle> list) {
+        List<ArticleDTO> data = new ArrayList<>();
+        for (MlogArticle article : list) {
+            data.add(convert2DTO(article));
+        }
+        return data;
+    }
+
     public static ArticleVO convert2VO(MlogArticle article) {
         ArticleVO vo = new ArticleVO();
         BeanUtils.copyProperties(article, vo);
         return vo;
     }
+
     public static List<ArticleVO> convert2VO(List<MlogArticle> dataRecords) {
-        List<ArticleVO> list =new ArrayList<>();
+        List<ArticleVO> list = new ArrayList<>();
         for (MlogArticle dataRecord : dataRecords) {
-          list.add(convert2VO(dataRecord));
+            list.add(convert2VO(dataRecord));
         }
         return list;
+    }
+
+    public static IPage<ArticleDTO> convert2DTO(IPage<MlogArticle> articlePages) {
+        IPage<ArticleDTO> page = new Page<>();
+        page.setPages(articlePages.getPages());
+        page.setSize(articlePages.getSize());
+        page.setCurrent(articlePages.getCurrent());
+        page.setTotal(articlePages.getTotal());
+        page.setRecords(convert2DTO(articlePages.getRecords()));
+        return page;
     }
 }

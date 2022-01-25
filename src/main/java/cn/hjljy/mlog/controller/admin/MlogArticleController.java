@@ -3,10 +3,12 @@ package cn.hjljy.mlog.controller.admin;
 
 import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.model.dto.ArticleDTO;
+import cn.hjljy.mlog.model.params.ArticleParams;
 import cn.hjljy.mlog.model.params.ArticleQuery;
 import cn.hjljy.mlog.service.IMlogArticleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,11 +29,7 @@ public class MlogArticleController {
 
     private final IMlogArticleService articleService;
 
-    @GetMapping("/{id}")
-    public ResultInfo<ArticleDTO> getById(@PathVariable Long id){
-       ArticleDTO dto= articleService.getDetailById(id);
-      return ResultInfo.success(dto);
-    }
+
     /**
      * 分页查询文章信息
      *
@@ -40,31 +38,61 @@ public class MlogArticleController {
      */
     @PostMapping("/page")
     public ResultInfo<IPage<ArticleDTO>> page(@RequestBody ArticleQuery query) {
-        IPage<ArticleDTO> page=  articleService.pageByQuery(query.buildPage(ArticleDTO.class),query);
+        IPage<ArticleDTO> page = articleService.pageByQuery(query.buildPage(ArticleDTO.class), query);
         return ResultInfo.success(page);
     }
 
     /**
-     * 添加文章
+     * 通过id查询文章
+     *
+     * @param id id
+     * @return {@link ResultInfo}<{@link ArticleDTO}>
+     */
+    @GetMapping("/{id}")
+    public ResultInfo<ArticleDTO> getById(@PathVariable Long id) {
+        ArticleDTO dto = articleService.getDetailById(id);
+        return ResultInfo.success(dto);
+    }
+
+    /**
+     * 通过id删除文章
+     *
+     * @param id id
+     * @return {@link ResultInfo}<{@link ArticleDTO}>
+     */
+    @DeleteMapping("/{id}")
+    public ResultInfo<Boolean> del(@PathVariable Long id) {
+        return ResultInfo.success(articleService.removeById(id));
+    }
+
+    /**
+     * 发布文章
      *
      * @param dto dto
      * @return {@link ResultInfo}<{@link Boolean}>
      */
     @PostMapping()
-    public ResultInfo<Boolean> publish(@RequestBody ArticleDTO dto) {
+    public ResultInfo<Boolean> publish(@RequestBody @Validated ArticleDTO dto) {
         return ResultInfo.success(articleService.publish(dto));
     }
 
     /**
-     * 更新文章
+     * 更新文章评论状态和置顶状态
      *
-     * @param dto dto 文章实体类
+     * @param params dto 文章实体类
      * @return {@link ResultInfo}<{@link Boolean}>
      */
     @PutMapping()
-    public ResultInfo<Boolean> update(@RequestBody ArticleDTO dto) {
+    public ResultInfo<Boolean> update(@RequestBody @Validated ArticleParams params) {
+        if (null != params.getTop()) {
+            articleService.updateArticleTop(params.getArticleId(), params.getTop());
+        }
+        if (null != params.getDisallowComment()) {
+            articleService.updateArticleDisallowComment(params.getArticleId(), params.getDisallowComment());
+        }
         return ResultInfo.success();
     }
+
     /**
      * markdown 文章批量导入
      *
@@ -72,12 +100,9 @@ public class MlogArticleController {
      * @param request 请求
      * @return 是否成功
      */
-    @PostMapping("/import")
-    public ResultInfo<String> importMd(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
-
-        articleService.importMd(files, request);
-
-        return ResultInfo.success();
+    @PostMapping("/importMd")
+    public ResultInfo<Boolean> importMd(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
+        return ResultInfo.success(articleService.importMd(files, request));
     }
 
 //    /**

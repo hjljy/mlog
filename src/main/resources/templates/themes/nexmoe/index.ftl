@@ -17,14 +17,14 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 -->
-<#include "../../common-template/macro-common_head.ftl">
 <!DOCTYPE html>
 <html>
 <head>
-    <@head title="${blogTitle}">
-        <link rel="stylesheet" href="${staticServePath}/skins/${skinDirName}/css/base.css?${staticResourceVersion}"/>
+    <@global.head />
+    <@head title="${blog_title}">
+        <link rel="stylesheet" href="css/base.css"/>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">
-        <link rel="stylesheet" href="${staticServePath}/skins/${skinDirName}/css/font-icon.css?${staticResourceVersion}">
+        <link rel="stylesheet" href="css/font-icon.css">
     </@head>
 </head>
 <body class="mdui-drawer-body-left mdui-loaded">

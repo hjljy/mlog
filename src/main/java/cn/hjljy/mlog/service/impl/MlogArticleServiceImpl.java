@@ -1,10 +1,14 @@
 package cn.hjljy.mlog.service.impl;
 
 import cn.hjljy.mlog.common.constants.MarkdownConstant;
+import cn.hjljy.mlog.common.support.PageVO;
+import cn.hjljy.mlog.common.support.ResultCode;
 import cn.hjljy.mlog.common.utils.MarkdownUtils;
+import cn.hjljy.mlog.common.utils.MlogUtils;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.common.utils.TokenUtils;
 import cn.hjljy.mlog.config.TokenInfo;
+import cn.hjljy.mlog.exception.MlogException;
 import cn.hjljy.mlog.mapper.MlogArticleMapper;
 import cn.hjljy.mlog.model.dto.ArticleCategoryDTO;
 import cn.hjljy.mlog.model.dto.ArticleDTO;
@@ -12,7 +16,6 @@ import cn.hjljy.mlog.model.dto.ArticleTagsDTO;
 import cn.hjljy.mlog.model.entity.MlogArticle;
 import cn.hjljy.mlog.model.params.ArticleQuery;
 import cn.hjljy.mlog.model.vo.ArticleVO;
-import cn.hjljy.mlog.common.support.PageVO;
 import cn.hjljy.mlog.service.IMlogArticleService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
 import cn.hjljy.mlog.service.IMlogSettingService;
@@ -21,7 +24,6 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
@@ -36,6 +38,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -61,12 +64,22 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
     private final IMlogSettingService settingService;
 
     @Override
+    public IPage<MlogArticle> basePageByQuery(ArticleQuery query) {
+        if (StringUtils.isEmpty(query.getSortBy())) {
+            query.setSortBy(settingService.getArticleSort());
+        }
+        return query()
+                .like(StringUtils.isNotBlank(query.getTitle()), "title", query.getTitle())
+                .orderByDesc("top")
+                .orderByDesc(query.getSortBy()).page(query.buildPage(MlogArticle.class));
+    }
+
+    @Override
     public IPage<ArticleDTO> pageByQuery(IPage<ArticleDTO> page, ArticleQuery query) {
         //分页查询
-        IPage<ArticleDTO> pageByQuery = baseMapper.pageByQuery(page, query);
+        IPage<ArticleDTO> pageByQuery = MlogArticle.convert2DTO(this.basePageByQuery(query));
         List<ArticleDTO> records = pageByQuery.getRecords();
         List<Long> articleIds = records.stream().map(ArticleDTO::getId).collect(Collectors.toList());
-
         //查询标签
         List<ArticleTagsDTO> tags = tagsService.getArticleTags(articleIds);
         //查询分类
@@ -82,41 +95,46 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
 
     @Override
     public Boolean publish(ArticleDTO dto) {
+        if (null != dto.getId()) {
+            return this.updateArticle(dto);
+        }
+        return this.createArticle(dto);
+    }
+
+    @Override
+    public Boolean updateArticle(ArticleDTO dto) {
+        MlogArticle old = getById(dto.getId());
+        if (null == old) {
+            log.warn("更新文章警告，文章不存在：{}", dto.getId());
+            throw new MlogException(ResultCode.DATA_NOT_EXIST);
+        }
+        MlogArticle article = MlogArticle.convert2Entity(dto);
+        handleArticleInfo(article, dto.getTagList(), dto.getCategoryList());
+        return updateById(article);
+    }
+
+
+    @Override
+    public Boolean createArticle(ArticleDTO dto) {
         TokenInfo info = tokenUtils.get();
-        MlogArticle article = ArticleDTO.convert2Entity(dto);
+        MlogArticle article = MlogArticle.convert2Entity(dto);
         article.setId(SnowFlakeUtil.createId());
         article.setAuthorName(info.getPenName());
-        article.setContentText(MarkdownUtils.renderHtml(article.getContentMd()));
-
-        // 处理文章标签
-        tagsService.relateToArticle(article.getId(), dto.getTagList());
-        // 处理文章分类
-        categoryService.relateToArticle(article.getId(), dto.getCategoryList());
-
-        //如果没有设置网页链接，按日期生成默认链接
-        if (StringUtils.isBlank(article.getLinks())) {
-            article.setLinks(ArticleDTO.getDefaultLinks(new Date()));
-        }
-        //如果没有设置封面信息，默认文章当中的第一张图片为封面
-        if (StringUtils.isBlank(article.getThumbnail())) {
-            article.setThumbnail(MarkdownUtils.getFirstImgStr(article.getContentText()));
-        }
-
-        article.setWordCount(MarkdownUtils.htmlFormatWordCount(article.getContentText()));
-        article.setPublished(true);
+        handleArticleInfo(article, dto.getTagList(), dto.getCategoryList());
         article.setViewCount(0);
         article.setCommentCount(0);
         return save(article);
     }
 
+
     @Override
     public ArticleDTO getDetailById(Long id) {
-        MlogArticle mlogArticle = getById(id);
-        ArticleDTO dto = ArticleDTO.convert2DTO(mlogArticle);
 
+        MlogArticle mlogArticle = getById(id);
+        //设置文章的分类和标签信息
+        ArticleDTO dto = ArticleDTO.convert2DTO(mlogArticle);
         List<ArticleTagsDTO> tags = tagsService.getArticleTags(List.of(id));
         List<ArticleCategoryDTO> categories = categoryService.getArticleCategories(List.of(id));
-        //设置文章的分类和标签信息
         dto.setTagList(ArticleTagsDTO.getTagByArticleId(id, tags));
         dto.setCategoryList(ArticleCategoryDTO.getCategoryByArticleId(id, categories));
         return dto;
@@ -125,13 +143,7 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
     @Override
     public PageVO<ArticleVO> pageQuery(ArticleQuery query) {
         PageVO<ArticleVO> result = new PageVO<>();
-        if (StringUtils.isEmpty(query.getSortBy())) {
-            query.setSortBy(settingService.getArticleSort());
-        }
-        IPage<MlogArticle> pageData = query()
-                .like(StringUtils.isNotBlank(query.getTitle()), "title", query.getTitle())
-                .orderByDesc("top")
-                .orderByDesc(query.getSortBy()).page(query.buildPage(MlogArticle.class));
+        IPage<MlogArticle> pageData = this.basePageByQuery(query);
         List<MlogArticle> dataRecords = pageData.getRecords();
         List<ArticleVO> content = MlogArticle.convert2VO(dataRecords);
         List<Long> articleIds = content.stream().map(ArticleVO::getId).collect(Collectors.toList());
@@ -181,6 +193,22 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
     }
 
     @Override
+    public void updateArticleTop(Long articleId, Boolean top) {
+        MlogArticle article = new MlogArticle();
+        article.setId(articleId);
+        article.setTop(top);
+        updateById(article);
+    }
+
+    @Override
+    public void updateArticleDisallowComment(Long articleId, Boolean disallowComment) {
+        MlogArticle article = new MlogArticle();
+        article.setId(articleId);
+        article.setDisallowComment(disallowComment);
+        updateById(article);
+    }
+
+    @Override
     public Boolean importMd(MultipartFile[] files, HttpServletRequest request) {
         //获取当前用户信息
         TokenInfo tokenInfo = tokenUtils.get(request);
@@ -195,11 +223,11 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
                 article.setAuthorName(tokenInfo.getPenName());
                 //保存文章信息
                 save(article);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 log.error("导入markdown文章:{},失败：{}", file.getName(), e.getMessage());
             }
         }
-        return null;
+        return Boolean.TRUE;
     }
 
 
@@ -227,10 +255,13 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         String fileContent = MarkdownUtils.removeHeader(markdown);
         //根据解析文件构建文章对象
         String abstractMd = fileContent.substring(0, 100);
-        article.setAbstractMd(abstractMd);
         article.setAbstractText(MarkdownUtils.renderHtml(abstractMd));
         article.setContentMd(fileContent);
         article.setContentText(MarkdownUtils.renderHtml(fileContent));
+        if (StringUtils.isEmpty(article.getThumbnail())) {
+            article.setThumbnail(MarkdownUtils.getFirstImgStr(article.getContentText()));
+        }
+        article.setWordCount(MarkdownUtils.htmlFormatWordCount(article.getContentText()));
         return article;
     }
 
@@ -306,4 +337,54 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
     private void handleCategories(String categories, MlogArticle article) {
     }
 
+    /**
+     * 处理文章信息
+     *
+     * @param article    文章
+     * @param tags       标签
+     * @param categories 类别
+     */
+    private void handleArticleInfo(MlogArticle article, List<String> tags, List<String> categories) {
+        //处理文章内容
+        if (null == article.getContentText()) {
+            article.setContentText(MarkdownUtils.renderHtml(article.getContentMd()));
+        }
+        // 处理文章标签
+        tagsService.relateToArticle(article.getId(), tags);
+        // 处理文章分类
+        categoryService.relateToArticle(article.getId(), categories);
+        // 处理文章链接
+        checkArticleLinks(article);
+        //如果没有设置封面信息，默认文章当中的第一张图片为封面
+        if (StringUtils.isBlank(article.getThumbnail())) {
+            article.setThumbnail(MarkdownUtils.getFirstImgStr(article.getContentText()));
+        }
+        article.setWordCount(MarkdownUtils.htmlFormatWordCount(article.getContentText()));
+        article.setPublished(Boolean.TRUE);
+    }
+
+    /**
+     * 检查文章的链接
+     *
+     * @param article 文章
+     */
+    private void checkArticleLinks(MlogArticle article) {
+        //如果没有设置网页链接，按日期生成默认链接
+        if (StringUtils.isBlank(article.getLinks())) {
+            article.setLinks(ArticleDTO.getDefaultLinks(new Date()));
+            return;
+        }
+        String links = article.getLinks();
+        links = links.toLowerCase(Locale.ROOT);
+        links = MlogUtils.ensurePrefix(links, "/");
+        if (links.startsWith("/admin") || links.startsWith("/tags") || links.startsWith("/category") || links.startsWith("/themes")) {
+            //抛出异常
+            throw new MlogException(ResultCode.NOT_ALLOW, "文章链接不建议使用admin,tags,category,themes,error等开头,请修改链接");
+        }
+        MlogArticle mlogArticle = this.getByLinks(links);
+        if (mlogArticle != null && !mlogArticle.getId().equals(article.getId())) {
+            throw new MlogException(ResultCode.NOT_ALLOW, "文章链接重复！！！,请修改链接");
+        }
+
+    }
 }

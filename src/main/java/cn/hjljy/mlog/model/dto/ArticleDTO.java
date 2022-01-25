@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,13 +33,8 @@ public class ArticleDTO implements Serializable {
     /**
      * 文章标题
      */
-
+    @NotNull(message = "文章标题不能为空")
     private String title;
-
-    /**
-     * 文章摘要（md格式）
-     */
-    private String abstractMd;
 
     /**
      * 文章摘要（纯文本格式）
@@ -48,6 +44,7 @@ public class ArticleDTO implements Serializable {
     /**
      * 文章内容（md格式）
      */
+    @NotNull(message = "文章内容不能为空")
     private String contentMd;
 
     /**

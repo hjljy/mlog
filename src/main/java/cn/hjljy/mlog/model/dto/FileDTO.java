@@ -94,18 +94,19 @@ public class FileDTO extends MlogFiles {
         }
         public FileDTO build() {
             //优先生成路径地址
-            this.filePath = getFilePath(this.fileName);
+            this.filePath = MlogUtils.changeFileSeparatorToUrlSeparator(getFilePath(this.fileName));
+            this.fileBasePath =MlogUtils.changeFileSeparatorToUrlSeparator(MlogUtils.ensureSuffix(this.fileBasePath,"/"));
             FileDTO dto = new FileDTO();
             dto.setId(SnowFlakeUtil.createId());
-            dto.setExist(Boolean.FALSE);
             dto.setCreateTime(System.currentTimeMillis());
+            dto.setFullPath(getFullPath());
+            dto.setFileBasePath(this.fileBasePath);
+            dto.setFilePath(MlogUtils.ensurePrefix(this.filePath,"/"));
             dto.setFileSize(this.fileSize);
             dto.setFileName(this.fileName);
             dto.setStorage(this.storage);
-            dto.setFileBasePath(MlogUtils.changeFileSeparatorToUrlSeparator(MlogUtils.ensureSuffix(this.fileBasePath,"/")));
-            dto.setFilePath(MlogUtils.changeFileSeparatorToUrlSeparator(this.filePath));
             dto.setFileType(this.fileType);
-            dto.setFullPath(MlogUtils.changeFileSeparatorToUrlSeparator(getFullPath()));
+            dto.setExist(Boolean.FALSE);
             log.info("上传文件名称:{},文件类型:{},是否存在:{},存储方式:{},文件地址:{}",dto.getFileName(),dto.getFileType(),dto.getExist(),dto.getStorage(),dto.getFullPath());
             return dto;
         }

@@ -58,12 +58,13 @@ public class MarkdownUtils {
 
     public static Map<String, Object> getHeader(String markdown) {
         markdown = markdown.trim();
-        Matcher matcher = FRONT_MATTER.matcher(markdown);
-        if (matcher.find()) {
-            markdown = matcher.group();
+        String frontMatter = StringUtils.substringBefore(markdown, "---");
+        if (StringUtils.isBlank(frontMatter)) {
+            markdown = StringUtils.substringAfter(markdown, "---");
+            frontMatter = StringUtils.substringBefore(markdown, "---");
         }
         Yaml yam = new Yaml();
-        return yam.loadAs(markdown, Map.class);
+        return yam.loadAs(frontMatter, Map.class);
     }
 
     /**
