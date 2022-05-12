@@ -30,9 +30,9 @@ public interface CacheStore<V> {
      * @param key      key不能为空
      * @param value    value不能为空
      * @param timeout  超时时间  如果为0表示永不过期 ，不能为负数 ，否者抛出异常
-     * @param timeUnit 时间单位 不能为空
+     * @param timeUnit 时间单位
      */
-    void put(@NonNull String key, @NonNull V value, long timeout, @NonNull ChronoUnit timeUnit) ;
+    void put(@NonNull String key, @NonNull V value, long timeout, ChronoUnit timeUnit) ;
 
 
     /**
@@ -50,10 +50,10 @@ public interface CacheStore<V> {
      * @param key      key不能为空
      * @param value    value不能为空
      * @param timeout  超时时间  如果为0表示永不过期 ，不能为负数 ，否者抛出异常
-     * @param timeUnit 时间单位 不能为空
+     * @param timeUnit 时间单位
      * @return {@link Boolean}
      */
-    Boolean putIfAbsent(@NonNull String key, @NonNull V value, long timeout, @NonNull ChronoUnit timeUnit) ;
+    Boolean putIfAbsent(@NonNull String key, @NonNull V value, long timeout, ChronoUnit timeUnit) ;
 
     /**
      * 删除缓存

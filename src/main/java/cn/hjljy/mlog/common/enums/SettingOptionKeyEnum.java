@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.model.enums;
+package cn.hjljy.mlog.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
@@ -16,10 +16,17 @@ public enum SettingOptionKeyEnum {
      * 博客标题
      */
     BLOG_TITLE("blogTitle","mlog博客"),
+
     /**
      * 博客主题
      */
     THEME("theme","anatole"),
+
+    /**
+     * 登录背景图像
+     */
+    LOGIN_BACKGROUND_IMAGE("loginBackgroundImage","https://image.hjljy.cn/image/default.jpg"),
+
     /**
      * 博客默认favicon url
      */

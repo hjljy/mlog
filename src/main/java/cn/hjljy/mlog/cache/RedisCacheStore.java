@@ -3,6 +3,7 @@ package cn.hjljy.mlog.cache;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -26,7 +27,8 @@ public class RedisCacheStore extends JsonCacheStore {
 
 
     @Override
-    protected Optional<CacheWrapper<String>> getInternal(String key) {
+    @NotNull
+    protected  Optional<CacheWrapper<String>> getInternal(@NotNull String key) {
         String value = "";
         try {
             value = redisTemplate.opsForValue().get(key);
@@ -37,14 +39,14 @@ public class RedisCacheStore extends JsonCacheStore {
     }
 
     @Override
-    protected void putInternal(String key, CacheWrapper<String> cacheWrapper) {
+    protected void putInternal(@NotNull String key, @NotNull CacheWrapper<String> cacheWrapper) {
         try {
             LocalDateTime expireTime = cacheWrapper.getExpireTime();
             if (expireTime != null) {
                 Duration between = LocalDateTimeUtil.between(cacheWrapper.getCreateTime(), expireTime);
                 redisTemplate.opsForValue().set(key, cacheWrapper2Json(cacheWrapper), between);
             } else {
-                redisTemplate.opsForValue().set(key, cacheWrapper.getData());
+                redisTemplate.opsForValue().set(key, cacheWrapper2Json(cacheWrapper));
             }
         } catch (Exception e) {
             log.warn("存取缓存信息失败，key:{},失败原因：{}", key, e.getMessage());
@@ -52,7 +54,8 @@ public class RedisCacheStore extends JsonCacheStore {
     }
 
     @Override
-    protected Boolean putInternalIfAbsent(String key, CacheWrapper<String> cacheWrapper) {
+    @NotNull
+    protected Boolean putInternalIfAbsent(@NotNull String key, @NotNull CacheWrapper<String> cacheWrapper) {
         Boolean hasKey = redisTemplate.hasKey(key);
         if (null != hasKey && hasKey) {
             return false;
@@ -62,7 +65,7 @@ public class RedisCacheStore extends JsonCacheStore {
     }
 
     @Override
-    public void delete(String key) {
+    public void delete(@NotNull String key) {
         try {
             redisTemplate.delete(key);
         } catch (Exception e) {

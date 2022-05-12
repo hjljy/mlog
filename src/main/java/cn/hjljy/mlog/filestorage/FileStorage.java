@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.filestorage;
 
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import cn.hjljy.mlog.model.dto.FileDTO;
 import org.springframework.web.multipart.MultipartFile;
 

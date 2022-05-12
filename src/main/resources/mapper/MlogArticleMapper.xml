@@ -51,34 +51,42 @@
         ORDER BY ma.top desc
     </select>
     <select id="getDetailById" resultMap="BaseResultMap">
-        select
-            ma.id,
-            ma.title,
-            ma.abstract_text,
-            ma.content_md,
-            ma.content_text,
-            ma.author_name,
-            ma.links,
-            ma.thumbnail,
-            ma.published,
-            ma.top,
-            ma.disallow_comment,
-            ma.comment_count,
-            ma.view_count,
-            ma.word_count,
-            ma.create_time,
-            ma.update_time,
-            mt.tag as tags,
-            mc.category as category
+        select ma.id,
+               ma.title,
+               ma.abstract_text,
+               ma.content_md,
+               ma.content_text,
+               ma.author_name,
+               ma.links,
+               ma.thumbnail,
+               ma.published,
+               ma.top,
+               ma.disallow_comment,
+               ma.comment_count,
+               ma.view_count,
+               ma.word_count,
+               ma.create_time,
+               ma.update_time,
+               mt.tag      as tags,
+               mc.category as category
         FROM mlog_article ma
                  LEFT JOIN mlog_article_tags mat
-                           ON ma.id= mat.article_id
+                           ON ma.id = mat.article_id
                  LEFT JOIN mlog_tags mt
                            ON mt.id = mat.tag_id
                  LEFT JOIN mlog_article_category mac
                            on mat.article_id = mac.article_id
                  LEFT JOIN mlog_category mc on mac.category_id = mc.id
-        where
-            ma.id = #{id}
+        where ma.id = #{id}
     </select>
+
+    <select id="countView" resultType="java.lang.Integer">
+        select IFNULL( sum("view_count"),0) from mlog_article ma
+        <where>
+            <if test="published!=null">
+                and ma.published = #{published}
+            </if>
+        </where>
+    </select>
+
 </mapper>

@@ -12,6 +12,7 @@ import cn.hjljy.mlog.service.IMlogArticleCategoryService;
 import cn.hjljy.mlog.service.IMlogCategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ import java.util.Optional;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 海加尔金鹰（www.hjljy.cn）
@@ -32,6 +33,7 @@ import java.util.Optional;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MlogCategoryServiceImpl extends ServiceImpl<MlogCategoryMapper, MlogCategory> implements IMlogCategoryService {
 
     private final IMlogArticleCategoryService articleCategoryService;
@@ -44,53 +46,57 @@ public class MlogCategoryServiceImpl extends ServiceImpl<MlogCategoryMapper, Mlo
     @Override
     public Boolean create(CategoryDTO dto) {
         Optional<MlogCategory> category = this.getByName(dto.getCategory());
-        if(category.isPresent()){
-            throw new MlogException(ResultCode.DATA_EXIST,"分类:"+dto.getCategory()+"已存在");
+        if (category.isPresent()) {
+            throw new MlogException(ResultCode.DATA_EXIST, "分类:" + dto.getCategory() + "已存在");
         }
-        MlogCategory entity = CategoryDTO.convert2Entity(dto);
-        return save(entity);
+        return save(CategoryDTO.convert2Entity(dto));
     }
 
     @Override
     public Boolean updateCategory(CategoryDTO dto) {
         MlogCategory tags = getById(dto.getId());
-        if(null==tags){
-            throw new MlogException(ResultCode.DATA_NOT_EXIST,"分类:"+dto.getCategory()+"不存在");
+        if (null == tags) {
+            throw new MlogException(ResultCode.DATA_NOT_EXIST, "更新分类出现错误,id:"+dto.getId()+"对应的数据不存在");
         }
         Optional<MlogCategory> category = getByName(dto.getCategory());
-        category.ifPresent(n->{
-            if(!dto.getId().equals(n.getId())){
-                throw new MlogException(ResultCode.DATA_EXIST,"分类:"+dto.getCategory()+"已存在");
+        category.ifPresent(n -> {
+            if (!dto.getId().equals(n.getId())) {
+                throw new MlogException(ResultCode.DATA_EXIST, "分类:" + dto.getCategory() + "已存在");
             }
         });
-        return updateById(dto);
+        return updateById(CategoryDTO.convert2Entity(dto));
     }
 
     @Override
     public Boolean delete(@NotNull(message = "分类id不能为空") Long id) {
-       List<MlogArticleCategory> list= articleCategoryService.listByCategoryId(id);
-        if (list.size()>0){
-            throw new MlogException(ResultCode.NOT_ALLOW,"分类使用当中，无法删除");
+        List<MlogArticleCategory> list = articleCategoryService.listByCategoryId(id);
+        if (list.size() > 0) {
+            throw new MlogException(ResultCode.NOT_ALLOW, "分类使用当中，无法删除");
         }
         return removeById(id);
     }
 
     @Override
     public Optional<MlogCategory> getByName(@NotNull(message = "分类名称不能为空") String category) {
-        return lambdaQuery().eq(MlogCategory::getCategory,category).oneOpt();
+        return lambdaQuery().eq(MlogCategory::getCategory, category).oneOpt();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList) {
+    public List<ArticleCategoryDTO> relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList) {
+        List<ArticleCategoryDTO> list = new ArrayList<>();
         if (!CollectionUtils.isEmpty(categoryList)) {
             List<Long> categoryIds = new ArrayList<>();
             for (String category : categoryList) {
                 MlogCategory mlogCategory = this.saveIfAbsent(category);
+                ArticleCategoryDTO dto=new ArticleCategoryDTO();
+                dto.init(articleId,mlogCategory);
+                list.add(dto);
                 categoryIds.add(mlogCategory.getId());
             }
             articleCategoryService.contact(articleId, categoryIds);
         }
+        return list;
     }
 
     @Override
@@ -111,7 +117,7 @@ public class MlogCategoryServiceImpl extends ServiceImpl<MlogCategoryMapper, Mlo
 
     @Override
     public List<ArticleCategoryDTO> getArticleCategories(List<Long> articleIds) {
-        if(CollectionUtils.isEmpty(articleIds)){
+        if (CollectionUtils.isEmpty(articleIds)) {
             return new ArrayList<>();
         }
         return baseMapper.getArticleCategories(articleIds);

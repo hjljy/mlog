@@ -42,7 +42,7 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> tags) {
+    public synchronized void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> tags) {
         if (!CollectionUtils.isEmpty(tags)) {
             List<Long> tagIds = new ArrayList<>();
             for (String tagName : tags) {
@@ -55,7 +55,7 @@ public class MlogTagsServiceImpl extends ServiceImpl<MlogTagsMapper, MlogTags> i
 
     @Override
     @NonNull
-    public MlogTags saveIfAbsent(@NotNull(message = "标签名称不能为空") String tagName) {
+    public  MlogTags saveIfAbsent(@NotNull(message = "标签名称不能为空") String tagName) {
         Optional<MlogTags> tags = getByName(tagName);
         MlogTags tag;
         if (tags.isEmpty()) {

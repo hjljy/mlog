@@ -2,10 +2,14 @@ package cn.hjljy.mlog.model.dto;
 
 import cn.hjljy.mlog.model.entity.MlogCategory;
 import cn.hjljy.mlog.model.entity.MlogTags;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +19,26 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class CategoryDTO extends MlogCategory {
+public class CategoryDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
+
+    /**
+     * 分类
+     */
+    private String category;
+
+    /**
+     * 分类图片
+     */
+    private String categoryImage;
+
+    /**
+     * 描述
+     */
+    private String remark;
 
     public static MlogCategory convert2Entity(CategoryDTO dto) {
         MlogCategory tags = new MlogCategory();

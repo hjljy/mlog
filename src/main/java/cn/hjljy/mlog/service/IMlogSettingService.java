@@ -1,9 +1,9 @@
 package cn.hjljy.mlog.service;
 
-import cn.hjljy.mlog.model.enums.SettingOptionKeyEnum;
-import cn.hjljy.mlog.model.setting.ArticleSetting;
-import cn.hjljy.mlog.model.setting.FileStorageSetting;
-import cn.hjljy.mlog.model.enums.SettingTypeEnum;
+import cn.hjljy.mlog.common.enums.SettingOptionKeyEnum;
+import cn.hjljy.mlog.model.ArticleSetting;
+import cn.hjljy.mlog.model.FileStorageSetting;
+import cn.hjljy.mlog.common.enums.SettingTypeEnum;
 import cn.hjljy.mlog.model.entity.MlogSetting;
 import com.baomidou.mybatisplus.extension.service.IService;
 

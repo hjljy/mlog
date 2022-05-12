@@ -1,8 +1,7 @@
 package cn.hjljy.mlog.filestorage;
 
 import cn.hjljy.mlog.common.support.ResultCode;
-import cn.hjljy.mlog.common.support.ResultInfo;
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import cn.hjljy.mlog.model.dto.FileDTO;
 import cn.hjljy.mlog.exception.MlogException;
 import lombok.extern.slf4j.Slf4j;

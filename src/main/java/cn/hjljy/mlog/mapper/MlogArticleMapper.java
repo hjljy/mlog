@@ -33,4 +33,12 @@ public interface MlogArticleMapper extends BaseMapper<MlogArticle> {
      * @return {@link ArticleDTO}
      */
     ArticleDTO getDetailById(Long id);
+
+    /**
+     * 统计浏览数
+     *
+     * @param published 发表
+     * @return int
+     */
+    int countView(Boolean published);
 }

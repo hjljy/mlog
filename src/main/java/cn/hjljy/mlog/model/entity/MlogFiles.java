@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.model.entity;
 
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;

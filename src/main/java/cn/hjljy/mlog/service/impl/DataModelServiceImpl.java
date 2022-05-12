@@ -4,7 +4,7 @@ import cn.hjljy.mlog.common.constants.PaginationConstant;
 import cn.hjljy.mlog.common.utils.MlogUtils;
 import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.params.ArticleQuery;
-import cn.hjljy.mlog.model.setting.ArticleSetting;
+import cn.hjljy.mlog.model.ArticleSetting;
 import cn.hjljy.mlog.model.vo.ArticleVO;
 import cn.hjljy.mlog.common.support.PageVO;
 import cn.hjljy.mlog.service.DataModelService;

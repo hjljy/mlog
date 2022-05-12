@@ -3,7 +3,7 @@ package cn.hjljy.mlog.freemarker;
 import cn.hjljy.mlog.common.constants.SettingConstant;
 import cn.hjljy.mlog.model.entity.MlogSetting;
 import cn.hjljy.mlog.model.entity.MlogUser;
-import cn.hjljy.mlog.model.enums.SettingOptionKeyEnum;
+import cn.hjljy.mlog.common.enums.SettingOptionKeyEnum;
 import cn.hjljy.mlog.service.IMlogSettingService;
 import cn.hjljy.mlog.service.IMlogUserService;
 import freemarker.template.Configuration;

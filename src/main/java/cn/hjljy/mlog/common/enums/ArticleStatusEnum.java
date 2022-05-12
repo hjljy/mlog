@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.model.enums;
+package cn.hjljy.mlog.common.enums;
 
 /**
  * 状态枚举

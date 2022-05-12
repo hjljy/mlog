@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.model.entity;
 
-import cn.hjljy.mlog.model.enums.UserTypeEnum;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

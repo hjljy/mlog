@@ -66,7 +66,7 @@ public interface IMlogCategoryService extends IService<MlogCategory> {
      * @param articleId    文章id
      * @param categoryList 类别列表
      */
-    void relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList);
+    List<ArticleCategoryDTO> relateToArticle(@NotNull(message = "文章id不能为空") Long articleId, List<String> categoryList);
 
     /**
      * 如果分类不存在就新增保存  否者返回分类信息

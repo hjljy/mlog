@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class AuthConfigInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
         //如果不是映射到方法的请求，直接放行，避免静态资源被拦截
-        if(!(handler instanceof MethodHandle)){
+        if(!(handler instanceof HandlerMethod)){
             return true;
         }
         //在调用getWriter之前设置编码，否者不生效

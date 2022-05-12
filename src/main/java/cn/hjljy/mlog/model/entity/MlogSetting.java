@@ -3,8 +3,8 @@ package cn.hjljy.mlog.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.hjljy.mlog.model.enums.SettingOptionKeyEnum;
-import cn.hjljy.mlog.model.enums.SettingTypeEnum;
+import cn.hjljy.mlog.common.enums.SettingOptionKeyEnum;
+import cn.hjljy.mlog.common.enums.SettingTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

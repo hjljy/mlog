@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author ryanwang
  * @author johnniang
  * @author guqing
- * @date 2017-12-22
- *
- * mlog博客的工具包  代码是直接拷贝的halo博客的工具包  上述作者为原作者
  * @author hjljy
+ * @date 2017-12-22
+ * <p>
+ * mlog博客的工具包  部分代码是直接拷贝的halo博客的工具包  上述作者为原作者
  * @date 2021/12/30
  */
 public class MlogUtils {
@@ -66,70 +65,6 @@ public class MlogUtils {
     }
 
     /**
-     * Composites partial url to full http url.
-     *
-     * @param partUrls partial urls must not be empty
-     * @return full url
-     */
-    public static String compositeHttpUrl(@NonNull String... partUrls) {
-        Assert.notEmpty(partUrls, "Partial url must not be blank");
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < partUrls.length; i++) {
-            String partUrl = partUrls[i];
-            if (StringUtils.isBlank(partUrl)) {
-                continue;
-            }
-            partUrl = StringUtils.removeStart(partUrl, URL_SEPARATOR);
-            partUrl = StringUtils.removeEnd(partUrl, URL_SEPARATOR);
-            if (i != 0) {
-                builder.append(URL_SEPARATOR);
-            }
-            builder.append(partUrl);
-        }
-
-        return builder.toString();
-    }
-
-    /**
-     * Desensitizes the plain text.
-     *
-     * @param plainText plain text must not be null
-     * @param leftSize left size
-     * @param rightSize right size
-     * @return desensitization
-     */
-    public static String desensitize(@NonNull String plainText, int leftSize, int rightSize) {
-        Assert.hasText(plainText, "Plain text must not be blank");
-
-        if (leftSize < 0) {
-            leftSize = 0;
-        }
-
-        if (leftSize > plainText.length()) {
-            leftSize = plainText.length();
-        }
-
-        if (rightSize < 0) {
-            rightSize = 0;
-        }
-
-        if (rightSize > plainText.length()) {
-            rightSize = plainText.length();
-        }
-
-        if (plainText.length() < leftSize + rightSize) {
-            rightSize = plainText.length() - leftSize;
-        }
-
-        int remainSize = plainText.length() - rightSize - leftSize;
-
-        String left = StringUtils.left(plainText, leftSize);
-        String right = StringUtils.right(plainText, rightSize);
-        return StringUtils.rightPad(left, remainSize + leftSize, '*') + right;
-    }
-
-    /**
      * Changes file separator to url separator.
      *
      * @param pathname full path name must not be blank.
@@ -149,7 +84,7 @@ public class MlogUtils {
      * @param windowSize     窗口大小
      * @return {@link List}<{@link Long}>
      */
-    public static List<Long> paginate(final int currentPageNum,  final long pageCount, final int windowSize) {
+    public static List<Long> paginate(final int currentPageNum, final long pageCount, final int windowSize) {
         List<Long> ret;
         if (pageCount < windowSize) {
             ret = new ArrayList<>();
@@ -166,8 +101,26 @@ public class MlogUtils {
                 ret.add(i, first + i);
             }
         }
-
         return ret;
     }
+
+    /**
+     * 将object转换成集合
+     *
+     * @param obj   obj
+     * @param clazz clazz
+     * @return {@link List}<{@link T}>
+     */
+    public static <T> List<T> castList(Object obj, Class<T> clazz) {
+        List<T> result = new ArrayList<T>();
+        if (obj instanceof List<?>) {
+            for (Object o : (List<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
+    }
+
 
 }

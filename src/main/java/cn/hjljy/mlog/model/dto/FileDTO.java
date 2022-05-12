@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.model.dto;
 
 import cn.hjljy.mlog.common.constants.Constant;
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import cn.hjljy.mlog.common.utils.MlogUtils;
 import cn.hjljy.mlog.common.utils.SnowFlakeUtil;
 import cn.hjljy.mlog.model.entity.MlogFiles;
@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.Calendar;
 
 /**

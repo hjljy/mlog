@@ -1,5 +1,6 @@
 package cn.hjljy.mlog.service.impl;
 
+import cn.hjljy.mlog.common.constants.Constant;
 import cn.hjljy.mlog.common.constants.MarkdownConstant;
 import cn.hjljy.mlog.common.support.PageVO;
 import cn.hjljy.mlog.common.support.ResultCode;
@@ -30,16 +31,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -208,28 +207,45 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         updateById(article);
     }
 
+
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean importMd(MultipartFile[] files, HttpServletRequest request) {
         //获取当前用户信息
         TokenInfo tokenInfo = tokenUtils.get(request);
 
-        for (MultipartFile file : files) {
-            try {
-                //解析md生成文章对象
-                MlogArticle article = parseMdFile(file);
-                //设置文章基本信息
-                article.setId(SnowFlakeUtil.createId());
-                //作者名:固定为博客管理员的笔名
-                article.setAuthorName(tokenInfo.getPenName());
-                //保存文章信息
-                save(article);
-            } catch (Exception e) {
-                log.error("导入markdown文章:{},失败：{}", file.getName(), e.getMessage());
-            }
-        }
+
         return Boolean.TRUE;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public  ArticleVO importMarkdown(MultipartFile file, HttpServletRequest request) {
+        //获取当前用户信息
+        TokenInfo tokenInfo = tokenUtils.get(request);
+        try {
+            //解析md生成文章对象
+            ArticleDTO article = parseMdFile(file);
+            //设置文章基本信息
+            article.setId(SnowFlakeUtil.createId());
+            article.setTop(false);
+            article.setViewCount(0);
+            article.setCommentCount(0);
+            //作者名:固定为博客管理员的笔名
+            article.setAuthorName(tokenInfo.getPenName());
+            categoryService.relateToArticle(article.getId(),article.getCategoryList());
+            tagsService.relateToArticle(article.getId(),article.getTagList());
+            MlogArticle entity = ArticleDTO.convert2Entity(article);
+            //保存文章信息
+            save(entity);
+
+            return MlogArticle.convert2VO(entity);
+        } catch (Exception e) {
+            log.error("导入markdown文章:{},失败：{}", file.getOriginalFilename(), e.getMessage());
+            throw new MlogException(ResultCode.MD_FILE_IMPORT);
+        }
+    }
 
     /**
      * 解析MD文件
@@ -237,16 +253,14 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
      * @param file md文件
      * @return 返回文章对象
      */
-    private MlogArticle parseMdFile(MultipartFile file) throws IOException {
+    private ArticleDTO parseMdFile(MultipartFile file) throws IOException {
         //解析后返回的对象
-        MlogArticle article = new MlogArticle();
-        article.setTop(false);
-        article.setViewCount(0);
-        article.setCommentCount(0);
+        ArticleDTO article = new ArticleDTO();
         //解析MD文件
         InputStream inputStream = file.getInputStream();
         String fileName = StringUtils.substringBefore(file.getOriginalFilename(), ".md");
         String markdown = IoUtil.read(inputStream, StandardCharsets.UTF_8);
+
         //获取并解析md头部内容
         Map<String, Object> map = MarkdownUtils.getHeader(markdown);
         parseMdHeader(article, map, fileName);
@@ -265,7 +279,7 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         return article;
     }
 
-    private void parseMdHeader(MlogArticle article, Map<String, Object> map, String fileName) {
+    private void parseMdHeader(ArticleDTO article, Map<String, Object> map, String fileName) {
         //如果没有文章标题 默认文件名
         Object title = map.get(MarkdownConstant.MD_TITLE);
         article.setTitle(null != title ? title.toString() : fileName);
@@ -319,22 +333,13 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
 
         //处理文章分类
         Object categories = map.get(MarkdownConstant.MD_CATEGORIES);
-        if (null != categories) {
-            handleCategories(categories.toString(), article);
-        }
+        List<String> categoryList =MlogUtils.castList(categories,String.class);
+        article.setCategoryList(categoryList);
 
         //处理文章标签
         Object tags = map.get(MarkdownConstant.MD_TAGS);
-        if (null != tags) {
-            handleTags(tags.toString(), article);
-        }
-
-    }
-
-    private void handleTags(String tags, MlogArticle article) {
-    }
-
-    private void handleCategories(String categories, MlogArticle article) {
+        List<String> tagsList =MlogUtils.castList(tags,String.class);
+        article.setTagList(tagsList);
     }
 
     /**
@@ -379,12 +384,25 @@ public class MlogArticleServiceImpl extends ServiceImpl<MlogArticleMapper, MlogA
         links = MlogUtils.ensurePrefix(links, "/");
         if (links.startsWith("/admin") || links.startsWith("/tags") || links.startsWith("/category") || links.startsWith("/themes")) {
             //抛出异常
-            throw new MlogException(ResultCode.NOT_ALLOW, "文章链接不建议使用admin,tags,category,themes,error等开头,请修改链接");
+            throw new MlogException(ResultCode.NOT_ALLOW, "文章链接不建议使用admin,tags,category,themes,error等特定开头,请修改链接");
         }
         MlogArticle mlogArticle = this.getByLinks(links);
         if (mlogArticle != null && !mlogArticle.getId().equals(article.getId())) {
             throw new MlogException(ResultCode.NOT_ALLOW, "文章链接重复！！！,请修改链接");
         }
 
+    }
+
+
+    @Override
+    public int countArticle(Boolean published) {
+        LambdaQueryWrapper<MlogArticle> wrapper=new LambdaQueryWrapper<>();
+        wrapper.eq(null!=published,MlogArticle::getPublished,published);
+        return count(wrapper);
+    }
+
+    @Override
+    public int countView(Boolean published) {
+      return baseMapper.countView(published);
     }
 }

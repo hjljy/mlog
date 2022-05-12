@@ -1,5 +1,7 @@
 package cn.hjljy.mlog.model.dto;
 
+import cn.hjljy.mlog.common.constants.UrlConstant;
+import cn.hjljy.mlog.model.entity.MlogCategory;
 import lombok.Data;
 
 import java.util.List;
@@ -36,6 +38,8 @@ public class ArticleCategoryDTO  {
      */
     private String remark;
 
+
+
     /**
      * 获取类别通过文章id
      *
@@ -59,7 +63,15 @@ public class ArticleCategoryDTO  {
     }
 
     private static ArticleCategoryDTO initFullPath(ArticleCategoryDTO articleCategoryDTO) {
-        articleCategoryDTO.setFullPath("/categories/"+articleCategoryDTO.category);
+        articleCategoryDTO.setFullPath(UrlConstant.Special.CATEGORIES +articleCategoryDTO.category);
         return articleCategoryDTO;
+    }
+
+    public void init(Long articleId, MlogCategory mlogCategory) {
+        this.setArticleId(articleId);
+        this.setCategory(mlogCategory.getCategory());
+        this.setCategoryImage(mlogCategory.getCategoryImage());
+        this.setRemark(mlogCategory.getRemark());
+        this.setFullPath(UrlConstant.Special.CATEGORIES+this.category);
     }
 }

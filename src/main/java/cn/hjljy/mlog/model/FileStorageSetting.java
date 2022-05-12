@@ -1,6 +1,6 @@
-package cn.hjljy.mlog.model.setting;
+package cn.hjljy.mlog.model;
 
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import lombok.Data;
 
 /**

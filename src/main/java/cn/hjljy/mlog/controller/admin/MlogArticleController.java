@@ -5,6 +5,7 @@ import cn.hjljy.mlog.common.support.ResultInfo;
 import cn.hjljy.mlog.model.dto.ArticleDTO;
 import cn.hjljy.mlog.model.params.ArticleParams;
 import cn.hjljy.mlog.model.params.ArticleQuery;
+import cn.hjljy.mlog.model.vo.ArticleVO;
 import cn.hjljy.mlog.service.IMlogArticleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
@@ -103,6 +104,22 @@ public class MlogArticleController {
     @PostMapping("/importMd")
     public ResultInfo<Boolean> importMd(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
         return ResultInfo.success(articleService.importMd(files, request));
+    }
+
+    /**
+     * markdown 文章导入
+     *
+     * @param file    文章
+     * @param request 请求
+     * @return 是否成功
+     */
+    @PostMapping("/importMarkdown")
+    public ResultInfo<ArticleVO> importMarkdown(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        synchronized (this) {
+            ArticleVO vo = articleService.importMarkdown(file, request);
+        }
+        return ResultInfo.success(articleService.importMarkdown(file, request));
     }
 
 //    /**

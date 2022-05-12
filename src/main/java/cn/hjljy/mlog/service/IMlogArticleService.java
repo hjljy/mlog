@@ -73,6 +73,14 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      */
     Boolean importMd(MultipartFile[] files, HttpServletRequest request);
 
+    /**
+     * 导入md文章
+     *
+     * @param file    文件
+     * @param request 请求
+     * @return {@link ArticleVO}
+     */
+    ArticleVO importMarkdown(MultipartFile file, HttpServletRequest request);
 
     /**
      * 获取细节通过id
@@ -137,4 +145,21 @@ public interface IMlogArticleService extends IService<MlogArticle> {
      * @param disallowComment 不允许评论
      */
     void updateArticleDisallowComment(Long articleId, Boolean disallowComment);
+
+    /**
+     * 统计文章数量
+     *
+     * @param published 是否发表
+     * @return int
+     */
+    int countArticle(Boolean published);
+
+    /**
+     * 统计文章浏览数量
+     *
+     * @param published 发表
+     * @return int
+     */
+    int countView(Boolean published);
+
 }

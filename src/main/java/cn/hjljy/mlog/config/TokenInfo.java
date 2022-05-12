@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.config;
 
-import cn.hjljy.mlog.model.enums.UserTypeEnum;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;

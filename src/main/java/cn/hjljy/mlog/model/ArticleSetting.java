@@ -1,4 +1,4 @@
-package cn.hjljy.mlog.model.setting;
+package cn.hjljy.mlog.model;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.model.setting.FileStorageSetting;
+import cn.hjljy.mlog.model.FileStorageSetting;
 import cn.hjljy.mlog.model.dto.FileDTO;
 import cn.hjljy.mlog.model.entity.MlogFiles;
 import cn.hjljy.mlog.filestorage.FileStorageContext;

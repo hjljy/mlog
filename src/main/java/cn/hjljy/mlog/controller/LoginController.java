@@ -10,6 +10,7 @@ import cn.hjljy.mlog.exception.MlogException;
 import cn.hjljy.mlog.model.entity.MlogUser;
 import cn.hjljy.mlog.service.IMlogUserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ public class LoginController {
 
     private final TokenUtils tokenUtils;
 
+    @Autowired
     public LoginController(IMlogUserService userService, TokenUtils tokenUtils) {
         this.userService = userService;
         this.tokenUtils = tokenUtils;

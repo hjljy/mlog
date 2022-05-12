@@ -7,7 +7,6 @@ import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -97,29 +96,11 @@ public class MarkdownUtils {
     }
 
     /**
-     * 得到网页中图片的地址
+     * 得到网页中首张图片的地址
      *
      * @param htmlStr html str 网页数据使用字符串传入
      * @return {@link Set}<{@link String}> 图片地址集合
      */
-    public static Set<String> getImgStr(String htmlStr) {
-        Set<String> pics = new HashSet<>();
-        String regExImg = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-        Pattern pImage = Pattern.compile
-                (regExImg, Pattern.CASE_INSENSITIVE);
-        Matcher mImage = pImage.matcher(htmlStr);
-        String exImg = "src\\s*=\\s*\"?(.*?)(\"|>|\\s+)";
-        while (mImage.find()) {
-            // 得到<img />数据
-            String img = mImage.group();
-            // 匹配<img>中的src数据
-            Matcher m = Pattern.compile(exImg).matcher(img);
-            while (m.find()) {
-                pics.add(m.group(1));
-            }
-        }
-        return pics;
-    }
     public static String getFirstImgStr(String htmlStr) {
         String str="";
         String regExImg = "<img.*src\\s*=\\s*(.*?)[^>]*?>";

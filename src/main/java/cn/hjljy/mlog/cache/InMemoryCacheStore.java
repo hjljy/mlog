@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.cache;
 
-import org.springframework.stereotype.Component;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,17 +16,19 @@ public class InMemoryCacheStore extends JsonCacheStore {
     private static final ConcurrentHashMap<String, CacheWrapper<String>> CACHE_CONTAINER = new ConcurrentHashMap<>();
 
     @Override
-    protected Optional<CacheWrapper<String>> getInternal(String key) {
+    @NotNull
+    protected Optional<CacheWrapper<String>> getInternal(@NotNull String key) {
         return Optional.ofNullable(CACHE_CONTAINER.get(key));
     }
 
     @Override
-    protected void putInternal(String key, CacheWrapper<String> cacheWrapper) {
+    protected void putInternal(@NotNull String key, @NotNull CacheWrapper<String> cacheWrapper) {
         CACHE_CONTAINER.put(key, cacheWrapper);
     }
 
     @Override
-    protected Boolean putInternalIfAbsent(String key, CacheWrapper<String> cacheWrapper) {
+    @NotNull
+    protected Boolean putInternalIfAbsent(@NotNull String key, @NotNull CacheWrapper<String> cacheWrapper) {
         CacheWrapper<String> wrapper = CACHE_CONTAINER.get(key);
         //对象锁，保证线程安全
         synchronized (this) {
@@ -39,7 +41,7 @@ public class InMemoryCacheStore extends JsonCacheStore {
     }
 
     @Override
-    public void delete(String key) {
+    public void delete(@NotNull String key) {
         CACHE_CONTAINER.remove(key);
     }
 }

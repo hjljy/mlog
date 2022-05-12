@@ -52,9 +52,6 @@ public class MlogWebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //权限拦截器 拦截需要鉴权的请求  所有admin开头的都需要拦截
-        registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/admin/**").order(124);
-
        //无需拦截的路径  静态资源，主题信息，后台请求
         List<String> excludePath = new ArrayList<>();
         excludePath.add("/themes/**");
@@ -72,6 +69,10 @@ public class MlogWebConfig implements WebMvcConfigurer {
         excludePath.add("/**/**.jpg");
         //拦截所有路径
         registry.addInterceptor(getMlogPathInterceptor()).excludePathPatterns(excludePath).addPathPatterns("/**").order(12);
+
+        //权限拦截器 拦截需要鉴权的请求  所有admin开头的都需要拦截
+        registry.addInterceptor(getMlogAuthConfigInterceptor()).addPathPatterns("/admin/**").order(124);
+
     }
 
     /**

@@ -43,6 +43,7 @@ public enum ResultCode {
 
     //
     FILE_STORAGE_NOT_EXISTS(40000,"文件存储方式不存在"),
+    MD_FILE_IMPORT(40001,"Markdown文件导入失败"),
     //服务端代码异常
     SQL_EXCEPTION(90000,"服务器异常,请联系管理员"),
     NPE_EXCEPTION(90001,"服务器异常,请联系管理员");

@@ -1,6 +1,7 @@
 package cn.hjljy.mlog.cache;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -25,7 +26,6 @@ public abstract class AbstractCacheStore<V> implements CacheStore<V> {
      * @param key key不能为空
      * @return {@link Optional}<{@link CacheWrapper}<{@link V}>>
      */
-    @NonNull
     protected abstract Optional<CacheWrapper<V>> getInternal(@NonNull String key);
 
 
@@ -56,13 +56,13 @@ public abstract class AbstractCacheStore<V> implements CacheStore<V> {
      * @return {@link Optional}<{@link V}>
      */
     @Override
-    public Optional<V> get(String key) {
+    public Optional<V> get(@NotNull String key) {
         Assert.hasText(key, "缓存的key不能为空");
         return getInternal(key).map(cacheWrapper -> {
             // 判断缓存是否过期
             if (cacheWrapper.isExpire()) {
                 // 过期删除缓存  并返回null
-                log.info("缓存key: {} 已过期", key);
+                log.info("缓存key:{} 已过期,过期时间是:{}", key,cacheWrapper.getExpireTime());
                 delete(key);
                 return null;
             }
@@ -75,10 +75,10 @@ public abstract class AbstractCacheStore<V> implements CacheStore<V> {
      * @param key      key不能为空
      * @param value    value不能为空
      * @param timeout  超时时间  如果为0表示永不过期 ，不能为负数 ，否者抛出异常
-     * @param timeUnit 时间单位 不能为空
+     * @param timeUnit 时间单位
      */
     @Override
-    public void put(String key, V value, long timeout, ChronoUnit timeUnit) {
+    public void put(@NotNull String key, @NotNull V value, long timeout, ChronoUnit timeUnit) {
         putInternal(key, buildCacheWrapper(key, value, timeout, timeUnit));
     }
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractCacheStore<V> implements CacheStore<V> {
      * @param value value不能为空
      */
     @Override
-    public void put(String key, V value) {
+    public void put(@NotNull String key, @NotNull V value) {
         put(key,value,0,null);
     }
 
@@ -98,11 +98,11 @@ public abstract class AbstractCacheStore<V> implements CacheStore<V> {
      * @param key      key不能为空
      * @param value    value不能为空
      * @param timeout  超时时间  如果为0表示永不过期 ，不能为负数 ，否者抛出异常
-     * @param timeUnit 时间单位 不能为空
+     * @param timeUnit 时间单位
      * @return {@link Boolean}
      */
     @Override
-    public Boolean putIfAbsent(String key, V value, long timeout, ChronoUnit timeUnit) {
+    public Boolean putIfAbsent(@NotNull String key, @NotNull V value, long timeout, ChronoUnit timeUnit) {
         return putInternalIfAbsent(key, buildCacheWrapper(key, value, timeout, timeUnit));
     }
 

@@ -1,6 +1,6 @@
 package cn.hjljy.mlog.service.impl;
 
-import cn.hjljy.mlog.model.enums.UserTypeEnum;
+import cn.hjljy.mlog.common.enums.UserTypeEnum;
 import cn.hjljy.mlog.model.entity.MlogUser;
 import cn.hjljy.mlog.mapper.MlogUserMapper;
 import cn.hjljy.mlog.service.IMlogUserService;

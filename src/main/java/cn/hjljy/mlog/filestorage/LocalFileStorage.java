@@ -1,7 +1,7 @@
 package cn.hjljy.mlog.filestorage;
 
 
-import cn.hjljy.mlog.model.enums.FileStorageTypeEnum;
+import cn.hjljy.mlog.common.enums.FileStorageTypeEnum;
 import cn.hjljy.mlog.config.MlogProperties;
 import cn.hjljy.mlog.model.dto.FileDTO;
 import cn.hutool.core.io.FileTypeUtil;

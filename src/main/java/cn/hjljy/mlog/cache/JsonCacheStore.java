@@ -2,12 +2,11 @@ package cn.hjljy.mlog.cache;
 
 import cn.hjljy.mlog.common.utils.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.util.Optional;
 
 /**
- * json数据缓存
+ * json格式数据缓存
  *
  * @author hjljy
  * @date 2021/10/14
